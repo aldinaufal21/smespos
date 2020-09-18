@@ -13,6 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function (){
+    Route::post('login', 'api\v1\AuthController@login');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        // authenticated account needed
+        Route::post('logout', 'api\v1\AuthController@logout');
+        Route::get('user/details', 'api\v1\AuthController@details');
+    });
+
+    Route::get('roles', 'api\v1\RoleController@index');
+    Route::get('roles/{id}', 'api\v1\RoleController@show');
+    Route::post('roles', 'api\v1\RoleController@store');
+    Route::put('roles/{id}', 'api\v1\RoleController@update');
+    Route::delete('roles/{id}', 'api\v1\RoleController@delete');
+
+    Route::get('users', 'api\v1\UserController@index');
+    Route::get('users/{id}', 'api\v1\UserController@show');
+    Route::post('users', 'api\v1\UserController@store');
+    Route::put('users/{id}', 'api\v1\UserController@update');
+    Route::delete('users/{id}', 'api\v1\UserController@delete');
 });
