@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function (){
 
     Route::group(['middleware' => 'auth:api'], function () {
         // authenticated account needed
-        Route::post('logout', 'api\v1\AuthController@logout');
+        Route::get('logout', 'api\v1\AuthController@logout');
         Route::get('user/details', 'api\v1\AuthController@details');
     });
 
