@@ -5,5 +5,3 @@ https://docs.google.com/document/d/1f6JiF2iu_kIdgunztNUzZDCUkH0vuHAnOhu82azpu7c/
 ## Additional instalation
 *Make sure you have __gulp__ installed on your device.*<br>
 *You can install __gulp__ using*  "`npm install  -g gulp`"
-
-run "`gulp vendor`" to copies some templates dependencies from node_modules to the vendor directory
