@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-   @include('layout.partials.head')
+   @include('layouts.partials.head')
  </head>
 
  <body id="page-top">
 
    <div id="wrapper">
 
-     @include('layout.partials.sidebar')
+     @include('layouts.partials.sidebar')
 
      <!-- Content Wrapper -->
      <div id="content-wrapper" class="d-flex flex-column">
@@ -16,14 +16,14 @@
        <!-- Main Content -->
        <div id="content">
 
-         @include('layout.partials.header')
+         @include('layouts.partials.header')
 
          @yield('content')
 
        </div>
        <!-- End of Main Content -->
 
-       @include('layout.partials.footer')
+       @include('layouts.partials.footer')
 
      </div>
      <!-- End of Content Wrapper -->
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    @include('layout.partials.footer-scripts')
+    @include('layouts.partials.footer-scripts')
 
  </body>
 </html>
