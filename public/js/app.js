@@ -37344,8 +37344,8 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\LENOVO\Work\Program\php\ptviduka_pos\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\LENOVO\Work\Program\php\ptviduka_pos\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\PROJECTS\PTVIDUKA\ptviduka_pos\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\PROJECTS\PTVIDUKA\ptviduka_pos\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
