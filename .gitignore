@@ -12,3 +12,7 @@ npm-debug.log
 yarn-error.log
 
 /.idea
+
+# compiled file from laravel/ui
+/public/css/app.css
+/public/js/app.js
