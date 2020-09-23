@@ -61,4 +61,24 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function resetPassword(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|string|min:6',
+            'new_password_confirmation' => 'required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
+        $user = User::find($id);
+        $user->password = Hash::make($request['new_password']);
+        $user->save();
+
+        return response()->json($user, 200);
+    }
+
 }
