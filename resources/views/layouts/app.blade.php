@@ -2,6 +2,7 @@
 <html lang="en">
  <head>
    @include('layouts.partials.head')
+   @yield('extra_head')
  </head>
 
  <body id="page-top">
@@ -55,6 +56,8 @@
     </div>
 
     @include('layouts.partials.footer-scripts')
+  
+    @yield('extra_script')
 
  </body>
 </html>

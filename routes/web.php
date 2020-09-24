@@ -18,3 +18,9 @@ Route::get('/', function () {
 Route::get('/demo', function () {
     return view('demo');
 });
+
+Route::resource('users', 'UserController')->except([
+    'store', 'destroy', 'update',
+]);
+
+Auth::routes();
