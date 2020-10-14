@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStokOpnamesTable extends Migration
+class CreateTransaksiKasirDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateStokOpnamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('stok_opnames', function (Blueprint $table) {
-            $table->bigIncrements('stok_opname_id');
-            $table->bigIncrements('jumlah');
-            $table->bigIncrements('harga');
-            $table->timestamps('tanggal_stok_opname');
+        Schema::create('transaksi_kasir_details', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
         });
 
-        Schema::table('stok_opnames', function (Blueprint $table) {
+        Schema::table('transaksi_kasir_details', function (Blueprint $table) {
             $table->foreign('produk_id')->references('produk_id')->on('produks');
+            $table->foreign('transaksi_kasir_id')->references('transaksi_kasir_id')->on('transaksi_kasirs');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateStokOpnamesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stok_opnames');
+        Schema::dropIfExists('transaksi_kasir_details');
     }
 }

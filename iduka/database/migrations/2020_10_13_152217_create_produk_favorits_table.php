@@ -14,8 +14,13 @@ class CreateProdukFavoritsTable extends Migration
     public function up()
     {
         Schema::create('produk_favorits', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('produk_favorit_id');
+
+        });
+
+        Schema::table('produk_favorits', function (Blueprint $table) {
+            $table->foreign('konsumen_id')->references('konsumen_id')->on('konsumens');  
+            $table->foreign('produk_id')->references('produk_id')->on('produks');  
         });
     }
 

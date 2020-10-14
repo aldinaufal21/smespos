@@ -14,8 +14,12 @@ class CreateKasirsTable extends Migration
     public function up()
     {
         Schema::create('kasirs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('kasir_id');
+            $table->string('nama_kasir');
+        });
+
+        Schema::table('kasirs', function (Blueprint $table) {
+            $table->foreign('cabang_id')->references('cabang_id')->on('cabangs');    
         });
     }
 

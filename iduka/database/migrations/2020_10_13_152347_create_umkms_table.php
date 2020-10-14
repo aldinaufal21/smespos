@@ -14,8 +14,16 @@ class CreateUmkmsTable extends Migration
     public function up()
     {
         Schema::create('umkms', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('umkm_id');
+            $table->string('nama_umkm');
+            $table->string('alamat_umkm');
+            $table->string('gambar');
+            $table->timestamps('tanggal_berdiri');
+
+        });
+
+        Schema::table('umkms', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');  
         });
     }
 

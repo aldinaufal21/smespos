@@ -14,8 +14,17 @@ class CreateCabangsTable extends Migration
     public function up()
     {
         Schema::create('cabangs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('cabang_id');
+            $table->string('nama_cabang');
+            $table->string('alamat_cabang');
+            $table->string('jumlah_karyawan');
+            $table->string('gambar_karyawan');
+
+        });
+
+        Schema::table('cabangs', function (Blueprint $table) {
+            $table->foreign('umkm_id')->references('umkm_id')->on('umkms');    
+            $table->foreign('user_id')->references('id')->on('users');  
         });
     }
 

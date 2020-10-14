@@ -14,8 +14,13 @@ class CreateTransaksiKasirsTable extends Migration
     public function up()
     {
         Schema::create('transaksi_kasirs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('transaksi_kasir_id');
+            $table->timestamps('tanggal_transaksi');
+        });
+
+        Schema::table('transaksi_kasirs', function (Blueprint $table) {
+            $table->foreign('kasir_id')->references('kasir_id')->on('kasirs');    
+            $table->foreign('produk_id')->references('produk_id')->on('produks');    
         });
     }
 

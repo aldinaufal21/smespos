@@ -14,8 +14,16 @@ class CreatePendaftaranUmkmsTable extends Migration
     public function up()
     {
         Schema::create('pendaftaran_umkms', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('pendaftaran_umkm_id');
+            $table->string('status_pendaftaran');
+            $table->string('dokumen_pendukung');
+            $table->timestamps('tanggal_pendaftaran');
+
+        });
+
+        Schema::table('pendaftaran_umkms', function (Blueprint $table) {
+            $table->foreign('umkm_id')->references('umkm_id')->on('umkms');
+            $table->foreign('pengelola_id')->references('pengelola_id')->on('pengelolas');
         });
     }
 

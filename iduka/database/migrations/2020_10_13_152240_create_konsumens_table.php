@@ -14,8 +14,17 @@ class CreateKonsumensTable extends Migration
     public function up()
     {
         Schema::create('konsumens', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('konsumen_id');
+            $table->string('nama_konsumen');
+            $table->string('alamat_konsumen');
+            $table->string('nomor_hp');
+            $table->string('gambar');
+            $table->timestamps('tanggal_gabung');
+            $table->timestamps('login_terakhir');
+        });
+
+        Schema::table('konsumens', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');  
         });
     }
 

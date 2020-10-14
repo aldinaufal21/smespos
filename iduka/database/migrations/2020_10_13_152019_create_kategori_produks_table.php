@@ -14,8 +14,12 @@ class CreateKategoriProduksTable extends Migration
     public function up()
     {
         Schema::create('kategori_produks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('kategori_produk_id');
+            $table->string('nama_kategori');
+        });
+
+        Schema::table('kategori_produks', function (Blueprint $table) {
+            $table->foreign('umkm_id')->references('umkm_id')->on('umkms');
         });
     }
 
