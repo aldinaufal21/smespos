@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Umkm extends Model
 {
-    //
     public function cabang()
     {
         return $this->hasMany('App\Models\Cabang');

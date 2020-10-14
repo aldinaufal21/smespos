@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Produk extends Model
 {
-    //
     public function produkFavorit()
     {
         return $this->hasMany('App\Models\ProdukFavorit');

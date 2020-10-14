@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransaksiKasir extends Model
 {
-    //
 
     public function transaksiKasirDetail()
     {

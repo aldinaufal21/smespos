@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengelola extends Model
 {
-    //
     public function users()
     {
         return $this->hasOne('App\Models\User');

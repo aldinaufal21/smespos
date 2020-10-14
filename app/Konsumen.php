@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Konsumen extends Model
 {
-    //
     public function user()
     {
         return $this->hasOne('App\Models\User');
