@@ -19,6 +19,8 @@ class CreateCabangsTable extends Migration
             $table->string('alamat_cabang');
             $table->string('jumlah_karyawan');
             $table->string('gambar_karyawan');
+            $table->bigInteger('umkm_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
 
         });
 

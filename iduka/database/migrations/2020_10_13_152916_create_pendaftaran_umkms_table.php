@@ -17,6 +17,8 @@ class CreatePendaftaranUmkmsTable extends Migration
             $table->bigIncrements('pendaftaran_umkm_id');
             $table->string('status_pendaftaran');
             $table->string('dokumen_pendukung');
+            $table->bigInteger('umkm_id')->unsigned();
+            $table->bigInteger('pengelola_id')->unsigned();
             $table->timestamps('tanggal_pendaftaran');
 
         });

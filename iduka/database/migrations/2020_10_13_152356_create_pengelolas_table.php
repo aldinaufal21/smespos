@@ -16,6 +16,7 @@ class CreatePengelolasTable extends Migration
         Schema::create('pengelolas', function (Blueprint $table) {
             $table->bigIncrements('pengelola_id');
             $table->string('nama_pengelola');
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps('login_terakhir');
         });
         Schema::table('pengelolas', function (Blueprint $table) {

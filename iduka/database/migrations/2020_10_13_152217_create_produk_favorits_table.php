@@ -15,6 +15,8 @@ class CreateProdukFavoritsTable extends Migration
     {
         Schema::create('produk_favorits', function (Blueprint $table) {
             $table->bigIncrements('produk_favorit_id');
+            $table->bigInteger('konsumen_id')->unsigned();
+            $table->bigInteger('produk_id')->unsigned();
 
         });
 
