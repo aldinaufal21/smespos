@@ -15,10 +15,10 @@ class CreateStokOpnamesTable extends Migration
     {
         Schema::create('stok_opnames', function (Blueprint $table) {
             $table->bigIncrements('stok_opname_id');
-            $table->bigIncrements('jumlah');
-            $table->bigIncrements('harga');
-            $table->timestamps('tanggal_stok_opname');
-            $table->integer('produk_id')->unsigned();
+            $table->bigInteger('jumlah');
+            $table->bigInteger('harga');
+            $table->dateTime('tanggal_stok_opname', 0);
+            $table->bigInteger('produk_id')->unsigned();
         });
 
         Schema::table('stok_opnames', function (Blueprint $table) {

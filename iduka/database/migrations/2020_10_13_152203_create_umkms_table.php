@@ -16,10 +16,11 @@ class CreateUmkmsTable extends Migration
         Schema::create('umkms', function (Blueprint $table) {
             $table->bigIncrements('umkm_id');
             $table->string('nama_umkm');
+            $table->text('deskripsi');
             $table->string('alamat_umkm');
             $table->string('gambar');
-            $table->integer('user_id')->unsigned();
-            $table->timestamps('tanggal_berdiri');
+            $table->bigInteger('user_id')->unsigned();
+            $table->dateTime('tanggal_bergabung', 0);
 
         });
 

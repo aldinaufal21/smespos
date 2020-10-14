@@ -19,9 +19,9 @@ class CreateKonsumensTable extends Migration
             $table->string('alamat_konsumen');
             $table->string('nomor_hp');
             $table->string('gambar');
-            $table->integer('user_id')->unsigned();
-            $table->timestamps('tanggal_gabung');
-            $table->timestamps('login_terakhir');
+            $table->bigInteger('user_id')->unsigned();
+            $table->dateTime('tanggal_gabung', 0);
+            $table->dateTime('login_terakhir', 0);
         });
 
         Schema::table('konsumens', function (Blueprint $table) {

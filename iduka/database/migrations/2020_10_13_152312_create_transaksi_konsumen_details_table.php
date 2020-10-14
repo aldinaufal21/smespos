@@ -15,8 +15,8 @@ class CreateTransaksiKonsumenDetailsTable extends Migration
     {
         Schema::create('transaksi_konsumen_details', function (Blueprint $table) {
             $table->bigIncrements('transaksi_konsumen_detail_id');
-            $table->integer('produk_id')->unsigned();
-            $table->integer('transaksi_konsumen_id')->unsigned();
+            $table->bigInteger('produk_id')->unsigned();
+            $table->bigInteger('transaksi_konsumen_id')->unsigned();
             $table->bigInteger('jumlah');
         });
 

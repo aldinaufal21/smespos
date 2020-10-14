@@ -19,8 +19,8 @@ class CreateProduksTable extends Migration
             $table->string('gambar_produk');
             $table->string('deskripsi_produk');
             $table->bigInteger('stok');
-            $table->integer('kategori_produk_id')->unsigned();
-            $table->timestamps();
+            $table->bigInteger('kategori_produk_id')->unsigned();
+            $table->dateTime('tanggal_input', 0);
         });
 
         Schema::table('produks', function (Blueprint $table) {
