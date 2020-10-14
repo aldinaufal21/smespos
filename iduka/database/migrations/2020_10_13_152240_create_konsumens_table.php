@@ -19,7 +19,7 @@ class CreateKonsumensTable extends Migration
             $table->string('alamat_konsumen');
             $table->string('nomor_hp');
             $table->string('gambar');
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps('tanggal_gabung');
             $table->timestamps('login_terakhir');
         });

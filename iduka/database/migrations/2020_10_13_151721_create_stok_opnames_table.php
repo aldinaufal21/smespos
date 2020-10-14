@@ -18,7 +18,7 @@ class CreateStokOpnamesTable extends Migration
             $table->bigIncrements('jumlah');
             $table->bigIncrements('harga');
             $table->timestamps('tanggal_stok_opname');
-            $table->bigInteger('produk_id')->unsigned();
+            $table->integer('produk_id')->unsigned();
         });
 
         Schema::table('stok_opnames', function (Blueprint $table) {

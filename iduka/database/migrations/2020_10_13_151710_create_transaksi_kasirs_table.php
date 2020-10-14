@@ -16,8 +16,8 @@ class CreateTransaksiKasirsTable extends Migration
         Schema::create('transaksi_kasirs', function (Blueprint $table) {
             $table->bigIncrements('transaksi_kasir_id');
             $table->timestamps('tanggal_transaksi');
-            $table->bigInteger('kasir_id')->unsigned();
-            $table->bigInteger('produk_id')->unsigned();
+            $table->integer('kasir_id')->unsigned();
+            $table->integer('produk_id')->unsigned();
         });
 
         Schema::table('transaksi_kasirs', function (Blueprint $table) {

@@ -18,7 +18,7 @@ class CreateUmkmsTable extends Migration
             $table->string('nama_umkm');
             $table->string('alamat_umkm');
             $table->string('gambar');
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps('tanggal_berdiri');
 
         });

@@ -16,7 +16,7 @@ class CreateKategoriProduksTable extends Migration
         Schema::create('kategori_produks', function (Blueprint $table) {
             $table->bigIncrements('kategori_produk_id');
             $table->string('nama_kategori');
-            $table->bigInteger('umkm_id')->unsigned();
+            $table->integer('umkm_id')->unsigned();
         });
 
         Schema::table('kategori_produks', function (Blueprint $table) {
