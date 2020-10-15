@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 Route::prefix('v1')->group(function (){
     Route::post('login', 'api\v1\AuthController@login');
 
+    Route::prefix('auth')->group(function () {
+        Route::delete('reset_password/{id}', 'api\v1\AuthController@resetPassword');
+    });
+
     Route::group(['middleware' => 'auth:api'], function () {
         // authenticated account needed
         Route::get('logout', 'api\v1\AuthController@logout');
@@ -33,4 +37,6 @@ Route::prefix('v1')->group(function (){
     Route::post('users', 'api\v1\UserController@store');
     Route::put('users/{id}', 'api\v1\UserController@update');
     Route::delete('users/{id}', 'api\v1\UserController@delete');
+
+    
 });
