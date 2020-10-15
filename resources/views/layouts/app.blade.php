@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
+
+   <title>{{ config('app.name') }} - @yield('title', '')</title>
+
    @include('layouts.partials.head')
    @yield('extra_head')
  </head>
@@ -56,7 +59,7 @@
     </div>
 
     @include('layouts.partials.footer-scripts')
-  
+
     @yield('extra_script')
 
  </body>
