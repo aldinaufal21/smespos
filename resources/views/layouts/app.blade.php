@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
+
+   <title>{{ config('app.name') }} - @yield('title', '')</title>
+
    @include('layouts.partials.head')
+   
  </head>
 
  <body id="page-top">
