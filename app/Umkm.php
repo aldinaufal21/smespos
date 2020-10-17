@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Umkm extends Model
 {
+    
+    protected $primaryKey = 'umkm_id';
+
+    public $timestamps = false;
+
     public function cabang()
     {
         return $this->hasMany('App\Models\Cabang');

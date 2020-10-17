@@ -19,9 +19,29 @@ class Produk extends Model
         'tanggal_input',
     ];
 
+    public static function getProductByQuery($namaProduk = null, $kategoriProduk = null, $idKategori = null)
+    {
+        $produk = self::all();
+
+        if ($namaProduk){
+            $produk->where('nama_produk', 'like', '%'.$namaProduk.'%');
+        }
+
+        if ($kategoriProduk){
+            $kategoriProduk = KategoriProduk::where('nama_kategori', 'like', '%'.$kategoriProduk.'%')->first();
+            $produk->where('kategori_produk_id', $kategoriProduk->kategori_produk_id);
+        }
+
+        if ($idKategori){
+            $produk->where('kategori_produk_id', $idKategori);
+        }
+
+        return $produk;
+    }
+
     public function kategori()
     {
-        return $this->belongsTo('App\KategoriProduk');
+        return $this->belongsTo('App\KategoriProduk', 'kategori_produk_id', 'kategori_produk_id');
     }
 
     public function produkFavorit()
