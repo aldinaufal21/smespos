@@ -30,7 +30,7 @@ class Konsumen extends Model
 
     public function produkFavorit()
     {
-        return $this->hasMany('App\ProdukFavorit');
+        return $this->belongsToMany('App\Produk', 'produk_favorits', 'konsumen_id', 'produk_id');
     }
 
     public function transaksiKonsumen()

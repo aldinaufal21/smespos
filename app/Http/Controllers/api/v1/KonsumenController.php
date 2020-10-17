@@ -8,6 +8,9 @@ use App\Konsumen;
 use App\User;
 use Illuminate\Http\Request;
 
+/**
+ * this API is for consumer role
+ */
 class KonsumenController extends Controller
 {
     use ImageUpload;

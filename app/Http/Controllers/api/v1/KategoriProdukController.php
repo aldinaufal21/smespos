@@ -7,6 +7,9 @@ use App\KategoriProduk;
 use Illuminate\Http\Request;
 use stdClass;
 
+/**
+ * this API is for UMKM role
+ */
 class KategoriProdukController extends Controller
 {
     public function index(Request $request)

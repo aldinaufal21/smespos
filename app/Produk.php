@@ -33,7 +33,7 @@ class Produk extends Model
         }
 
         if ($idKategori){
-            $produk->where('kategori_produk_id', $idKategori);
+            $produk->whereIn('kategori_produk_id', $idKategori);
         }
 
         return $produk;

@@ -8,6 +8,9 @@ use App\AlamatPengiriman;
 use Illuminate\Http\Request;
 use stdClass;
 
+/**
+ * this API is for consumer
+ */
 class ShippingAddressController extends Controller
 {
     public function index(Request $request)

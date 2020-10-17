@@ -46,7 +46,11 @@ Route::prefix('v1')->group(function (){
 
         // product route
         Route::get('product', 'api\v1\ProdukController@index');
-        Route::post('category/{category}/produk', 'api\v1\ProdukController@store');
+        Route::post('category/{category}/product', 'api\v1\ProdukController@store');
+
+        // favorite product route
+        Route::get('favorite-product', 'api\v1\ProdukFavoritController@index');
+        Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
     });
 
     Route::post('users', 'api\v1\UserController@store');

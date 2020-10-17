@@ -13,6 +13,9 @@ use stdClass;
 
 class ProdukController extends Controller
 {
+    /**
+     * API for all users
+     */
     public function index(Request $request)
     {
         $namaProduk = $request->name;
@@ -36,6 +39,9 @@ class ProdukController extends Controller
         return response()->json($dataProduk, 200);
     }
 
+    /**
+     * API for UMKM
+     */
     public function store(Request $request, $category)
     {
         $data = $request->all();
@@ -48,6 +54,10 @@ class ProdukController extends Controller
         return response()->json($data, 201);
     }
 
+
+    /**
+     * API for UMKM
+     */
     public function update(Request $request, $id)
     {
         $produk = Produk::find($id);
@@ -58,6 +68,10 @@ class ProdukController extends Controller
         return response()->json($produk, 200);
     }
 
+
+    /**
+     * API for all user
+     */
     public function show(Request $request, $id)
     {
         $produk = Produk::find($id);
@@ -71,6 +85,9 @@ class ProdukController extends Controller
         return response()->json($produk, 200);
     }
 
+    /**
+     * API for UMKM
+     */
     public function destroy(Request $request, $id)
     {
         $produk = Produk::find($id);
