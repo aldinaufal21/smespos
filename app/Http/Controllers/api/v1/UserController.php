@@ -9,17 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
-    public function index()
-    {
-        return User::all();
-    }
- 
-    public function show($id)
-    {
-        return User::find($id);
-    }
-
     public function store(Request $request)
     {
         $request['password'] = Hash::make($request['password']);
@@ -29,21 +18,13 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = User::find($id);
+        $user = $request->user()->id;
         $request['password'] = Hash::make($request['password']);
 
         $user->update($request->toArray());
 
         return response()->json($user, 200);
-    }
-
-    public function delete(Request $request, $id)
-    {
-        $user = User::find($id);
-        $user->delete();
-
-        return response()->json(null, 204);
     }
 }

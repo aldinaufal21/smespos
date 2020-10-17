@@ -61,7 +61,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function resetPassword(Request $request, $id)
+    public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'new_password' => 'required|string|min:6',
@@ -74,7 +74,7 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $user = User::find($id);
+        $user = $request->user()->id;
         $user->password = Hash::make($request['new_password']);
         $user->save();
 

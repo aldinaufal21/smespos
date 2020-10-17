@@ -14,6 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+/**
+ * not yet used routes
 //konsumen
 Route::get('/konsumen/transaksi/history', 'TransaksiKonsumenControllers@history');
 Route::get('/konsumen/transaksi/status', 'TransaksiKonsumenControllers@status');
@@ -52,7 +54,7 @@ Route::get('/karyawan/hapus', 'KaryawanControllers@hapusKaryawan');
 
 Route::get('/laporan/cetak', 'TransaksiKasirControllers@cetakLaporan');
 Route::get('/laporan/cetak', 'TransaksiKasirControllers@generateLaporan');
-
+*/
 
 Route::get('/demo', function () {
     return view('demo');
