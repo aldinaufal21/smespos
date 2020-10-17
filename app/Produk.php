@@ -6,6 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Produk extends Model
 {
+    protected $primaryKey = 'produk_id';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'nama_produk',
+        'gambar_produk',
+        'deskripsi_produk',
+        'stok',
+        'kategori_produk_id',
+        'tanggal_input',
+    ];
+
+    public function kategori()
+    {
+        return $this->belongsTo('App\KategoriProduk');
+    }
+
     public function produkFavorit()
     {
         return $this->hasMany('App\Models\ProdukFavorit');

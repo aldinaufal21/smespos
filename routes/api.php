@@ -29,9 +29,20 @@ Route::prefix('v1')->group(function (){
             Route::post('profile/edit/', 'api\v1\KonsumenController@update');
             Route::get('profile', 'api\v1\KonsumenController@details');
         });
-        Route::resource('addresses', 'api\v1\ShippingAddressController')->except([
-            'create', 'edit', 
-        ]);
+        
+        Route::get('addresses', 'api\v1\ShippingAddressController@index');
+        Route::get('addresses/{address}', 'api\v1\ShippingAddressController@show');
+        Route::post('addresses', 'api\v1\ShippingAddressController@store');
+        Route::match(['put', 'patch'], 'addresses/{address}', 'api\v1\ShippingAddressController@update');
+        Route::delete('addresses/{address}', 'api\v1\ShippingAddressController@delete');
+
+        Route::get('category', 'api\v1\KategoriProdukController@index');
+        Route::get('category/{category}', 'api\v1\KategoriProdukController@show');
+        Route::post('category', 'api\v1\KategoriProdukController@store');
+        Route::match(['put', 'patch'], 'category/{category}', 'api\v1\KategoriProdukController@update');
+        Route::delete('category/{category}', 'api\v1\KategoriProdukController@delete');
+
+        Route::post('category/{category}/produk', 'api\v1\ProdukController@store');
     });
 
     Route::post('users', 'api\v1\UserController@store');

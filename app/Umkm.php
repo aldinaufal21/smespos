@@ -13,11 +13,11 @@ class Umkm extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User');
+        return $this->belongsTo('App\User');
     }
 
     public function kategoriProduk()
     {
-        return $this->hasMany('App\Models\KategoriProduk');
+        return $this->hasMany('App\KategoriProduk', 'umkm_id', 'umkm_id');
     }
 }
