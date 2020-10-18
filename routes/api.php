@@ -53,6 +53,7 @@ Route::prefix('v1')->group(function (){
         Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
 
         // cart route
+        Route::get('cart', 'api\v1\CartController@index');
         Route::post('cart', 'api\v1\CartController@store');
     });
 
