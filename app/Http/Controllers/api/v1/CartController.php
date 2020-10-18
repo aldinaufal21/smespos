@@ -23,22 +23,10 @@ class CartController extends Controller
     {
         $idKonsumen = $this->getKonsumen($request)->konsumen_id;
         $idProduk = $request->produk_id;
+        $produk = json_encode(Produk::find($idProduk));
 
         try {
-            if (Redis::get('cart:user:' . $idKonsumen . ':item_count')) {
-                // increment item count
-                Redis::incr('cart:user:' . $idKonsumen . ':item_count');
-
-                // get maximum item count
-                $maxItemCount = Redis::get('cart:user:' . $idKonsumen . ':item_count');
-
-                // set new item on new cart number
-                Redis::set('cart:user:' . $idKonsumen . ':cart:' . $maxItemCount, $idProduk);
-            } else {
-                // initiate new cart if user doesn't have one
-                Redis::set('cart:user:' . $idKonsumen . ':item_count', 1);
-                Redis::set('cart:user:' . $idKonsumen . ':cart:1', $idProduk);
-            }
+            Redis::set('cart:user:' . $idKonsumen . ':cart:' . $idProduk, $produk);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -46,6 +34,19 @@ class CartController extends Controller
         return response()->json([
             'produk_id' => $idProduk,
         ], 201);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $idKonsumen = $this->getKonsumen($request)->konsumen_id;
+        
+        try {
+            Redis::del('cart:user:' . $idKonsumen . ':cart:' . $id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        return response()->json(new stdClass(), 200);
     }
 
     private function getKonsumen($request)
@@ -61,10 +62,9 @@ class CartController extends Controller
         foreach (Redis::keys("{$keyPrefix}*") as $key) {
             $key = str_replace(config('database.redis.options.prefix'), '', $key);
             
-            $item = Redis::get($key);
-            $produk = Produk::find($item);
+            $item = json_decode(Redis::get($key));
             
-            array_push($shoppingCartItems, $produk);
+            array_push($shoppingCartItems, $item);
         }
         
         return $shoppingCartItems;

@@ -55,6 +55,7 @@ Route::prefix('v1')->group(function (){
         // cart route
         Route::get('cart', 'api\v1\CartController@index');
         Route::post('cart', 'api\v1\CartController@store');
+        Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
     });
 
     Route::post('users', 'api\v1\UserController@store');
