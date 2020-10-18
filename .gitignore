@@ -17,3 +17,6 @@ yarn-error.log
 # compiled file from laravel/ui
 /public/css/app.css
 /public/js/app.js
+
+# redis db
+*.rdb
