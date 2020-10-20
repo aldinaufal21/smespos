@@ -20,3 +20,5 @@ yarn-error.log
 
 # redis db
 *.rdb
+
+/docker-volumes-data

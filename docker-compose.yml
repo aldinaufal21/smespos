@@ -4,7 +4,7 @@ services:
     #PHP Service
     app:
         build:
-            context: .
+            context: ./docker-config/app
             dockerfile: Dockerfile
         image: php_service
         container_name: app
@@ -16,7 +16,7 @@ services:
             working_dir: /var/www
         volumes:
             - ./:/var/www
-            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+            - ./docker-config/php/local.ini:/usr/local/etc/php/conf.d/local.ini
         networks:
             - app-network
         
@@ -31,7 +31,7 @@ services:
             - "443:443"
         volumes:
             - ./:/var/www
-            - ./nginx/conf.d/:/etc/nginx/conf.d/
+            - ./docker-config/nginx/conf.d/:/etc/nginx/conf.d/
         networks:
             - app-network
 
@@ -44,6 +44,9 @@ services:
         tty: true
         ports:
             - "33061:3306"
+        # volumes:
+        #     - ./docker-volumes-data/db:/var/lib/mysql
+        #     - ./docker-config/mysql/my.cnf:/etc/mysql/my.cnf
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_USER: timiduka
@@ -69,6 +72,14 @@ services:
             UPLOAD_LIMIT: 3000000000
         networks:
             - app-network
+    
+    redis:
+        container_name: 'redis'
+        image: 'redis'
+        ports:
+            - '6379:6379'
+        volumes:
+            - ./docker-volumes-data/redis:/data
 
 #Docker Networks
 networks:
