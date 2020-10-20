@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::prefix('v1')->group(function (){
-    Route::post('login', 'api\v1\AuthController@login');
-
+Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () {
     Route::prefix('auth')->group(function () {
         Route::delete('reset_password', 'api\v1\AuthController@resetPassword');
     });
@@ -57,6 +55,8 @@ Route::prefix('v1')->group(function (){
         Route::post('cart', 'api\v1\CartController@store');
         Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
     });
+
+    Route::post('login', 'api\v1\AuthController@login');
 
     Route::post('users', 'api\v1\UserController@store');
     Route::match(['put', 'patch'],'users', 'api\v1\UserController@update');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\KategoriProduk;
 use App\Produk;
+use App\StokOpname;
 use App\Umkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,9 +30,12 @@ class ProdukController extends Controller
         foreach ($produk as $p) {
             $kategori = $p->kategori()->first();
             $umkm = $kategori->umkm()->first();
+            $stokOpname = $p->stokOpname()->first();
             
             $p['kategori'] = $kategori;
             $p['umkm'] = $umkm;
+            $p['tanggal_stok_opname'] = $stokOpname->tanggal_stok_opname;
+            $p['harga'] = $stokOpname->harga;
 
             array_push($dataProduk, $p);
         }
@@ -48,8 +52,25 @@ class ProdukController extends Controller
         
         $data['kategori_produk_id'] = $category;
         $data['tanggal_input'] = Carbon::now();
+        $data['tanggal_stok_opname'] = Carbon::now();
 
-        $produk = Produk::create($data);
+        DB::beginTransaction();
+        try {
+            $data['stok'] = $data['jumlah'];
+            $produk = Produk::create($data);
+
+            $data['produk_id'] = $produk->produk_id;
+            StokOpname::create($data);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+                    
+            return response()->json([
+                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+            ], 500);
+        }
 
         return response()->json($data, 201);
     }

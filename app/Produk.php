@@ -46,21 +46,21 @@ class Produk extends Model
 
     public function produkFavorit()
     {
-        return $this->hasMany('App\Models\ProdukFavorit');
+        return $this->hasMany('App\ProdukFavorit');
     }
 
     public function stokOpname()
     {
-        return $this->hasMany('App\Models\StokOpname');
+        return $this->hasMany('App\StokOpname', 'produk_id', 'produk_id');
     }
 
     public function transaksiKasirDetail()
     {
-        return $this->hasMany('App\Models\TransaksiKasirDetail');
+        return $this->hasMany('App\TransaksiKasirDetail');
     }
 
     public function transaksiKonsumenDetail()
     {
-        return $this->hasMany('App\Models\TransaksiKonsumenDetail');
+        return $this->hasMany('App\TransaksiKonsumenDetail');
     }
 }
