@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Konsumen;
 use App\AlamatPengiriman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use stdClass;
 
 /**
@@ -23,6 +24,16 @@ class ShippingAddressController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'alamat' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
         $konsumen = $this->getKonsumen($request);
         $alamatPengiriman = new AlamatPengiriman();
 
@@ -36,6 +47,16 @@ class ShippingAddressController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'alamat' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
         $alamatPengiriman = AlamatPengiriman::find($id);
 
         $alamatPengiriman->alamat = $request->alamat;

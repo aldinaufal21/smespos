@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 use stdClass;
 
 class CartController extends Controller
@@ -21,6 +22,16 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'produk_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
         $idKonsumen = $this->getKonsumen($request)->konsumen_id;
         $idProduk = $request->produk_id;
         $produk = json_encode(Produk::find($idProduk));

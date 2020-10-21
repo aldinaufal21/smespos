@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\ProdukFavorit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * this API is for consumer
@@ -28,6 +29,16 @@ class ProdukFavoritController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'produk_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
         $konsumen = $this->getKonsumen($request);
         $idProduk = $request->produk_id;
         $dataProdukFavorit = [];

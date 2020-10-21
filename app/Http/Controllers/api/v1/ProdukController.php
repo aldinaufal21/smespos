@@ -10,6 +10,7 @@ use App\Umkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use stdClass;
 
 class ProdukController extends Controller
@@ -48,6 +49,20 @@ class ProdukController extends Controller
      */
     public function store(Request $request, $category)
     {
+        $validator = Validator::make($request->all(), [
+            'nama_produk' => 'required|string|max:255',
+            'gambar_produk' => 'required',
+            'deskripsi_produk' => 'required|string|max:255',
+            'jumlah' => 'required|number|max:20|gte:0',
+            'harga' => 'required|number|max:20|gte:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
         $data = $request->all();
         
         $data['kategori_produk_id'] = $category;
@@ -81,6 +96,18 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'nama_produk' => 'required|string|max:255',
+            'gambar_produk' => 'required',
+            'deskripsi_produk' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
         $produk = Produk::find($id);
         $data = $request->all();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\KategoriProduk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use stdClass;
 
 /**
@@ -22,6 +23,16 @@ class KategoriProdukController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'nama_kategori' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
         $umkm = $this->getUmkm($request);
         $kategoriProduk = new KategoriProduk();
 
@@ -35,6 +46,16 @@ class KategoriProdukController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'nama_kategori' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
         $kategoriProduk = KategoriProduk::find($id);
 
         $kategoriProduk->nama_kategori = $request->nama_kategori;

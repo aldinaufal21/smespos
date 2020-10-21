@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\ImageUpload;
 use App\Konsumen;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * this API is for consumer role
@@ -37,6 +38,19 @@ class KonsumenController extends Controller
          * 
          * @return response -> data konsumen
          */
+        $validator = Validator::make($request->all(), [
+            'nama_konsumen' => 'required|string|max:255',
+            'alamat_konsumen' => 'required|string|max:255',
+            'nomor_hp' => 'required|string|max:14|min:10',
+            'gambar' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
         $id = $request->user()->id;
         $konsumen = User::find($id)->konsumen()->first();
         $requestData = $request->all();
