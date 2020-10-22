@@ -13,7 +13,9 @@ class Konsumen extends Model
         'alamat_konsumen', 
         'nomor_hp', 
         'gambar', 
-        'login_terakhir', 
+        'login_terakhir',
+        'tanggal_gabung',
+        'user_id' 
     ];
 
     protected $primaryKey = 'konsumen_id';

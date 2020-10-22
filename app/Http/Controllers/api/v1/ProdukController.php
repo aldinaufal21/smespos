@@ -80,8 +80,6 @@ class ProdukController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
-                    
             return response()->json([
                 'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
             ], 500);

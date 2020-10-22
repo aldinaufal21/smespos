@@ -60,4 +60,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
     Route::post('users', 'api\v1\UserController@store');
     Route::match(['put', 'patch'],'users', 'api\v1\UserController@update');
+    
+    Route::group(['prefix' => 'consumer'], function () {
+        Route::post('register', 'api\v1\KonsumenController@register');
+    });
 });
