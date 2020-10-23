@@ -40,4 +40,9 @@ class Umkm extends Model
     {
         return $this->hasMany('App\KategoriProduk', 'umkm_id', 'umkm_id');
     }
+
+    public function karyawan()
+    {
+        return $this->hasMany('App\Karyawan', 'umkm_id', 'umkm_id');
+    }
 }

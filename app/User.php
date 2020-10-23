@@ -48,6 +48,18 @@ class User extends Authenticatable
         return $this->where('username', $username)->first();
     }
 
+    /**
+     * Check if user has role asked
+     * 
+     * @param role
+     * 
+     * @return boolean
+     */
+    public function hasRole($role)
+    {
+        return $this->role == $role;
+    }
+
     public function konsumen()
     {
         return $this->hasOne('App\Konsumen');

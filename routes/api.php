@@ -22,54 +22,67 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         // authenticated account needed
         Route::get('logout', 'api\v1\AuthController@logout');
         Route::get('user/details', 'api\v1\AuthController@details');
-    
-        Route::group(['prefix' => 'consumer'], function () {
+
+        Route::group(['prefix' => 'consumer', 'middleware' => ['role:konsumen']], function () {
             Route::post('profile/edit/', 'api\v1\KonsumenController@update');
             Route::get('profile', 'api\v1\KonsumenController@details');
+
+            // shipping addresses route
+            Route::get('addresses', 'api\v1\ShippingAddressController@index');
+            Route::get('addresses/{address}', 'api\v1\ShippingAddressController@show');
+            Route::post('addresses', 'api\v1\ShippingAddressController@store');
+            Route::match(['put', 'patch'], 'addresses/{address}', 'api\v1\ShippingAddressController@update');
+            Route::delete('addresses/{address}', 'api\v1\ShippingAddressController@delete');
         });
-    
-        Route::group(['prefix' => 'umkm'], function () {
+
+        Route::group(['prefix' => 'umkm', 'middleware' => ['role:umkm']], function () {
             Route::post('profile/edit/', 'api\v1\UmkmController@update');
             Route::get('profile', 'api\v1\UmkmController@details');
         });
-        
-        // shipping addresses route
-        Route::get('addresses', 'api\v1\ShippingAddressController@index');
-        Route::get('addresses/{address}', 'api\v1\ShippingAddressController@show');
-        Route::post('addresses', 'api\v1\ShippingAddressController@store');
-        Route::match(['put', 'patch'], 'addresses/{address}', 'api\v1\ShippingAddressController@update');
-        Route::delete('addresses/{address}', 'api\v1\ShippingAddressController@delete');
 
+        Route::group(['middleware' => ['role:konsumen']], function () {
+            // product route
+            Route::get('product', 'api\v1\ProdukController@index');
+            Route::post('category/{category}/product', 'api\v1\ProdukController@store');
+
+            // favorite product route
+            Route::get('favorite-product', 'api\v1\ProdukFavoritController@index');
+            Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
+
+            // cart route
+            Route::get('cart', 'api\v1\CartController@index');
+            Route::post('cart', 'api\v1\CartController@store');
+            Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
+        });
+
+        Route::group(['prefix' => 'employees', 'middleware' => ['role:umkm']], function () {
+            // employees route
+            Route::get('/', 'api\v1\KaryawanController@index');
+            Route::get('/{employees}', 'api\v1\KaryawanController@show');
+            Route::post('/', 'api\v1\KaryawanController@store');
+            Route::post('/{employees}', 'api\v1\KaryawanController@update');
+            Route::delete('/{employees}', 'api\v1\KaryawanController@delete');
+        });
+    });
+
+    Route::group(['prefix' => 'category', 'middleware' => ['role:umkm']], function () {
         // product categories route
-        Route::get('category', 'api\v1\KategoriProdukController@index');
-        Route::get('category/{category}', 'api\v1\KategoriProdukController@show');
-        Route::post('category', 'api\v1\KategoriProdukController@store');
-        Route::match(['put', 'patch'], 'category/{category}', 'api\v1\KategoriProdukController@update');
-        Route::delete('category/{category}', 'api\v1\KategoriProdukController@delete');
-
-        // product route
-        Route::get('product', 'api\v1\ProdukController@index');
-        Route::post('category/{category}/product', 'api\v1\ProdukController@store');
-
-        // favorite product route
-        Route::get('favorite-product', 'api\v1\ProdukFavoritController@index');
-        Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
-
-        // cart route
-        Route::get('cart', 'api\v1\CartController@index');
-        Route::post('cart', 'api\v1\CartController@store');
-        Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
+        Route::get('/', 'api\v1\KategoriProdukController@index');
+        Route::get('/{category}', 'api\v1\KategoriProdukController@show');
+        Route::post('/', 'api\v1\KategoriProdukController@store');
+        Route::match(['put', 'patch'], '/{category}', 'api\v1\KategoriProdukController@update');
+        Route::delete('/{category}', 'api\v1\KategoriProdukController@delete');
     });
 
     Route::post('login', 'api\v1\AuthController@login');
 
     Route::post('users', 'api\v1\UserController@store');
-    Route::match(['put', 'patch'],'users', 'api\v1\UserController@update');
-    
+    Route::match(['put', 'patch'], 'users', 'api\v1\UserController@update');
+
     Route::group(['prefix' => 'consumer'], function () {
         Route::post('register', 'api\v1\KonsumenController@register');
     });
-    
+
     Route::group(['prefix' => 'umkm'], function () {
         Route::post('register', 'api\v1\UmkmController@register');
     });
