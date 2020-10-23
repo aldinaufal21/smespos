@@ -14,6 +14,16 @@ trait ImageUpload
         return $this->localImageUpload($file, 'user_avatar');
     }
 
+    public function storeUmkmImage($file)
+    {
+        if(env('APP_ENV') == 'staging'){
+            return $this->coudinaryUpload($file, 'payment_confirmation');
+        } else if (env('APP_ENV') == 'production') {
+            return $this->localImageUpload($file, 'umkm_image');
+        }
+        return $this->localImageUpload($file, 'umkm_image');
+    }
+
     private function localImageUpload($file, $folder)
     {
         /* get File Extension */

@@ -11,6 +11,21 @@ class Umkm extends Model
 
     public $timestamps = false;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama_umkm', 
+        'deskripsi', 
+        'alamat_umkm', 
+        'gambar', 
+        'user_id', 
+        'tanggal_bergabung', 
+    ];
+
+
     public function cabang()
     {
         return $this->hasMany('App\Models\Cabang');

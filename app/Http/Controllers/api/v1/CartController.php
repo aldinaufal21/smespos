@@ -34,7 +34,14 @@ class CartController extends Controller
         
         $idKonsumen = $this->getKonsumen($request)->konsumen_id;
         $idProduk = $request->produk_id;
-        $produk = json_encode(Produk::find($idProduk));
+        $produk = Produk::find($idProduk);
+
+        $detail = $produk->stokOpname()->first();
+        
+        $produk = $produk->toArray();
+        $produk['harga'] = $detail->harga;
+        
+        $produk = json_encode($produk);
 
         try {
             Redis::set('cart:user:' . $idKonsumen . ':cart:' . $idProduk, $produk);

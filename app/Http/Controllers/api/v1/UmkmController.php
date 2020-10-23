@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ImageUpload;
-use App\Konsumen;
+use App\Umkm;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,25 +12,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-/**
- * this API is for consumer role
- */
-class KonsumenController extends Controller
+class UmkmController extends Controller
 {
     use ImageUpload;
 
     public function details(Request $request, $id = null)
     {
         /**
-         * @param $request -> isinya kolom fillable dari kolom konsumen
-         * ex. nama_konsumen, alamat_konsumen, nomor_hp, gambar
-         * 
-         * @return -> data konsumen
+         * @return -> data umkm
          */
         $id = $request->user()->id;
-        $konsumen = User::find($id)->konsumen()->first();
+        $umkm = User::find($id)->umkm()->first();
         
-        return response()->json($konsumen, 200);
+        return response()->json($umkm, 200);
     }
     
     public function register(Request $request)
@@ -40,9 +34,9 @@ class KonsumenController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|max:255|confirmed',
-            'nama_konsumen' => 'required|string|max:255',
-            'alamat_konsumen' => 'required|string|max:255',
-            'nomor_hp' => 'required|numeric|digits_between:10,14',
+            'nama_umkm' => 'required|string|max:255',
+            'alamat_umkm' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:255',
             'gambar' => 'required',
         ]);
 
@@ -53,7 +47,8 @@ class KonsumenController extends Controller
         }
         
         $requestData['password'] = Hash::make($requestData['password']);
-        $requestData['role'] = 'konsumen';
+        $requestData['role'] = 'umkm';
+        $requestData['tanggal_bergabung'] = Carbon::now();
 
         DB::beginTransaction();
         try {
@@ -61,19 +56,18 @@ class KonsumenController extends Controller
     
             $userAvatar = $request->gambar;
             $avatarUrl = $request->gambar != null ?
-                    $this->storeUserProfileImage($userAvatar) : null;
+                    $this->storeUmkmImage($userAvatar) : null;
             $requestData['gambar'] = $avatarUrl;
             $requestData['user_id'] = $user->id;
-            $requestData['tanggal_gabung'] = Carbon::now();
-            $requestData['login_terakhir'] = Carbon::createFromDate(null, null, null, null);
-            
-            $konsumen = Konsumen::create($requestData);
 
-            $response = array_merge($user->toArray(), $konsumen->toArray());
+            $umkm = Umkm::create($requestData);
+
+            $response = array_merge($user->toArray(), $umkm->toArray());
             
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            throw $e;
             return response()->json([
                 'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
             ], 500);
@@ -85,15 +79,12 @@ class KonsumenController extends Controller
     public function update(Request $request)
     {
         /**
-         * @param $request -> isinya kolom fillable dari kolom konsumen
-         * ex. nama_konsumen, alamat_konsumen, nomor_hp, gambar
-         * 
          * @return response -> data konsumen
          */
         $validator = Validator::make($request->all(), [
-            'nama_konsumen' => 'required|string|max:255',
-            'alamat_konsumen' => 'required|string|max:255',
-            'nomor_hp' => 'required|string|max:14|min:10',
+            'nama_umkm' => 'required|string|max:255',
+            'alamat_umkm' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:255',
             'gambar' => 'required',
         ]);
 
@@ -104,16 +95,16 @@ class KonsumenController extends Controller
         }
         
         $id = $request->user()->id;
-        $konsumen = User::find($id)->konsumen()->first();
+        $umkm = User::find($id)->umkm()->first();
         $requestData = $request->all();
 
         $userAvatar = $request->gambar;
         $avatarUrl = $request->gambar != null ?
-                $this->storeUserProfileImage($userAvatar) : null;
+                $this->storeUmkmImage($userAvatar) : null;
         $requestData['gambar'] = $avatarUrl;
 
-        $konsumen->update($requestData);
+        $umkm->update($requestData);
 
-        return response()->json($konsumen, 200);
+        return response()->json($umkm, 200);
     }
 }

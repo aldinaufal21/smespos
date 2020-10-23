@@ -27,6 +27,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('profile/edit/', 'api\v1\KonsumenController@update');
             Route::get('profile', 'api\v1\KonsumenController@details');
         });
+    
+        Route::group(['prefix' => 'umkm'], function () {
+            Route::post('profile/edit/', 'api\v1\UmkmController@update');
+            Route::get('profile', 'api\v1\UmkmController@details');
+        });
         
         // shipping addresses route
         Route::get('addresses', 'api\v1\ShippingAddressController@index');
@@ -63,5 +68,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
     
     Route::group(['prefix' => 'consumer'], function () {
         Route::post('register', 'api\v1\KonsumenController@register');
+    });
+    
+    Route::group(['prefix' => 'umkm'], function () {
+        Route::post('register', 'api\v1\UmkmController@register');
     });
 });
