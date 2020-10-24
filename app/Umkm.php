@@ -25,12 +25,6 @@ class Umkm extends Model
         'tanggal_bergabung', 
     ];
 
-
-    public function cabang()
-    {
-        return $this->hasMany('App\Models\Cabang');
-    }
-
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -44,5 +38,10 @@ class Umkm extends Model
     public function karyawan()
     {
         return $this->hasMany('App\Karyawan', 'umkm_id', 'umkm_id');
+    }
+
+    public function cabang()
+    {
+        return $this->hasMany('App\Cabang', 'umkm_id', 'umkm_id');
     }
 }

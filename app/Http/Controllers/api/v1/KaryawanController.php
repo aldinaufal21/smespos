@@ -89,14 +89,30 @@ class KaryawanController extends Controller
  
     public function show(Request $request, $id)
     {
+
+        $umkm = $this->getUmkm($request);
         $karyawan = Karyawan::find($id);
+        
+        if (!$karyawan->wasBelongsTo($umkm)) {
+            return response()->json([
+                'message' => 'Forbidden'
+            ], 403);
+        }
 
         return response()->json($karyawan, 200);
     }
 
     public function destroy(Request $request, $id)
     {
+        $umkm = $this->getUmkm($request);
         $karyawan = Karyawan::find($id);
+        
+        if (!$karyawan->wasBelongsTo($umkm)) {
+            return response()->json([
+                'message' => 'Forbidden'
+            ], 403);
+        }
+        
         $karyawan->delete();
 
         return response()->json(new stdClass(), 200);

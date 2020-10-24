@@ -63,6 +63,15 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('/{employees}', 'api\v1\KaryawanController@update');
             Route::delete('/{employees}', 'api\v1\KaryawanController@delete');
         });
+
+        Route::group(['prefix' => 'branches', 'middleware' => ['role:umkm']], function () {
+            // branches route
+            Route::get('/', 'api\v1\CabangController@index');
+            Route::get('/{branches}', 'api\v1\CabangController@show');
+            Route::post('/', 'api\v1\CabangController@store');
+            Route::post('/{branches}', 'api\v1\CabangController@update');
+            Route::delete('/{branches}', 'api\v1\CabangController@delete');
+        });
     });
 
     Route::group(['prefix' => 'category', 'middleware' => ['role:umkm']], function () {

@@ -34,6 +34,26 @@ trait ImageUpload
         return $this->localImageUpload($file, 'karyawan_image');
     }
 
+    public function storeKaryawanCabangImage($file)
+    {
+        if(env('APP_ENV') == 'staging'){
+            return $this->coudinaryUpload($file, '');
+        } else if (env('APP_ENV') == 'production') {
+            return $this->localImageUpload($file, 'karyawan_cabang_image');
+        }
+        return $this->localImageUpload($file, 'karyawan_cabang_image');
+    }
+
+    public function storeImages($file, $folder = '')
+    {
+        if(env('APP_ENV') == 'staging'){
+            return $this->coudinaryUpload($file, '');
+        } else if (env('APP_ENV') == 'production') {
+            return $this->localImageUpload($file, $folder);
+        }
+        return $this->localImageUpload($file, $folder);
+    }
+
     private function localImageUpload($file, $folder)
     {
         /* get File Extension */

@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Umkm');
     }
+
+    public function cabang()
+    {
+        return $this->hasOne('App\Cabang');
+    }
 }
