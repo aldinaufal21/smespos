@@ -22,3 +22,5 @@ yarn-error.log
 *.rdb
 
 /docker-volumes-data
+
+.rnd

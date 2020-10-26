@@ -1,10 +1,10 @@
 <?php
 
-use App\Karyawan;
+use App\KategoriProduk;
 use App\Umkm;
 use Illuminate\Database\Seeder;
 
-class KaryawanSeeder extends Seeder
+class ProdukSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class KaryawanSeeder extends Seeder
         $umkm = Umkm::all();
 
         foreach ($umkm as $u) {
-            factory(Karyawan::class, 15)->create([
+            factory(KategoriProduk::class, 3)->create([
                 'umkm_id' => $u->umkm_id,
             ]);
         }
