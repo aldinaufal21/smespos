@@ -2,6 +2,8 @@
 /public/hot
 /public/storage
 /public/vendor
+
+
 /storage/*.key
 /vendor
 .env
@@ -24,3 +26,7 @@ yarn-error.log
 /docker-volumes-data
 
 .rnd
+
+# environment jsons
+/public/environments/*.json
+!/public/environments/example.json

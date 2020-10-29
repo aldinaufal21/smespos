@@ -515,6 +515,17 @@
 <script>
   $(document).ready(() => {
     $("#dataTable").dataTable();
+    getProducts()
   });
+  
+  // dummy function for get dummy products data
+  // will be deleted on next development
+
+  const getProducts = () => {
+    productStore.allProduct().then((r) => {
+      productData = r.data
+      console.log(productData);
+    });
+  }
 </script>
 @endsection
