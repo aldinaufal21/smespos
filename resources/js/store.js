@@ -3,7 +3,7 @@
  */
 
 // login data stores
-window.loginStore = require('./login');
+window.loginStore = require('./store/login');
 
 // product data stores
-window.productStore = require('./product');
+window.productStore = require('./store/product');

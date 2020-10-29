@@ -60,6 +60,8 @@ Route::get('/demo', function () {
     return view('demo');
 })->name('demo');
 
+Route::get('/dashboard', 'DashboardController@index');
+
 Route::resource('users', 'UserController')->except([
     'store', 'destroy', 'update',
 ]);

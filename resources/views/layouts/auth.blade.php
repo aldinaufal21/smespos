@@ -29,6 +29,10 @@
   <!-- Call Main JS -->
   <script src="{{ asset('js/app.js') }}"></script>
 
+  <script>
+    authenticated();
+  </script>
+
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -40,7 +44,7 @@
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
   @yield('extra_script')
-  
+
 </body>
 
 </html>

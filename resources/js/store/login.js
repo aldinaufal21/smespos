@@ -3,9 +3,10 @@ exports.doLogin = ({ data }) => {
     data,
   )
     .then(function (response) {
-      data = response.data
+      data = response.data;
 
       localStorage.setItem("user", JSON.stringify(data));
+      window.location.href = '/dashboard';
     })
     .catch(function (error) {
       console.log(error);
