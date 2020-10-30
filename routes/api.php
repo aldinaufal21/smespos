@@ -40,6 +40,10 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::get('profile', 'api\v1\UmkmController@details');
         });
 
+        Route::group(['middleware' => ['role:umkm']], function () {
+            Route::post('createTransaksiKasir', 'api\v1\KasirTransactionController@store');
+        });
+
         Route::group(['middleware' => ['role:konsumen']], function () {
             // product route
             Route::get('product', 'api\v1\ProdukController@index');
@@ -53,6 +57,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::get('cart', 'api\v1\CartController@index');
             Route::post('cart', 'api\v1\CartController@store');
             Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
+
+            // order route
+            Route::post('createTransaksiKonsumen', 'api\v1\KonsumenTransactionController@store');
         });
 
         Route::group(['prefix' => 'employees', 'middleware' => ['role:umkm']], function () {
