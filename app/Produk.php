@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Produk extends Model
 {
@@ -19,9 +20,19 @@ class Produk extends Model
         'tanggal_input',
     ];
 
-    public static function getProductByQuery($namaProduk = null, $kategoriProduk = null, $idKategori = null)
+    public static function getProductByQuery($namaProduk = null, $kategoriProduk = null, $idKategori = null, $produkId = null)
     {
-        $produk = self::all();
+        $produk = DB::table('produks')
+                    ->join('stok_opnames', 'stok_opnames.produk_id', '=', 'produks.produk_id')
+                    ->join('kategori_produks', 'kategori_produks.kategori_produk_id', '=', 'produks.kategori_produk_id')
+                    ->join('umkms', 'umkms.umkm_id', '=', 'kategori_produks.umkm_id')
+                    ->select(
+                        'produks.*',
+                        'stok_opnames.harga',
+                        'kategori_produks.nama_kategori',
+                        'umkms.*'
+                    );
+
 
         if ($namaProduk){
             $produk->where('nama_produk', 'like', '%'.$namaProduk.'%');
@@ -29,14 +40,18 @@ class Produk extends Model
 
         if ($kategoriProduk){
             $kategoriProduk = KategoriProduk::where('nama_kategori', 'like', '%'.$kategoriProduk.'%')->first();
-            $produk->where('kategori_produk_id', $kategoriProduk->kategori_produk_id);
+            $produk->where('produks.kategori_produk_id', $kategoriProduk->kategori_produk_id);
         }
 
         if ($idKategori){
-            $produk->whereIn('kategori_produk_id', $idKategori);
+            $produk->whereIn('produks.kategori_produk_id', $idKategori);
         }
 
-        return $produk;
+        if ($produkId){
+            $produk->where('produks.produk_id', $produkId);
+        }
+
+        return $produk->get();
     }
 
     public function kategori()
@@ -52,6 +67,11 @@ class Produk extends Model
     public function stokOpname()
     {
         return $this->hasMany('App\StokOpname', 'produk_id', 'produk_id');
+    }
+
+    public function stok()
+    {
+        return $this->hasMany('App\Stok', 'produk_id', 'produk_id');
     }
 
     public function transaksiKasirDetail()

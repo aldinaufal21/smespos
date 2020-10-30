@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\KategoriProduk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
 
@@ -14,10 +15,12 @@ use stdClass;
 class KategoriProdukController extends Controller
 {
     public function index(Request $request)
-    {   
-        $umkm = $this->getUmkm($request);
-        $kategoriProduk = $umkm->kategoriProduk()->get();
-        
+    {
+        $umkmId = $request->id_umkm;
+        $namaKategori = $request->nama_kategori;
+
+        $kategoriProduk = KategoriProduk::getKategoriByUmkm($umkmId, $namaKategori);
+
         return response()->json($kategoriProduk, 200);
     }
 
