@@ -4,6 +4,8 @@
 
 use App\KategoriProduk;
 use App\Produk;
+use App\Stok;
+use App\StokOpname;
 use Faker\Generator as Faker;
 
 $factory->define(KategoriProduk::class, function (Faker $faker) {
@@ -15,5 +17,17 @@ $factory->define(KategoriProduk::class, function (Faker $faker) {
 $factory->afterCreating(KategoriProduk::class, function ($kategoriProduk, $faker) {
     $kategoriProduk->save(factory(Produk::class, 10)->create([
         'kategori_produk_id' => $kategoriProduk->kategori_produk_id
+    ])->toArray());
+});
+
+$factory->afterCreating(Produk::class, function ($produk, $faker) {
+    $produk->save(factory(StokOpname::class)->create([
+        'produk_id' => $produk->produk_id
+    ])->toArray());
+});
+
+$factory->afterCreating(Produk::class, function ($produk, $faker) {
+    $produk->save(factory(Stok::class)->create([
+        'produk_id' => $produk->produk_id
     ])->toArray());
 });
