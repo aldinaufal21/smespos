@@ -16,13 +16,12 @@ class UmkmController extends Controller
 {
     use ImageUpload;
 
-    public function details(Request $request, $id = null)
+    public function profile(Request $request, $umkm)
     {
         /**
          * @return -> data umkm
          */
-        $id = $request->user()->id;
-        $umkm = User::find($id)->umkm()->first();
+        $umkm = Umkm::find($umkm);
         
         return response()->json($umkm, 200);
     }

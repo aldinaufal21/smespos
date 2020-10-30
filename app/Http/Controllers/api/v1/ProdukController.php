@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\KategoriProduk;
 use App\Produk;
+use App\Stok;
 use App\StokOpname;
 use App\Umkm;
 use Carbon\Carbon;
@@ -26,22 +27,7 @@ class ProdukController extends Controller
 
         $produk = Produk::getProductByQuery($namaProduk, $kategoriProduk, $idKategori);
 
-        $dataProduk = [];
-        
-        foreach ($produk as $p) {
-            $kategori = $p->kategori()->first();
-            $umkm = $kategori->umkm()->first();
-            $stokOpname = $p->stokOpname()->first();
-            
-            $p['kategori'] = $kategori;
-            $p['umkm'] = $umkm;
-            $p['tanggal_stok_opname'] = $stokOpname->tanggal_stok_opname;
-            $p['harga'] = $stokOpname->harga;
-
-            array_push($dataProduk, $p);
-        }
-
-        return response()->json($dataProduk, 200);
+        return response()->json($produk, 200);
     }
 
     /**
@@ -66,16 +52,17 @@ class ProdukController extends Controller
         $data = $request->all();
         
         $data['kategori_produk_id'] = $category;
-        $data['tanggal_input'] = Carbon::now();
-        $data['tanggal_stok_opname'] = Carbon::now();
+        $data['tanggal_input'] = $data['tanggal_stok_opname'] = Carbon::now();
 
         DB::beginTransaction();
         try {
-            $data['stok'] = $data['jumlah'];
             $produk = Produk::create($data);
-
             $data['produk_id'] = $produk->produk_id;
+            
             StokOpname::create($data);
+            
+            $data['stok'] = $data['jumlah'];
+            Stok::create($data);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -120,13 +107,7 @@ class ProdukController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $produk = Produk::find($id);
-    
-        $kategori = $produk->kategori()->first();
-        $umkm = $kategori->umkm()->first();
-        
-        $produk['kategori'] = $kategori;
-        $produk['umkm'] = $umkm;
+        $produk = Produk::getProductByQuery(null,null,null, $id);
 
         return response()->json($produk, 200);
     }

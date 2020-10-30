@@ -37,14 +37,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
         Route::group(['prefix' => 'umkm', 'middleware' => ['role:umkm']], function () {
             Route::post('profile/edit/', 'api\v1\UmkmController@update');
-            Route::get('profile', 'api\v1\UmkmController@details');
         });
 
         Route::group(['middleware' => ['role:konsumen']], function () {
-            // product route
-            Route::get('product', 'api\v1\ProdukController@index');
-            Route::post('category/{category}/product', 'api\v1\ProdukController@store');
-
             // favorite product route
             Route::get('favorite-product', 'api\v1\ProdukFavoritController@index');
             Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
@@ -74,13 +69,33 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         });
     });
 
-    Route::group(['prefix' => 'category', 'middleware' => ['role:umkm']], function () {
+    Route::group(['prefix' => 'product'], function () {
+        // branches route
+        Route::get('/', 'api\v1\ProdukController@index');
+        Route::get('/{product}', 'api\v1\ProdukController@show');
+        Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
+            Route::post('/{product}', 'api\v1\ProdukController@update');
+            Route::delete('/{product}', 'api\v1\ProdukController@delete');
+        });
+    });
+
+    Route::group(['prefix' => 'category'], function () {
         // product categories route
         Route::get('/', 'api\v1\KategoriProdukController@index');
         Route::get('/{category}', 'api\v1\KategoriProdukController@show');
-        Route::post('/', 'api\v1\KategoriProdukController@store');
-        Route::match(['put', 'patch'], '/{category}', 'api\v1\KategoriProdukController@update');
-        Route::delete('/{category}', 'api\v1\KategoriProdukController@delete');
+        
+        Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
+            Route::post('/', 'api\v1\KategoriProdukController@store');
+            Route::match(['put', 'patch'], '/{category}', 'api\v1\KategoriProdukController@update');
+            Route::delete('/{category}', 'api\v1\KategoriProdukController@delete');
+
+            // category prefix, product controller
+            Route::post('/{category}/product', 'api\v1\ProdukController@store');
+        });
+    });
+
+    Route::group(['prefix' => 'umkm', ], function () {
+        Route::get('/profile/{umkm}', 'api\v1\UmkmController@profile');
     });
 
     Route::post('login', 'api\v1\AuthController@login');

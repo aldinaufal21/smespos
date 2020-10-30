@@ -15,4 +15,9 @@ class Stok extends Model
         'tanggal_input',
         'produk_id',
     ];
+
+    public function Produk()
+    {
+        return $this->belongsTo('App\Produk', 'produk_id', 'produk_id');
+    }
 }
