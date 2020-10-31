@@ -15,3 +15,7 @@ window.authenticated = () => {
     window.location.href = '/dashboard';
   }
 }
+
+window.userCredentials = () => {
+  return JSON.parse(localStorage.getItem('user'));
+}

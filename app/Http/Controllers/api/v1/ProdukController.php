@@ -24,8 +24,9 @@ class ProdukController extends Controller
         $namaProduk = $request->name;
         $kategoriProduk = $request->kategori;
         $idKategori = $request->id_kategori;
+        $idUmkm = $request->id_umkm;
 
-        $produk = Produk::getProductByQuery($namaProduk, $kategoriProduk, $idKategori);
+        $produk = Produk::getProductByQuery($namaProduk, $kategoriProduk, $idKategori, $idUmkm);
 
         return response()->json($produk, 200);
     }
@@ -107,7 +108,7 @@ class ProdukController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $produk = Produk::getProductByQuery(null,null,null, $id);
+        $produk = Produk::getProductDetailById($id);
 
         return response()->json($produk, 200);
     }

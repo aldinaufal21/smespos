@@ -20,7 +20,13 @@ class Produk extends Model
         'tanggal_input',
     ];
 
-    public static function getProductByQuery($namaProduk = null, $kategoriProduk = null, $idKategori = null, $produkId = null)
+    public static function getProductByQuery(
+        $namaProduk = null, 
+        $kategoriProduk = null, 
+        $idKategori = null, 
+        $IdUmkm = null, 
+        $produkId = null
+        )
     {
         $produk = DB::table('produks')
                     ->join('stok_opnames', 'stok_opnames.produk_id', '=', 'produks.produk_id')
@@ -47,11 +53,20 @@ class Produk extends Model
             $produk->whereIn('produks.kategori_produk_id', $idKategori);
         }
 
+        if ($IdUmkm){
+            $produk->where('umkms.umkm_id', $IdUmkm);
+        }
+
         if ($produkId){
             $produk->where('produks.produk_id', $produkId);
         }
 
         return $produk->get();
+    }
+
+    public static function getProductDetailById($id)
+    {
+        return self::getProductByQuery(null, null, null, null, $id)->first();
     }
 
     public function kategori()

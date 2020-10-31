@@ -29,16 +29,15 @@
 
   <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+    <a class="nav-link" href="{{ route('users.index') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Users</span>
     </a>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item" href="{{ route('users.index') }}">All Users</a>
-        <a class="collapse-item" href="{{ route('users.create') }}">Add New User</a>
-      </div>
-    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('produk.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Produk</span></a>
   </li>
 
   <!-- Divider -->

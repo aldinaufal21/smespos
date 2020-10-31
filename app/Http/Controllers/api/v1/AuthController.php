@@ -28,10 +28,9 @@ class AuthController extends Controller
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('User Login')->accessToken;
-                return response()->json([
-                    'token' => $token
-                ], 200);
+                $responseEachUser = $this->responseEachUser($user);
+
+                return response()->json($responseEachUser, 200);
             } else {
                 return response()->json([
                     'message', 'Password missmatch'
@@ -40,7 +39,7 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'message' => 'User does not exist'
-            ], 404);
+            ], 400);
         }
     }
 
@@ -79,6 +78,40 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json($user, 200);
+    }
+
+    private function responseEachUser($user) : array
+    {
+        $role = $user->role;
+        $token = $user->createToken('User Login')->accessToken;
+
+        switch ($role) {
+            case 'umkm':
+                $umkm = $user->umkm()->first();
+                return [
+                    'token' => $token,
+                    'user' => $user,
+                    'umkm' => $umkm,
+                ];
+            
+            case 'konsumen':
+                $konsumen = $user->konsumen()->first();
+                return [
+                    'token' => $token,
+                    'user' => $user,
+                    'konsumen' => $konsumen,
+                ];
+            
+            case 'cabang':
+                $cabang = $user->cabang()->first();
+                return [
+                    'token' => $token,
+                    'user' => $user,
+                    'cabang' => $cabang,
+                ];
+            default:
+                break;
+        }
     }
 
 }
