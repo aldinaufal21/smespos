@@ -18,6 +18,7 @@ class Kasir extends Model
     protected $fillable = [
         'nama_kasir',
         'cabang_id',
+        'status_kasir',
     ];
 
     public function cabang()
