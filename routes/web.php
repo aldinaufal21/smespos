@@ -25,8 +25,12 @@ Route::resource('users', 'UserController')->except([
     'store', 'destroy', 'update',
 ]);
 
-Route::resource('produk', 'ProdukController')->except([
-    'store', 'destroy', 'update',
+Route::resource('produk', 'ProdukController')->only([
+    'index',
+]);
+
+Route::resource('kategori', 'KategoriProdukController')->only([
+    'index',
 ]);
 
 Auth::routes();

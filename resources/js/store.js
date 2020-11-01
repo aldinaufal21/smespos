@@ -7,3 +7,6 @@ window.loginStore = require('./store/login');
 
 // product data stores
 window.productStore = require('./store/product');
+
+// category data stores
+window.categoryStore = require('./store/category');

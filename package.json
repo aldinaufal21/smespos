@@ -36,6 +36,7 @@
     },
     "dependencies": {
         "dotenv": "^8.2.0",
-        "startbootstrap-sb-admin-2": "^4.1.1"
+        "startbootstrap-sb-admin-2": "^4.1.1",
+        "sweetalert": "^2.1.2"
     }
 }

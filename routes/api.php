@@ -94,7 +94,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
             Route::post('/', 'api\v1\KategoriProdukController@store');
             Route::match(['put', 'patch'], '/{category}', 'api\v1\KategoriProdukController@update');
-            Route::delete('/{category}', 'api\v1\KategoriProdukController@delete');
+            Route::delete('/{category}', 'api\v1\KategoriProdukController@destroy');
 
             // category prefix, product controller
             Route::post('/{category}/product', 'api\v1\ProdukController@store');

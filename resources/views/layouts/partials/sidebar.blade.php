@@ -35,6 +35,11 @@
     </a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="{{ route('kategori.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Kategori</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route('produk.index') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Produk</span></a>

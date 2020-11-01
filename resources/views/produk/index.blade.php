@@ -126,6 +126,14 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="control-label">Kategori</label>
+            <div>
+              <select name="id_kategori" class="form-control input-lg">
+                <option value="">Pilih Kategori</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="control-label">Deskripsi</label>
             <div>
               <textarea class="form-control input-lg" name="deskripsi_produk" id="" cols="30" rows="10" placeholder="Deskripsi Produk"></textarea>
