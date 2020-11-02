@@ -59,7 +59,6 @@ class KaryawanController extends Controller
         $validator = Validator::make($requestData, [
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
-            'foto' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +68,7 @@ class KaryawanController extends Controller
         }
 
         $umkm = $this->getUmkm($request);
-        $karyawan = Karyawan::find($id)->first();
+        $karyawan = Karyawan::find($id);
         
         if (!$karyawan->wasBelongsTo($umkm)) {
             return response()->json([
@@ -78,9 +77,12 @@ class KaryawanController extends Controller
         }
         
         $fotoKaryawan = $request->foto;
-        $urlFoto = $request->foto != null ?
+        $requestData['foto'] = $fotoKaryawan != null ?
                     $this->storeKaryawanImage($fotoKaryawan) : null;
-        $requestData['foto'] = $urlFoto;
+
+        if ($fotoKaryawan == null) {
+            unset($requestData['foto']);
+        }
 
         $karyawan->update($requestData);
 

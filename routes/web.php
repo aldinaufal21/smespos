@@ -33,4 +33,8 @@ Route::resource('kategori', 'KategoriProdukController')->only([
     'index',
 ]);
 
+Route::resource('karyawan', 'KaryawanController')->only([
+    'index',
+]);
+
 Auth::routes();

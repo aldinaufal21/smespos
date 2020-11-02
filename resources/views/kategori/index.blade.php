@@ -122,9 +122,9 @@
       tabelKategori.row.add([
         number,
         item.nama_kategori,
-        `<button type="button" class="btn btn-sm btn-success" id="js-edit-produk" onclick="editCategory(${item.kategori_produk_id})" data-id="${item.kategori_produk_id}">
+        `<button type="button" class="btn btn-sm btn-success" onclick="editCategory(${item.kategori_produk_id})" data-id="${item.kategori_produk_id}">
           <i class="fas fa-edit"></i></button>
-        <button type="button" class="btn btn-sm btn-danger" id="js-delete-produk" onclick="deleteCategory(${item.kategori_produk_id})" data-id="">
+        <button type="button" class="btn btn-sm btn-danger" onclick="deleteCategory(${item.kategori_produk_id})" data-id="">
           <i class="fas fa-trash"></i></button>`
       ]).draw();
       number++;

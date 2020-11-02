@@ -32,7 +32,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::get('addresses/{address}', 'api\v1\ShippingAddressController@show');
             Route::post('addresses', 'api\v1\ShippingAddressController@store');
             Route::match(['put', 'patch'], 'addresses/{address}', 'api\v1\ShippingAddressController@update');
-            Route::delete('addresses/{address}', 'api\v1\ShippingAddressController@delete');
+            Route::delete('addresses/{address}', 'api\v1\ShippingAddressController@destroy');
         });
 
         Route::group(['prefix' => 'umkm', 'middleware' => ['role:umkm']], function () {
@@ -63,7 +63,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::get('/{employees}', 'api\v1\KaryawanController@show');
             Route::post('/', 'api\v1\KaryawanController@store');
             Route::post('/{employees}', 'api\v1\KaryawanController@update');
-            Route::delete('/{employees}', 'api\v1\KaryawanController@delete');
+            Route::delete('/{employees}', 'api\v1\KaryawanController@destroy');
         });
 
         Route::group(['prefix' => 'branches', 'middleware' => ['role:umkm']], function () {
@@ -72,7 +72,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::get('/{branches}', 'api\v1\CabangController@show');
             Route::post('/', 'api\v1\CabangController@store');
             Route::post('/{branches}', 'api\v1\CabangController@update');
-            Route::delete('/{branches}', 'api\v1\CabangController@delete');
+            Route::delete('/{branches}', 'api\v1\CabangController@destroy');
         });
     });
 

@@ -10,3 +10,6 @@ window.productStore = require('./store/product');
 
 // category data stores
 window.categoryStore = require('./store/category');
+
+// karyawan data stores
+window.employeeStore = require('./store/karyawan');

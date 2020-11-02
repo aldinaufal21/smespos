@@ -1,9 +1,9 @@
-exports.allProduct = () => {
-  return axios.get('/product')
+exports.allEmployee = () => {
+  return axios.get('/employees')
 }
 
-exports.addProduct = ({ data }) => {
-  return axios.post('/product', data)
+exports.addEmployee = ({ data }) => {
+  return axios.post('/employees', data)
     .then((res) => {
       $swal({
         icon: 'success',
@@ -23,8 +23,8 @@ exports.addProduct = ({ data }) => {
     })
 }
 
-exports.updateProduct = ({ data, id }) => {
-  return axios.post(`/product/${id}`, data)
+exports.updateEmployee = ({ data, id }) => {
+  return axios.post(`/employees/${id}`, data)
     .then((res) => {
       $swal({
         icon: 'success',
@@ -44,14 +44,10 @@ exports.updateProduct = ({ data, id }) => {
     })
 }
 
-exports.destroyProduct = (id) => {
-  return axios.delete(`/product/${id}`)
+exports.destroyEmployee = (id) => {
+  return axios.delete(`/employees/${id}`)
 }
 
-exports.UmkmsProduct = (idUmkm) => {
-  return axios.get(`/product?id_umkm=${idUmkm}`)
-}
-
-exports.productDetail = (id) => {
-  return axios.get(`/product/${id}`)
+exports.detailEmployee = (id) => {
+  return axios.get(`/employees/${id}`)
 }

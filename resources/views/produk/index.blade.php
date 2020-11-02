@@ -190,7 +190,7 @@
 
   $(document).ready(() => {
     user = userCredentials(); // get user credentials
-    tablelProduk = $("#js-tabel-produk").DataTable();
+    tableProduk = $("#js-tabel-produk").DataTable();
 
     getProducts();
     getCategory();
@@ -209,7 +209,7 @@
     populateDropdown();
 
     _idProduk = idProduk;
-    productStore.detailProduk(idProduk)
+    productStore.productDetail(idProduk)
       .then(res => {
         data = res.data;
 
@@ -255,7 +255,7 @@
   }
 
   const showProdukModal = (produkId) => {
-    productStore.detailProduk(produkId).then((res) => {
+    productStore.productDetail(produkId).then((res) => {
       data = res.data
 
       namaProduk.text(data.nama_produk);
@@ -269,7 +269,7 @@
   }
 
   const deleteProduct = (idProduk) => {
-    productStore.detailProduk(idProduk)
+    productStore.productDetail(idProduk)
       .then(res => {
         data = res.data;
 
@@ -305,11 +305,11 @@
   }
 
   const populateTable = (data) => {
-    tablelProduk.clear().draw();
+    tableProduk.clear().draw();
     let number = 1;
 
     data.forEach(item => {
-      tablelProduk.row.add([
+      tableProduk.row.add([
         number,
         item.nama_produk,
         item.deskripsi_produk,
