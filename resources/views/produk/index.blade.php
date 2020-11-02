@@ -20,7 +20,7 @@
     </div>
     <div class="card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#js-tambah-produk-modal">
+        <button class="btn btn-primary" onclick="openCreateForm()">
           <i class="fas fa-download fa-sm text-white-50"></i> Tambah Produk
         </button>
       </div>
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Modal Detail -->
-<div class="modal fade" id="js-produk-modal" tabindex="-1" role="dialog" aria-labelledby="produkModal" aria-hidden="true">
+<div class="modal fade" id="js-produk-modal-detail" tabindex="-1" role="dialog" aria-labelledby="produkModal" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -80,7 +80,7 @@
           <div class="row">
 
             <div class="col-md-8">
-              <img class="img-fluid js-gambar-produk" src="http://placehold.it/750x500" alt="">
+              <img class="img-fluid js-gambar-produk" src="" alt="">
             </div>
 
             <div class="col-md-4">
@@ -98,8 +98,6 @@
         <!-- /.container -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success">Edit</button>
-        <button type="button" class="btn btn-danger">Delete</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -107,28 +105,28 @@
 </div>
 
 <!-- Modal Tambah -->
-<div class="modal fade" id="js-tambah-produk-modal" tabindex="-1" role="dialog" aria-labelledby="tambahProdukModal" aria-hidden="true">
+<div class="modal fade" id="js-produk-modal-form" tabindex="-1" role="dialog" aria-labelledby="produkModalForm" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="tambahProdukModal">Tambah Produk</h5>
+        <h5 class="modal-title" id="produkModalForm">Tambah Produk</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form role="form" method="POST" action="">
+        <form role="form" id="js-produk-form" data-edit="" onsubmit="productFormAction(event)" enctype="multipart/form-data">
           <input type="hidden" name="_token" value="">
           <div class="form-group">
             <label class="control-label">Nama</label>
             <div>
-              <input type="text" class="form-control input-lg" name="nama_produk" placeholder="Nama Produk">
+              <input type="text" class="form-control input-lg" name="nama_produk" id="js-nama-produk" placeholder="Nama Produk">
             </div>
           </div>
           <div class="form-group">
             <label class="control-label">Kategori</label>
             <div>
-              <select name="id_kategori" class="form-control input-lg">
+              <select name="kategori_produk_id" id="js-kategori-produk" class="form-control input-lg">
                 <option value="">Pilih Kategori</option>
               </select>
             </div>
@@ -136,16 +134,16 @@
           <div class="form-group">
             <label class="control-label">Deskripsi</label>
             <div>
-              <textarea class="form-control input-lg" name="deskripsi_produk" id="" cols="30" rows="10" placeholder="Deskripsi Produk"></textarea>
+              <textarea class="form-control input-lg" name="deskripsi_produk" id="js-deskripsi-produk" cols="30" rows="10" placeholder="Deskripsi Produk"></textarea>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label">Harga</label>
             <div>
-              <input type="number" class="form-control input-lg" name="harga" placeholder="Rp. ">
+              <input type="number" class="form-control input-lg" name="harga" id="js-harga-produk" placeholder="Rp. ">
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group js-jumlah-produk-field">
             <label class="control-label">Jumlah Produk</label>
             <div>
               <input type="number" class="form-control input-lg" name="jumlah" placeholder="Jumlah Produk">
@@ -158,9 +156,7 @@
             </div>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary float-right">
-              Tambah
-            </button>
+            <button type="submit" id="js-submit-button" class="btn btn-primary float-right"></button>
             <button type="reset" class="btn btn-warning float-right mr-2">
               Batal
             </button>
@@ -183,29 +179,129 @@
 <script>
   let tabelProduk = null;
   let user = null;
+  let _idProduk = null;
   let namaProduk = $('.js-nama-produk');
   let hargaProduk = $('.js-harga-produk');
   let deskripsiProduk = $('.js-deskripsi-produk');
   let kategoriProduk = $('.js-kategori-produk');
   let gambarProduk = $('.js-gambar-produk');
 
+  let listKategoriProduk = null;
+
   $(document).ready(() => {
     user = userCredentials(); // get user credentials
     tablelProduk = $("#js-tabel-produk").DataTable();
 
     getProducts();
+    getCategory();
   });
 
-  // dummy function for get dummy products data
-  // will be deleted on next development
+  const openCreateForm = () => {
+    populateDropdown();
 
-  const getProducts = () => {
-    let umkm = user.umkm.umkm_id;
+    $('.js-jumlah-produk-field').show();
+    $('#js-produk-form').attr('data-edit', '');
+    $('#js-submit-button').text('Tambah');
+    $('#js-produk-modal-form').modal('show');
+  }
 
-    productStore.UmkmsProduct(umkm).then((res) => {
-      productData = res.data;
-      populateTable(productData);
+  const openEditForm = (idProduk) => {
+    populateDropdown();
+
+    _idProduk = idProduk;
+    productStore.detailProduk(idProduk)
+      .then(res => {
+        data = res.data;
+
+        $('#js-nama-produk').val(data.nama_produk);
+        $('#js-kategori-produk').val(data.kategori_produk_id);
+        $('#js-deskripsi-produk').val(data.deskripsi_produk);
+        $('#js-harga-produk').val(data.harga);
+
+        $('.js-jumlah-produk-field').hide();
+        $('#js-produk-form').attr('data-edit', 'true');
+        $('#js-submit-button').text('Ubah');
+        $('#js-produk-modal-form').modal('show');
+      });
+  }
+
+  const productFormAction = (e) => {
+    e.preventDefault();
+
+    var formData = new FormData($('#js-produk-form')[0]);
+
+    let payload = {
+      data: formData,
+    }
+
+    let formEdit = $('#js-produk-form').attr('data-edit');
+
+    if (formEdit) {
+      payload.id = _idProduk;
+      productStore.updateProduct(payload)
+        .then(res => {
+          if (res.status == 200) {
+            getProducts();
+          }
+        })
+    } else {
+      productStore.addProduct(payload)
+        .then(res => {
+          if (res.status == 201) {
+            getProducts();
+          }
+        })
+    }
+  }
+
+  const showProdukModal = (produkId) => {
+    productStore.detailProduk(produkId).then((res) => {
+      data = res.data
+
+      namaProduk.text(data.nama_produk);
+      hargaProduk.text(data.harga);
+      deskripsiProduk.text(data.deskripsi_produk);
+      kategoriProduk.text(data.nama_kategori);
+      gambarProduk.attr("src", data.gambar_produk);
+
+      $('#js-produk-modal-detail').modal('show');
     });
+  }
+
+  const deleteProduct = (idProduk) => {
+    productStore.detailProduk(idProduk)
+      .then(res => {
+        data = res.data;
+
+        $swal({
+            title: "Anda yakin?",
+            text: `Produk ${data.nama_produk} akan dihapus selamanya!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              productStore.destroyProduct(idProduk)
+                .then(res => {
+                  $swal("Produk Berhasil Dihapus!", {
+                    icon: "success",
+                  });
+                  getProducts();
+                })
+                .catch(err => {
+                  console.log(err);
+                  $swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Terjadi Kesalahan!',
+                  })
+                });
+            } else {
+              $swal("Produk Batal Dihapus!");
+            }
+          });
+      });
   }
 
   const populateTable = (data) => {
@@ -222,27 +318,45 @@
         item.tanggal_input,
         `<button type="button" class="btn btn-sm btn-primary" id="js-show-produk"
           onclick="showProdukModal(${item.produk_id})"><i class="fas fa-eye"></i></button>
-        <button type="button" class="btn btn-sm btn-success" id="js-edit-produk" data-id="">
+        <button type="button" class="btn btn-sm btn-success" id="js-edit-produk"
+          onclick="openEditForm(${item.produk_id})">
           <i class="fas fa-edit"></i></button>
-        <button type="button" class="btn btn-sm btn-danger" id="js-delete-produk" data-id="">
+        <button type="button" class="btn btn-sm btn-danger" id="js-delete-produk"
+          onclick="deleteProduct(${item.produk_id})">
           <i class="fas fa-trash"></i></button>`
       ]).draw();
       number++;
     });
   }
 
-  const showProdukModal = (produkId) => {
-    productStore.detailProduk(produkId).then((res) => {
-      data = res.data
+  const populateDropdown = () => {
+    let $dropdown = $('#js-kategori-produk');
+    $dropdown.empty();
+    $dropdown.append($("<option />").val("").text("Pilih Kategori"));
 
-      namaProduk.text(data.nama_produk);
-      hargaProduk.text(data.harga);
-      deskripsiProduk.text(data.deskripsi_produk);
-      kategoriProduk.text(data.nama_kategori);
-      gambarProduk.attr("src", data.gambar);
-
-      $('#js-produk-modal').modal('show');
+    $.each(listKategoriProduk, function() {
+      $dropdown.append($("<option />").val(this.kategori_produk_id).text(this.nama_kategori));
     });
+  }
+
+  // dummy function for get dummy products data
+  // will be deleted on next development
+
+  const getProducts = () => {
+    let umkm = user.umkm.umkm_id;
+
+    productStore.UmkmsProduct(umkm).then((res) => {
+      productData = res.data;
+      populateTable(productData);
+    });
+  }
+
+  const getCategory = async () => {
+    let umkm = user.umkm.umkm_id;
+
+    let category = await categoryStore.UmkmsCategory(umkm);
+
+    listKategoriProduk = category.data;
   }
 </script>
 @endsection

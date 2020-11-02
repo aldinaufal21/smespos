@@ -81,8 +81,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         Route::get('/', 'api\v1\ProdukController@index');
         Route::get('/{product}', 'api\v1\ProdukController@show');
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
+            Route::post('/', 'api\v1\ProdukController@store');
             Route::post('/{product}', 'api\v1\ProdukController@update');
-            Route::delete('/{product}', 'api\v1\ProdukController@delete');
+            Route::delete('/{product}', 'api\v1\ProdukController@destroy');
         });
     });
 
@@ -95,9 +96,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('/', 'api\v1\KategoriProdukController@store');
             Route::match(['put', 'patch'], '/{category}', 'api\v1\KategoriProdukController@update');
             Route::delete('/{category}', 'api\v1\KategoriProdukController@destroy');
-
-            // category prefix, product controller
-            Route::post('/{category}/product', 'api\v1\ProdukController@store');
         });
     });
 

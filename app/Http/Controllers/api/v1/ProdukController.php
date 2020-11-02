@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\ImageUpload;
 use App\KategoriProduk;
 use App\Produk;
 use App\Stok;
@@ -16,6 +17,8 @@ use stdClass;
 
 class ProdukController extends Controller
 {
+    use ImageUpload;
+    
     /**
      * API for all users
      */
@@ -34,14 +37,15 @@ class ProdukController extends Controller
     /**
      * API for UMKM
      */
-    public function store(Request $request, $category)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nama_produk' => 'required|string|max:255',
             'gambar_produk' => 'required',
+            'kategori_produk_id' => 'required',
             'deskripsi_produk' => 'required|string|max:255',
-            'jumlah' => 'required|number|max:20|gte:0',
-            'harga' => 'required|number|max:20|gte:0',
+            'jumlah' => 'required|numeric|gte:0',
+            'harga' => 'required|numeric|gte:0',
         ]);
 
         if ($validator->fails()) {
@@ -52,11 +56,14 @@ class ProdukController extends Controller
 
         $data = $request->all();
         
-        $data['kategori_produk_id'] = $category;
         $data['tanggal_input'] = $data['tanggal_stok_opname'] = Carbon::now();
 
         DB::beginTransaction();
         try {
+            $gambarProduk = $request->gambar_produk;
+            $data['gambar_produk'] = $gambarProduk != null ?
+                        $this->storeProductImages($gambarProduk) : null;
+                        
             $produk = Produk::create($data);
             $data['produk_id'] = $produk->produk_id;
             
@@ -84,7 +91,6 @@ class ProdukController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_produk' => 'required|string|max:255',
-            'gambar_produk' => 'required',
             'deskripsi_produk' => 'required|string|max:255',
         ]);
 
@@ -96,6 +102,14 @@ class ProdukController extends Controller
 
         $produk = Produk::find($id);
         $data = $request->all();
+
+        $gambarProduk = $request->gambar_produk;
+        $data['gambar_produk'] = $gambarProduk != null ?
+                    $this->storeProductImages($gambarProduk) : null;
+
+        if ($gambarProduk == null) {
+            unset($data['gambar_produk']);
+        }
 
         $produk->update($data);
 

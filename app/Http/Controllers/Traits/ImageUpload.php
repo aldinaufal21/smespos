@@ -44,7 +44,12 @@ trait ImageUpload
         return $this->localImageUpload($file, 'karyawan_cabang_image');
     }
 
-    public function storeImages($file, $folder = '')
+    public function storeProductImages($file)
+    {
+        return $this->storeImages($file, 'produk');
+    }
+
+    private function storeImages($file, $folder)
     {
         if(env('APP_ENV') == 'staging'){
             return $this->coudinaryUpload($file, '');
