@@ -13,3 +13,6 @@ window.categoryStore = require('./store/category');
 
 // karyawan data stores
 window.employeeStore = require('./store/karyawan');
+
+// karyawan data stores
+window.branchStore = require('./store/branch');

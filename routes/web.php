@@ -37,4 +37,8 @@ Route::resource('karyawan', 'KaryawanController')->only([
     'index',
 ]);
 
+Route::resource('cabang', 'CabangController')->only([
+    'index',
+]);
+
 Auth::routes();

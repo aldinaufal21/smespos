@@ -16,22 +16,26 @@ use stdClass;
 class CabangController extends Controller
 {
     use ImageUpload;
-    
+
     public function index(Request $request)
     {   
-        $cabang = $this->getCabang($request);
-        $kasir = $cabang->kasir()->get();
+        $umkm = $this->getUmkm($request);
+        $cabang = Cabang::getCabangByQuery($umkm->umkm_id);
         
-        return response()->json($kasir, 200);
+        return response()->json($cabang, 200);
     }
 
     public function store(Request $request)
     {
         $requestData = $request->all();
-        $cabang = $this->getCabang($request);
 
         $validator = Validator::make($requestData, [
-            'nama_kasir' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|max:255|confirmed',
+            'nama_cabang' => 'required|string|max:255',
+            'alamat_cabang' => 'required|string|max:255',
+            'jumlah_karyawan' => 'required|string|max:255',
+            'gambar_karyawan' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -39,66 +43,130 @@ class CabangController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        $requestData['cabang_id'] = $cabang->cabang_id;
 
-        $kasir = Kasir::create($requestData);
+        
+        DB::beginTransaction();
+        try {
+            $user = User::create($requestData);
 
-        return response()->json($kasir, 201);
+            $umkm = $this->getUmkm($request);
+            $requestData['umkm_id'] = $umkm->umkm_id;
+            $requestData['user_id'] = $user->id;
+            
+            $gambarKaryawan = $request->gambar_karyawan;
+            $urlFoto = $request->gambar_karyawan != null ?
+                        $this->storeKaryawanCabangImage($gambarKaryawan) : null;
+            $requestData['gambar_karyawan'] = $urlFoto;
+    
+            $cabang = Cabang::create($requestData);
+    
+            $response = array_merge($user->toArray(), $cabang->toArray());
+            
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+            ], 500);
+        }
+
+        return response()->json($response, 201);
     }
 
     public function update(Request $request, $id)
     {
         $requestData = $request->all();
-        $kasir = Kasir::find($id);
+        
+        DB::beginTransaction();
+        try {
+            $cabang = Cabang::find($id);
+            $user = $cabang->user()->first();
 
-        $validator = Validator::make($requestData, [
-            'nama_kasir' => 'required|string|max:255',
-        ]);
+            if ($request->username == $user->username) {
+                unset($requestData['username']);
+            }
 
-        if ($validator->fails()) {
+            if ($request->password == null) {
+                unset($requestData['password']);
+            }
+
+            $validator = Validator::make($requestData, [
+                'username' => 'string|max:255|unique:users',
+                'password' => 'confirmed',
+                'nama_cabang' => 'string|max:255',
+                'alamat_cabang' => 'string|max:255',
+                'jumlah_karyawan' => 'string|max:255',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'errors' => $validator->errors()->all()
+                ], 400);
+            }
+
+            $user->update($requestData);
+
+            $gambarKaryawan = $request->gambar_karyawan;
+            $urlFoto = $request->gambar_karyawan != null ?
+                        $this->storeKaryawanCabangImage($gambarKaryawan) : 
+                        $cabang->gambar_karyawan;
+            $requestData['gambar_karyawan'] = $urlFoto;
+    
+            $cabang = $cabang->update($requestData);
+    
+            $response = Cabang::find($id);
+            
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
             return response()->json([
-                'errors' => $validator->errors()->all()
-            ], 400);
+                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+            ], 500);
         }
 
-        $kasir = $kasir->update($requestData);
-
-        return response()->json($kasir, 200);
+        return response()->json($response, 200);
     }
  
     public function show(Request $request, $id)
     {
 
-        $cabang = $this->getCabang($request);
-        $kasir = Kasir::find($id);
-        
-        if (!$kasir->wasBelongsTo($cabang)) {
-            return response()->json([
-                'message' => 'Forbidden'
-            ], 403);
-        }
+        $umkm = $this->getUmkm($request);
+        $cabang = Cabang::getCabangById($id);
 
-        return response()->json($kasir, 200);
+        return response()->json($cabang, 200);
     }
 
     public function destroy(Request $request, $id)
     {
-        $cabang = $this->getCabang($request);
-        $kasir = Kasir::find($id);
+        $umkm = $this->getUmkm($request);
+        $cabang = Cabang::find($id);
+        $user = $cabang->user()->first();
         
-        if (!$kasir->wasBelongsTo($cabang)) {
+        if (!$cabang->wasBelongsTo($umkm)) {
             return response()->json([
                 'message' => 'Forbidden'
             ], 403);
         }
         
-        $kasir->delete();
+        try {
+            DB::beginTransaction();
+
+            $cabang->delete();
+            $user->delete();
+            
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+            ], 500);
+        }
 
         return response()->json(new stdClass(), 200);
     }
 
-    private function getCabang($request)
+    private function getUmkm($request)
     {
-        return $request->user()->cabang()->first();
+        return $request->user()->umkm()->first();
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Cabang extends Model
 {
@@ -23,6 +24,41 @@ class Cabang extends Model
         'umkm_id',
         'user_id',
     ];
+
+    private static function getCabang($idUmkm = null)
+    {
+
+        $cabang = DB::table('cabangs')
+            ->join('umkms', 'umkms.umkm_id', '=', 'cabangs.umkm_id')
+            ->join('users', 'users.id', '=', 'cabangs.user_id')
+            ->select(
+                'cabangs.*',
+                'umkms.nama_umkm',
+                'users.username'
+            );
+
+        if ($idUmkm) {
+            $cabang->where('umkms.umkm_id', $idUmkm);
+        }
+
+        return $cabang;
+    }
+
+    public static function getCabangByQuery($idUmkm = null)
+    {
+        return self::getCabang($idUmkm)->get();
+    }
+
+    public static function getCabangById($idCabang = null)
+    {
+        $cabang = self::getCabang(null);
+
+        if ($idCabang) {
+            $cabang->where('cabangs.cabang_id', $idCabang);
+        }
+
+        return $cabang->first();
+    }
 
     public function umkm()
     {

@@ -49,6 +49,11 @@
       <i class="fas fa-fw fa-cog"></i>
       <span>Karyawan</span></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('cabang.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Cabang</span></a>
+  </li>
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
