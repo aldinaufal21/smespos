@@ -48,7 +48,7 @@
 
   <!-- Nav Item - Pages Collapse Menu -->
   <!-- UMKM/Cabang start -->
-  <li class="nav-item nav-cabang nav-pemilik">
+  <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Inventori Produk / Kartu Stok</span>
@@ -61,22 +61,22 @@
       </div>
     </div>
   </li>
-  <li class="nav-item nav-pemilik">
+  <li class="nav-item nav-pemilik nav-umkm">
     <a class="nav-link" href="{{ route('cabang.index') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Cabang</span></a>
   </li>
-  <li class="nav-item nav-cabang nav-pemilik">
+  <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link" href="#">
       <i class="fas fa-fw fa-cog"></i>
       <span>Laporan Penjualan</span></a>
   </li>
-  <li class="nav-item nav-cabang nav-pemilik {{ (Request::segment(1)=='karyawan')?'active':'' }}">
+  <li class="nav-item nav-cabang nav-pemilik nav-umkm {{ (Request::segment(1)=='karyawan')?'active':'' }}">
     <a class="nav-link" href="{{ route('karyawan.index') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Karyawan</span></a>
   </li>
-  <li class="nav-item nav-cabang nav-pemilik">
+  <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduk" aria-expanded="true" aria-controls="collapseProduk">
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Produk</span>

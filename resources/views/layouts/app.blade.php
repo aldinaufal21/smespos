@@ -87,6 +87,9 @@
       case 'pengelola':
         $('.nav-kasir').show();
         break;
+      case 'umkm':
+        $('.nav-umkm').show();
+        break;
       default:
 
     }

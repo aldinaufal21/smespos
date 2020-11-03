@@ -1,14 +1,9 @@
-// const {
-//   JS_ROOT_API
-// } = require('./environment').default;
-
 const axios_ = require('axios');
 
 const user = JSON.parse(localStorage.getItem('user'));
 
 let axios = axios_.create({
-  // baseURL: JS_ROOT_API,
-  baseURL: process.env.APP_JS_ROOT_API,
+  baseURL: process.env.MIX_APP_ROOT_API,
   // You can add your headers here
   headers: {
     'Content-Type': 'application/json',
