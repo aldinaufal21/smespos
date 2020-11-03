@@ -143,12 +143,6 @@
               <input type="number" class="form-control input-lg" name="harga" id="js-harga-produk" placeholder="Rp. ">
             </div>
           </div>
-          <div class="form-group js-jumlah-produk-field">
-            <label class="control-label">Jumlah Produk</label>
-            <div>
-              <input type="number" class="form-control input-lg" name="jumlah" placeholder="Jumlah Produk">
-            </div>
-          </div>
           <div class="form-group">
             <label class="control-label">Gambar</label>
             <div>
@@ -157,6 +151,43 @@
           </div>
           <div class="form-group">
             <button type="submit" id="js-submit-button" class="btn btn-primary float-right"></button>
+            <button type="reset" class="btn btn-warning float-right mr-2">
+              Batal
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Stok -->
+<div class="modal fade" id="js-produk-stock-modal-form" tabindex="-1" role="dialog" aria-labelledby="produkStockModalForm" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="produkStockModalForm">Tambah Stok Produk</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Tambah Stok <span id="js-stok-nama-produk"></span></h4>
+        <form role="form" id="js-stok-produk-form" onsubmit="submitStockChanges(event)">
+          <input type="hidden" name="_token" value="">
+          <div class="form-group">
+            <label class="control-label">Jumlah Produk</label>
+            <div>
+              <input type="number" class="form-control input-lg" name="stok" placeholder="Jumlah Produk">
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary float-right">
+              Tambah
+            </button>
             <button type="reset" class="btn btn-warning float-right mr-2">
               Batal
             </button>
@@ -200,7 +231,6 @@
   const openCreateForm = () => {
     populateDropdown();
 
-    $('.js-jumlah-produk-field').show();
     $('#js-produk-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-produk-modal-form').modal('show');
@@ -219,11 +249,38 @@
         $('#js-deskripsi-produk').val(data.deskripsi_produk);
         $('#js-harga-produk').val(data.harga);
 
-        $('.js-jumlah-produk-field').hide();
         $('#js-produk-form').attr('data-edit', 'true');
         $('#js-submit-button').text('Ubah');
         $('#js-produk-modal-form').modal('show');
       });
+  }
+
+  const productStockForm = (idProduk) => {
+    _idProduk = idProduk;
+    productStore.productDetail(idProduk)
+      .then(res => {
+        data = res.data;
+
+        $('#js-stok-nama-produk').text(data.nama_produk);
+
+        $('#js-produk-stock-modal-form').modal('show');
+      });
+  }
+
+  const submitStockChanges = (e) => {
+    e.preventDefault();
+
+    let formData = $helper.serializeObject($('#js-stok-produk-form'));
+
+    let payload = {
+      data: formData,
+      id: _idProduk
+    }
+
+    stockStore.addStock(payload)
+      .then(res => {
+        if (res.status == 201) { }
+      })
   }
 
   const productFormAction = (e) => {
@@ -319,7 +376,10 @@
     } else {
       return `<button type="button" class="btn btn-sm btn-primary"
           onclick="showProdukModal(${item.produk_id})">
-          <i class="fas fa-eye"></i></button>`;
+          <i class="fas fa-eye"></i></button>
+        <button type="button" class="btn btn-sm btn-success"
+          onclick="productStockForm(${item.produk_id})">
+          <i class="fas fa-edit"></i></button>`;
     }
   }
 

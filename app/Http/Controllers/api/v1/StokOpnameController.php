@@ -13,8 +13,8 @@ class StokOpnameController extends Controller
     public function store(Request $request, $produk)
     {
         $validator = Validator::make($request->all(), [
-            'jumlah' => 'required|number|max:20|gte:0',
-            'harga' => 'required|number|max:20|gte:0',
+            'jumlah' => 'required|numeric|gte:0',
+            'harga' => 'required|numeric|gte:0',
         ]);
 
         if ($validator->fails()) {

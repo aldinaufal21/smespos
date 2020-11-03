@@ -14,6 +14,7 @@ class Stok extends Model
         'stok',
         'tanggal_input',
         'produk_id',
+        'cabang_id',
     ];
 
     public function Produk()

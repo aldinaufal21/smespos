@@ -87,6 +87,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::match(['put', 'patch'], '/{cashier}', 'api\v1\KasirController@update');
             Route::delete('/{cashier}', 'api\v1\KasirController@destroy');
         });
+
+        Route::group(['prefix' => 'stock', 'middleware' => ['role:cabang']], function () {
+            // cashier route
+            Route::get('/{product}', 'api\v1\StokController@index');
+            Route::post('/{product}', 'api\v1\StokController@store');
+        });
     });
 
     Route::group(['prefix' => 'product'], function () {

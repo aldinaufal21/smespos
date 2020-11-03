@@ -43,8 +43,6 @@ class ProdukController extends Controller
             'nama_produk' => 'required|string|max:255',
             'gambar_produk' => 'required',
             'kategori_produk_id' => 'required',
-            'deskripsi_produk' => 'required|string|max:255',
-            'jumlah' => 'required|numeric|gte:0',
             'harga' => 'required|numeric|gte:0',
         ]);
 
@@ -65,12 +63,6 @@ class ProdukController extends Controller
                         $this->storeProductImages($gambarProduk) : null;
                         
             $produk = Produk::create($data);
-            $data['produk_id'] = $produk->produk_id;
-            
-            StokOpname::create($data);
-            
-            $data['stok'] = $data['jumlah'];
-            Stok::create($data);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -80,7 +72,7 @@ class ProdukController extends Controller
             ], 500);
         }
 
-        return response()->json($data, 201);
+        return response()->json($produk, 201);
     }
 
 
@@ -90,8 +82,8 @@ class ProdukController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nama_produk' => 'required|string|max:255',
-            'deskripsi_produk' => 'required|string|max:255',
+            'nama_produk' => 'max:255',
+            'deskripsi_produk' => 'max:255',
         ]);
 
         if ($validator->fails()) {
