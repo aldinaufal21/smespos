@@ -86,6 +86,11 @@
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Produk</span></a>
   </li>
+  <li class="nav-item nav-cabang">
+    <a class="nav-link" href="{{ route('kasir-cabang.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Kelola Kasir</span></a>
+  </li>
   <!-- <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduk" aria-expanded="true" aria-controls="collapseProduk">
       <i class="fas fa-fw fa-cog"></i>

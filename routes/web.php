@@ -41,6 +41,10 @@ Route::resource('cabang', 'CabangController')->only([
     'index',
 ]);
 
+Route::resource('kasir-cabang', 'KasirController')->only([
+    'index',
+]);
+
 Route::group(['prefix' => 'kasir'], function (){
     Route::get('/', 'TransaksiKasirController@index')->name('kasir');
     Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');

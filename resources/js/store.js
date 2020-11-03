@@ -16,3 +16,6 @@ window.employeeStore = require('./store/karyawan');
 
 // karyawan data stores
 window.branchStore = require('./store/branch');
+
+// karyawan data stores
+window.cashierStore = require('./store/cashier');
