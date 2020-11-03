@@ -192,7 +192,7 @@
   let listKategoriProduk = null;
 
   $(document).ready(() => {
-    user = userCredentials(); // get user credentials
+    user = $auth.userCredentials(); // get user credentials
     tableCabang = $("#js-tabel-cabang").DataTable();
 
     getBranch();

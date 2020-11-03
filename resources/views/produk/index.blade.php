@@ -189,7 +189,7 @@
   let listKategoriProduk = null;
 
   $(document).ready(() => {
-    user = userCredentials(); // get user credentials
+    user = $auth.userCredentials(); // get user credentials
     tableProduk = $("#js-tabel-produk").DataTable();
 
     getProducts();

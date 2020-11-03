@@ -96,7 +96,7 @@
   let _idKategori = null;
 
   $(document).ready(() => {
-    user = userCredentials(); // get user credentials
+    user = $auth.userCredentials(); // get user credentials
     tabelKategori = $("#js-tabel-kategori").DataTable();
 
     getCategories();
@@ -134,7 +134,7 @@
   const categoryFormAction = (e) => {
     e.preventDefault();
 
-    let formData = serializeObject($('#js-kategori-form'));
+    let formData = $helper.serializeObject($('#js-kategori-form'));
 
     let payload = {
       data: formData,

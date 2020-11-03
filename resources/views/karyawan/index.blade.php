@@ -159,7 +159,7 @@
   let listKategoriProduk = null;
 
   $(document).ready(() => {
-    user = userCredentials(); // get user credentials
+    user = $auth.userCredentials(); // get user credentials
     tableKaryawan = $("#js-tabel-karyawan").DataTable();
 
     getEmployee();

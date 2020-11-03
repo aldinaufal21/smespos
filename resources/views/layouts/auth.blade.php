@@ -30,7 +30,7 @@
   <script src="{{ asset('js/app.js') }}"></script>
 
   <script>
-    authenticated();
+    $auth.authenticated();
   </script>
 
   <!-- Bootstrap core JavaScript-->

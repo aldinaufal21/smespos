@@ -1,10 +1,10 @@
 require('./bootstrap');
 
-// mandatory authentication configuration
-require('./authenticate');
-
 // app data stores
 require('./store');
 
+// mandatory authentication configuration
+window.$auth = require('./authenticate');
+
 // call helper functions
-require('./helper');
+window.$helper = require('./helper');

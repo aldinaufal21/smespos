@@ -2,20 +2,20 @@
  * file for authentication checker
  */
 
-window.needAuthentication = () => {
+exports.needAuthentication = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   if (!user || !user.token) {
     window.location.href = '/login';
   }
 }
 
-window.authenticated = () => {
+exports.authenticated = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   if (user && user.token) {
     window.location.href = '/dashboard';
   }
 }
 
-window.userCredentials = () => {
+exports.userCredentials = () => {
   return JSON.parse(localStorage.getItem('user'));
 }

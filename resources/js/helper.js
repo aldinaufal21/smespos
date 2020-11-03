@@ -9,7 +9,7 @@
  * 
  * @return JSON
  */
-window.serializeObject = (formObject) => {
+exports.serializeObject = (formObject) => {
   let __formObject = formObject;
   
   let result = {};

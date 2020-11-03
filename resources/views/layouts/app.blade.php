@@ -62,7 +62,7 @@
   @include('layouts.partials.footer-scripts')
 
   <script>
-    needAuthentication();
+    $auth.needAuthentication();
   </script>
 
   @yield('extra_script')
