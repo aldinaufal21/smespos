@@ -7,6 +7,12 @@
 
   @include('layouts.partials.head')
   @yield('extra_head')
+
+  <style media="screen">
+    .nav-pemilik, .nav-cabang, .nav-kasir, .nav-pengelola{
+      display: none;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -63,6 +69,24 @@
 
   <script>
     needAuthentication();
+
+    let _user = userCredentials();
+    switch (_user.user.role) {
+      case 'kasir':
+        $('.nav-kasir').show();
+        break;
+      case 'pemilik':
+        $('.nav-pemilik').show();
+        break;
+      case 'cabang':
+        $('.nav-cabang').show();
+        break;
+      case 'pengelola':
+        $('.nav-kasir').show();
+        break;
+      default:
+
+    }
   </script>
 
   @yield('extra_script')
