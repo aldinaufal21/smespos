@@ -16,8 +16,8 @@ class KaryawanController extends Controller
     
     public function index(Request $request)
     {   
-        $umkm = $this->getUmkm($request);
-        $karyawan = $umkm->karyawan()->get();
+        $owner = $this->getTheOwner($request);
+        $karyawan = $owner->karyawan()->get();
         
         return response()->json($karyawan, 200);
     }
@@ -92,10 +92,10 @@ class KaryawanController extends Controller
     public function show(Request $request, $id)
     {
 
-        $umkm = $this->getUmkm($request);
+        $owner = $this->getTheOwner($request);
         $karyawan = Karyawan::find($id);
         
-        if (!$karyawan->wasBelongsTo($umkm)) {
+        if (!$karyawan->wasBelongsTo($owner)) {
             return response()->json([
                 'message' => 'Forbidden'
             ], 403);
@@ -123,5 +123,19 @@ class KaryawanController extends Controller
     private function getUmkm($request)
     {
         return $request->user()->umkm()->first();
+    }
+
+    private function getTheOwner($request)
+    {
+        switch ($request->user()->role) {
+            case 'umkm':
+                return $this->getUmkm($request);
+            case 'cabang':
+                return $request->user()
+                    ->cabang()->first()
+                    ->umkm()->first();
+            default:
+                break;
+        }
     }
 }

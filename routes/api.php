@@ -57,13 +57,17 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('createTransaksiKonsumen', 'api\v1\KonsumenTransactionController@store');
         });
 
-        Route::group(['prefix' => 'employees', 'middleware' => ['role:umkm']], function () {
+        Route::group(['prefix' => 'employees'], function () {
             // employees route
-            Route::get('/', 'api\v1\KaryawanController@index');
-            Route::get('/{employees}', 'api\v1\KaryawanController@show');
-            Route::post('/', 'api\v1\KaryawanController@store');
-            Route::post('/{employees}', 'api\v1\KaryawanController@update');
-            Route::delete('/{employees}', 'api\v1\KaryawanController@destroy');
+            Route::group(['middleware' => ['role:umkm,cabang']], function () {
+                Route::get('/', 'api\v1\KaryawanController@index');
+                Route::get('/{employees}', 'api\v1\KaryawanController@show');
+            });
+            Route::group(['middleware' => ['role:umkm']], function () {
+                Route::post('/', 'api\v1\KaryawanController@store');
+                Route::post('/{employees}', 'api\v1\KaryawanController@update');
+                Route::delete('/{employees}', 'api\v1\KaryawanController@destroy');
+            });
         });
 
         Route::group(['prefix' => 'branches', 'middleware' => ['role:umkm']], function () {

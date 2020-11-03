@@ -76,7 +76,17 @@
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Karyawan</span></a>
   </li>
+  <li class="nav-item nav-pemilik nav-umkm">
+    <a class="nav-link" href="{{ route('kategori.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Kelola Kategori Produk</span></a>
+  </li>
   <li class="nav-item nav-cabang nav-pemilik nav-umkm">
+    <a class="nav-link" href="{{ route('produk.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Kelola Produk</span></a>
+  </li>
+  <!-- <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduk" aria-expanded="true" aria-controls="collapseProduk">
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Produk</span>
@@ -87,7 +97,7 @@
         <a class="collapse-item" href="{{ route('produk.index') }}">List Produk</a>
       </div>
     </div>
-  </li>
+  </li> -->
   <!-- UMKM/Cabang end -->
 
   <!-- Pengelola start -->

@@ -20,7 +20,7 @@
     </div>
     <div class="card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
-        <button class="btn btn-primary" onclick="openCreateForm()">
+        <button class="btn btn-primary" id="js-btn-tambah-karyawan" onclick="openCreateForm()">
           <i class="fas fa-download fa-sm text-white-50"></i> Tambah Karyawan
         </button>
       </div>
@@ -130,6 +130,14 @@
               <input type="file" class="form-control input-lg" name="foto" accept="image/*">
             </div>
           </div>
+          <!-- <div class="form-group">
+            <label class="control-label">Cabang</label>
+            <div>
+              <select name="cabang_id" id="js-cabang-karyawan" class="form-control input-lg">
+                <option value="">Pilih Cabang</option>
+              </select>
+            </div>
+          </div> -->
           <div class="form-group">
             <button type="submit" id="js-submit-button" class="btn btn-primary float-right"></button>
             <button type="reset" class="btn btn-warning float-right mr-2">
@@ -162,7 +170,10 @@
     user = $auth.userCredentials(); // get user credentials
     tableKaryawan = $("#js-tabel-karyawan").DataTable();
 
+    buttonTambahKaryawanCondition();
+
     getEmployee();
+    // getBranch();
   });
 
   const openCreateForm = () => {
@@ -264,6 +275,34 @@
       });
   }
 
+  const tableActionButtons = (item) => {
+    if (user.user.role == 'umkm') {
+      return `
+        <button type="button" class="btn btn-sm btn-primary"
+          onclick="showEmployeeModal(${item.karyawan_id})">
+          <i class="fas fa-eye"></i></button>
+        <button type="button" class="btn btn-sm btn-success"
+          onclick="openEditForm(${item.karyawan_id})">
+          <i class="fas fa-edit"></i></button>
+        <button type="button" class="btn btn-sm btn-danger"
+          onclick="deleteEmployee(${item.karyawan_id})">
+          <i class="fas fa-trash"></i></button>`;
+    } else {
+      return `
+        <button type="button" class="btn btn-sm btn-primary"
+          onclick="showEmployeeModal(${item.karyawan_id})">
+          <i class="fas fa-eye"></i></button>`;
+    }
+  }
+
+  const buttonTambahKaryawanCondition = () => {
+    if (user.user.role != 'umkm') {
+      $('#js-btn-tambah-karyawan').hide();
+    } else {
+      $('#js-btn-tambah-karyawan').show();
+    }
+  }
+
   const populateTable = (data) => {
     tableKaryawan.clear().draw();
     let number = 1;
@@ -274,26 +313,33 @@
         item.nama,
         item.alamat,
         item.tanggal_bergabung,
-        `<button type="button" class="btn btn-sm btn-primary"
-          onclick="showEmployeeModal(${item.karyawan_id})"><i class="fas fa-eye"></i></button>
-        <button type="button" class="btn btn-sm btn-success"
-          onclick="openEditForm(${item.karyawan_id})">
-          <i class="fas fa-edit"></i></button>
-        <button type="button" class="btn btn-sm btn-danger"
-          onclick="deleteEmployee(${item.karyawan_id})">
-          <i class="fas fa-trash"></i></button>`
+        tableActionButtons(item)
       ]).draw();
       number++;
     });
   }
 
-  // dummy function for get dummy products data
-  // will be deleted on next development
+  const populateOptions = (data) => {
+    let $dropdown = $('#js-cabang-karyawan');
+    $dropdown.empty();
+    $dropdown.append($("<option />").val("").text("Pilih Cabang"));
+
+    $.each(data, function() {
+      $dropdown.append($("<option />").val(this.cabang_id).text(this.nama_cabang));
+    });
+  }
 
   const getEmployee = () => {
     employeeStore.allEmployee().then((res) => {
       employeeData = res.data;
       populateTable(employeeData);
+    });
+  }
+
+  const getBranch = () => {
+    branchStore.allBranch().then((res) => {
+      branchData = res.data;
+      populateOptions(branchData);
     });
   }
 </script>

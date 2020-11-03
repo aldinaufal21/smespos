@@ -62,7 +62,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="{{ route('login') }}">Logout</a>
+          <a class="btn btn-primary" href="{{ route('login') }}" onclick="logoutOperation()">Logout</a>
         </div>
       </div>
     </div>
@@ -91,7 +91,11 @@
         $('.nav-umkm').show();
         break;
       default:
+    }
 
+    const logoutOperation = () => {
+      localStorage.clear();
+      window.location.href = '/login';
     }
   </script>
 

@@ -20,7 +20,7 @@
     </div>
     <div class="card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
-        <button class="btn btn-primary" onclick="openCreateForm()">
+        <button class="btn btn-primary" id="js-btn-tambah-produk" onclick="openCreateForm()">
           <i class="fas fa-download fa-sm text-white-50"></i> Tambah Produk
         </button>
       </div>
@@ -191,6 +191,7 @@
   $(document).ready(() => {
     user = $auth.userCredentials(); // get user credentials
     tableProduk = $("#js-tabel-produk").DataTable();
+    buttonTambahProdukCondition();
 
     getProducts();
     getCategory();
@@ -304,6 +305,32 @@
       });
   }
 
+  const tableActionButtons = (item) => {
+    if (user.user.role == 'umkm') {
+      return `<button type="button" class="btn btn-sm btn-primary"
+          onclick="showProdukModal(${item.produk_id})">
+          <i class="fas fa-eye"></i></button>
+        <button type="button" class="btn btn-sm btn-success"
+          onclick="openEditForm(${item.produk_id})">
+          <i class="fas fa-edit"></i></button>
+        <button type="button" class="btn btn-sm btn-danger"
+          onclick="deleteProduct(${item.produk_id})">
+          <i class="fas fa-trash"></i></button>`;
+    } else {
+      return `<button type="button" class="btn btn-sm btn-primary"
+          onclick="showProdukModal(${item.produk_id})">
+          <i class="fas fa-eye"></i></button>`;
+    }
+  }
+
+  const buttonTambahProdukCondition = () => {
+    if (user.user.role != 'umkm') {
+      $('#js-btn-tambah-produk').hide();
+    } else {
+      $('#js-btn-tambah-produk').show();
+    }
+  }
+
   const populateTable = (data) => {
     tableProduk.clear().draw();
     let number = 1;
@@ -316,14 +343,7 @@
         item.nama_kategori,
         item.harga,
         item.tanggal_input,
-        `<button type="button" class="btn btn-sm btn-primary" id="js-show-produk"
-          onclick="showProdukModal(${item.produk_id})"><i class="fas fa-eye"></i></button>
-        <button type="button" class="btn btn-sm btn-success" id="js-edit-produk"
-          onclick="openEditForm(${item.produk_id})">
-          <i class="fas fa-edit"></i></button>
-        <button type="button" class="btn btn-sm btn-danger" id="js-delete-produk"
-          onclick="deleteProduct(${item.produk_id})">
-          <i class="fas fa-trash"></i></button>`
+        tableActionButtons(item)
       ]).draw();
       number++;
     });
@@ -339,22 +359,27 @@
     });
   }
 
-  // dummy function for get dummy products data
-  // will be deleted on next development
+  const getOwnerId = () => {
+    if (user.user.role == 'umkm') {
+      return user.umkm.umkm_id
+    } else if (user.user.role == 'cabang') {
+      return user.cabang.umkm_id
+    }
+  }
 
   const getProducts = () => {
-    let umkm = user.umkm.umkm_id;
+    let ownerId = getOwnerId();
 
-    productStore.UmkmsProduct(umkm).then((res) => {
+    productStore.UmkmsProduct(ownerId).then((res) => {
       productData = res.data;
       populateTable(productData);
     });
   }
 
   const getCategory = async () => {
-    let umkm = user.umkm.umkm_id;
+    let ownerId = getOwnerId();
 
-    let category = await categoryStore.UmkmsCategory(umkm);
+    let category = await categoryStore.UmkmsCategory(ownerId);
 
     listKategoriProduk = category.data;
   }
