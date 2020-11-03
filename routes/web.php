@@ -41,4 +41,9 @@ Route::resource('cabang', 'CabangController')->only([
     'index',
 ]);
 
+Route::group(['prefix' => 'kasir'], function (){
+    Route::get('/', 'TransaksiKasirController@index');
+    Route::get('/transaksi', 'TransaksiKasirController@transaksi');
+});
+
 Auth::routes();
