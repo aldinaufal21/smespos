@@ -19,7 +19,7 @@ Route::get('/demo', function () {
     return view('demo');
 })->name('demo');
 
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 Route::resource('users', 'UserController')->except([
     'store', 'destroy', 'update',
@@ -40,5 +40,10 @@ Route::resource('karyawan', 'KaryawanController')->only([
 Route::resource('cabang', 'CabangController')->only([
     'index',
 ]);
+
+Route::group(['prefix' => 'kasir'], function (){
+    Route::get('/', 'TransaksiKasirController@index')->name('kasir');
+    Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');
+});
 
 Auth::routes();
