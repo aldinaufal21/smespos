@@ -112,10 +112,12 @@ class AuthController extends Controller
 
             case 'kasir':
                 $kasir = $user->kasir()->first();
+                $umkm_id = $kasir->cabang()->first()->umkm_id;
                 return [
                     'token' => $token,
                     'user' => $user,
                     'kasir' => $kasir,
+                    'umkm_id' => $umkm_id
                 ];
             default:
                 break;

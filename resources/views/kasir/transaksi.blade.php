@@ -121,20 +121,30 @@
     el: '#transaksi-kasir-content',
     data (){
       return{
-        umkm_id: 2,
+        umkm_id: user.umkm_id,
+        kasir: user.kasir,
+        username: user.user.username,
         category: null,
         products: null,
         filteredProducts: null,
         selectedCategory: 0,
         searchedProduct: '',
         cart: [],
-        subtotal: 0
+        subtotal: 0,
+        continue: null
       }
     },
 
     mounted() {
       //do something after mounting vue instance
-      
+      const urlParams = new URLSearchParams(window.location.search);
+      const pending_id = urlParams.get('continue'); //return pending_id or null
+
+      if (pendingTransaction.isValidId(pending_id)) {
+          this.cart = pendingTransaction.getItem(pending_id).cart_items;
+          this.continue = pending_id;
+          this.calculateSubtotal();
+      }
     },
 
     created() {
@@ -195,7 +205,6 @@
       changeQuantity(event, produk_id){
         let index = this.cart.findIndex(cartItem => cartItem.produk_id == produk_id)
         if (index != -1) {
-          console.log(event.target.value);
           if (event.target.value) {
             this.cart[index].quantity = event.target.value;
           }
@@ -231,6 +240,10 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              if (this.continue) {
+                window.location.href = '/kasir/transaksi'; // reset url
+              }
+
               this.cart = [];
             }
           });
@@ -252,12 +265,30 @@
             if (willDelete) {
               this.addToPendingCart();
               this.cart = [];
+              if (this.continue) {
+                // reset url
+                window.location.href = '/kasir/transaksi';
+              }
             }
           });
       },
 
       addToPendingCart(){
-        pendingTransaction.store(this.cart);
+        if (this.continue) {
+          // if pending the continued cart
+          // remove and replace it with new one
+          pendingTransaction.remove(this.continue);
+        }
+
+        const payload = {
+          pending_id: new Date().getTime(),
+          cart_items: this.cart,
+          tanggal_transaksi: new Date(),
+          kasir: this.kasir,
+          username: this.username
+        };
+
+        pendingTransaction.store(payload);
       },
 
       changeTab(id_kategori){
