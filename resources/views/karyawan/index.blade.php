@@ -130,14 +130,14 @@
               <input type="file" class="form-control input-lg" name="foto" accept="image/*">
             </div>
           </div>
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label class="control-label">Cabang</label>
             <div>
               <select name="cabang_id" id="js-cabang-karyawan" class="form-control input-lg">
                 <option value="">Pilih Cabang</option>
               </select>
             </div>
-          </div> -->
+          </div>
           <div class="form-group">
             <button type="submit" id="js-submit-button" class="btn btn-primary float-right"></button>
             <button type="reset" class="btn btn-warning float-right mr-2">
@@ -173,7 +173,7 @@
     buttonTambahKaryawanCondition();
 
     getEmployee();
-    // getBranch();
+    getBranch();
   });
 
   const openCreateForm = () => {
@@ -187,9 +187,11 @@
     employeeStore.detailEmployee(idKaryawan)
       .then(res => {
         data = res.data;
+        console.log(data);
 
         $('#js-nama-karyawan').val(data.nama);
         $('#js-alamat-karyawan').val(data.alamat);
+        $('#js-cabang-karyawan').val(data.cabang_id);
 
         $('#js-karyawan-form').attr('data-edit', 'true');
         $('#js-submit-button').text('Ubah');
