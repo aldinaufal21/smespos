@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class StokOpname extends Model
 {
@@ -15,7 +17,38 @@ class StokOpname extends Model
         'harga',
         'tanggal_stok_opname',
         'produk_id',
+        'cabang_id',
     ];
+
+    public static function getStockOpnameByQuery($cabangId = null, $produkId = null, $beforeDate = null, $afterDate = null)
+    {
+        $stokOpname = DB::table('stok_opnames')
+            ->join('produks', 'stok_opnames.produk_id', '=', 'produks.produk_id')
+            ->select(
+                'stok_opnames.*',
+                'produks.nama_produk',
+                'produks.gambar_produk',
+                'produks.deskripsi_produk'
+            );
+
+        if ($produkId) {
+            $stokOpname->where('stok_opnames.produk_id', $produkId);
+        }
+
+        if ($cabangId) {
+            $stokOpname->where('stok_opnames.cabang_id', $cabangId);
+        }
+
+        if ($beforeDate) {
+            $stokOpname->where('stok_opnames.tanggal_stok_opname', '<', $beforeDate);
+        }
+
+        if ($afterDate) {
+            $stokOpname->where('stok_opnames.tanggal_stok_opname', '>', $afterDate);
+        }
+
+        return $stokOpname->get();
+    }
 
     public function Produk()
     {

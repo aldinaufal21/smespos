@@ -50,4 +50,7 @@ Route::group(['prefix' => 'kasir'], function (){
     Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');
 });
 
+Route::get('/stok', 'StokController@stok')->name('stok');
+Route::get('/stok-opname', 'StokController@stokOpname')->name('stok.opname');
+
 Auth::routes();
