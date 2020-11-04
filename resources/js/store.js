@@ -22,3 +22,6 @@ window.cashierStore = require('./store/cashier');
 
 // stock data stores
 window.stockStore = require('./store/stock');
+
+// pending transactions data stores
+window.pendingTransaction = require('./store/pendingTransaction');
