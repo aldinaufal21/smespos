@@ -51,7 +51,7 @@ class AuthController extends Controller
             'message' => 'You have been successfully logged out!'
         ], 200);
     }
-    
+
     public function details(Request $request)
     {
         $user = $request->user();
@@ -80,7 +80,7 @@ class AuthController extends Controller
         return response()->json($user, 200);
     }
 
-    private function responseEachUser($user) : array
+    private function responseEachUser($user): array
     {
         $role = $user->role;
         $token = $user->createToken('User Login')->accessToken;
@@ -93,7 +93,7 @@ class AuthController extends Controller
                     'user' => $user,
                     'umkm' => $umkm,
                 ];
-            
+
             case 'konsumen':
                 $konsumen = $user->konsumen()->first();
                 return [
@@ -101,7 +101,7 @@ class AuthController extends Controller
                     'user' => $user,
                     'konsumen' => $konsumen,
                 ];
-            
+
             case 'cabang':
                 $cabang = $user->cabang()->first();
                 return [
@@ -109,9 +109,16 @@ class AuthController extends Controller
                     'user' => $user,
                     'cabang' => $cabang,
                 ];
+
+            case 'kasir':
+                $kasir = $user->kasir()->first();
+                return [
+                    'token' => $token,
+                    'user' => $user,
+                    'kasir' => $kasir,
+                ];
             default:
                 break;
         }
     }
-
 }

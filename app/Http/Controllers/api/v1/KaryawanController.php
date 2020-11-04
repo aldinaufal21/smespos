@@ -29,6 +29,7 @@ class KaryawanController extends Controller
         $validator = Validator::make($requestData, [
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
+            'cabang_id' => 'required',
             'foto' => 'required',
         ]);
 

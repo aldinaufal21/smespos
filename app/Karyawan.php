@@ -21,6 +21,7 @@ class Karyawan extends Model
         'foto',
         'tanggal_bergabung',
         'umkm_id',
+        'cabang_id',
     ];
 
     public function umkm()
