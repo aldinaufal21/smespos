@@ -55,9 +55,9 @@
     </a>
     <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item" href="#">Stok Masuk</a>
+        <a class="collapse-item" href="{{ route('stok') }}">Stok Masuk</a>
+        <a class="collapse-item" href="{{ route('stok.opname') }}">Stok Opname</a>
         <a class="collapse-item" href="#">Stok Keluar</a>
-        <a class="collapse-item" href="#">Stok Opname</a>
       </div>
     </div>
   </li>

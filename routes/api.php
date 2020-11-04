@@ -90,8 +90,16 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
         Route::group(['prefix' => 'stock', 'middleware' => ['role:cabang']], function () {
             // cashier route
-            Route::get('/{product}', 'api\v1\StokController@index');
-            Route::post('/{product}', 'api\v1\StokController@store');
+            Route::get('/', 'api\v1\StokController@index');
+            Route::post('/', 'api\v1\StokController@store');
+            Route::match(['put', 'patch'], '/{stock}', 'api\v1\StokController@update');
+        });
+
+        Route::group(['prefix' => 'stock-opname', 'middleware' => ['role:cabang']], function () {
+            // cashier route
+            Route::get('/', 'api\v1\StokOpnameController@index');
+            Route::post('/', 'api\v1\StokOpnameController@store');
+            Route::match(['put', 'patch'], '/{stockOpname}', 'api\v1\StokOpnameController@update');
         });
     });
 

@@ -92,11 +92,11 @@ class KaryawanController extends Controller
  
     public function show(Request $request, $id)
     {
-
+        $role = $request->user()->role;
         $owner = $this->getTheOwner($request);
         $karyawan = Karyawan::find($id);
         
-        if (!$karyawan->wasBelongsTo($owner)) {
+        if (!$karyawan->wasBelongsTo($owner, $role)) {
             return response()->json([
                 'message' => 'Forbidden'
             ], 403);
@@ -133,8 +133,7 @@ class KaryawanController extends Controller
                 return $this->getUmkm($request);
             case 'cabang':
                 return $request->user()
-                    ->cabang()->first()
-                    ->umkm()->first();
+                    ->cabang()->first();
             default:
                 break;
         }

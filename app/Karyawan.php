@@ -29,8 +29,18 @@ class Karyawan extends Model
         return $this->belongsTo('App\Umkm', 'umkm_id', 'umkm_id');
     }
 
-    public function wasBelongsTo($umkm)
+    public function cabang()
     {
-        return $this->umkm_id == $umkm->umkm_id;
+        return $this->belongsTo('App\Cabang', 'cabang_id', 'cabang_id');
+    }
+
+    public function wasBelongsTo($owner, $role = 'umkm')
+    {
+        if ($role == 'cabang') {
+            return $this->cabang_id == $owner->cabang_id;
+        } else if ($role == 'umkm') {
+            return $this->umkm_id == $owner->umkm_id;
+        }
+
     }
 }

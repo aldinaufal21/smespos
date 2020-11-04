@@ -173,7 +173,10 @@
     buttonTambahKaryawanCondition();
 
     getEmployee();
-    getBranch();
+
+    if (user.user.role == 'umkm') {
+      getBranch();
+    }
   });
 
   const openCreateForm = () => {
@@ -187,7 +190,6 @@
     employeeStore.detailEmployee(idKaryawan)
       .then(res => {
         data = res.data;
-        console.log(data);
 
         $('#js-nama-karyawan').val(data.nama);
         $('#js-alamat-karyawan').val(data.alamat);
