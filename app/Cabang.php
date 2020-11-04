@@ -75,6 +75,11 @@ class Cabang extends Model
         return $this->hasMany('App\Kasir', 'cabang_id', 'cabang_id');
     }
 
+    public function karyawan()
+    {
+        return $this->hasMany('App\Karyawan', 'cabang_id', 'cabang_id');
+    }
+
     public function wasBelongsTo($umkm)
     {
         return $this->umkm_id == $umkm->umkm_id;
