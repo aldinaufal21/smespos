@@ -10,6 +10,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
 
@@ -47,6 +48,8 @@ class CabangController extends Controller
         
         DB::beginTransaction();
         try {
+            $requestData['password'] = Hash::make($requestData['password']);
+            $requestData['role'] = 'cabang';
             $user = User::create($requestData);
 
             $umkm = $this->getUmkm($request);

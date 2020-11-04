@@ -18,12 +18,18 @@ class Kasir extends Model
     protected $fillable = [
         'nama_kasir',
         'cabang_id',
+        'user_id',
         'status_kasir',
     ];
 
     public function cabang()
     {
         return $this->belongsTo('App\Cabang', 'cabang_id', 'cabang_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 
     public function transaksiKasir()
