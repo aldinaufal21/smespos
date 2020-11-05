@@ -32,6 +32,7 @@
               <th>Nama</th>
               <th>Alamat</th>
               <th>Jumlah Karyawan</th>
+              <th>Kode Cabang</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -41,6 +42,7 @@
               <th>Nama</th>
               <th>Alamat</th>
               <th>Jumlah Karyawan</th>
+              <th>Kode Cabang</th>
               <th>Aksi</th>
             </tr>
           </tfoot>
@@ -90,6 +92,10 @@
               <h4 class="my-3">Username:</h4>
               <p>
                 <span class="js-username-cabang"></span>
+              </p>
+              <h4 class="my-3">Kode Cabang:</h4>
+              <p>
+                <span class="js-kode-cabang"></span>
               </p>
             </div>
 
@@ -149,6 +155,12 @@
             <label class="control-label">Alamat</label>
             <div>
               <textarea class="form-control input-lg" name="alamat_cabang" id="js-alamat-cabang" cols="30" rows="5" placeholder="Alamat Cabang"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Kode Cabang</label>
+            <div>
+              <textarea class="form-control input-lg" name="kode_cabang" id="js-kode-cabang" cols="30" rows="5" placeholder="Kode Cabang"></textarea>
             </div>
           </div>
           <div class="form-group">
@@ -214,6 +226,7 @@
         $('#js-nama-cabang').val(data.nama_cabang);
         $('#js-alamat-cabang').val(data.alamat_cabang);
         $('#js-jumlah-karyawan').val(data.jumlah_karyawan);
+        $('#js-kode-cabang').val(data.kode_cabang);
 
         $('#js-cabang-form').attr('data-edit', 'true');
         $('#js-submit-button').text('Ubah');
@@ -259,6 +272,7 @@
       $('.js-alamat-cabang').text(data.alamat_cabang);
       $('.js-jumlah-karyawan').text(data.jumlah_karyawan);
       $('.js-gambar-karyawan').attr("src", data.gambar_karyawan);
+      $('.js-kode-cabang').text(data.kode_cabang);
 
       $('#js-cabang-modal-detail').modal('show');
     });
@@ -310,6 +324,7 @@
         item.nama_cabang,
         item.alamat_cabang,
         item.jumlah_karyawan,
+        item.kode_cabang,
         `<button type="button" class="btn btn-sm btn-primary"
           onclick="showBranchModal(${item.cabang_id})"><i class="fas fa-eye"></i></button>
         <button type="button" class="btn btn-sm btn-success"

@@ -21,6 +21,7 @@ class Cabang extends Model
         'alamat_cabang',
         'jumlah_karyawan',
         'gambar_karyawan',
+        'kode_cabang',
         'umkm_id',
         'user_id',
     ];

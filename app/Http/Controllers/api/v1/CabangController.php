@@ -35,6 +35,7 @@ class CabangController extends Controller
             'password' => 'required|string|max:255|confirmed',
             'nama_cabang' => 'required|string|max:255',
             'alamat_cabang' => 'required|string|max:255',
+            'kode_cabang' => 'required|string|max:255|unique:cabangs',
             'jumlah_karyawan' => 'required|string|max:255',
             'gambar_karyawan' => 'required',
         ]);
@@ -98,6 +99,7 @@ class CabangController extends Controller
                 'password' => 'confirmed',
                 'nama_cabang' => 'string|max:255',
                 'alamat_cabang' => 'string|max:255',
+                'kode_cabang' => 'string|max:255|unique:cabangs',
                 'jumlah_karyawan' => 'string|max:255',
             ]);
     
