@@ -48,6 +48,7 @@ Route::resource('kasir-cabang', 'KasirController')->only([
 Route::group(['prefix' => 'kasir'], function (){
     Route::get('/', 'TransaksiKasirController@index')->name('kasir');
     Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');
+    Route::get('/transaksi-pending', 'TransaksiKasirController@pendingTransaction')->name('kasir.pending');
 });
 
 Route::get('/stok', 'StokController@stok')->name('stok');

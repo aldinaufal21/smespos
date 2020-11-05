@@ -29,7 +29,7 @@
   </div> --}}
 
   <!-- Kasir start -->
-  <li class="nav-item nav-kasir {{ (Request::segment(1)=='kasir')?'active':'' }}">
+  <li class="nav-item nav-kasir {{ (Request::segment(1)=='kasir'&&Request::segment(2)=='')?'active':'' }}">
     <a class="nav-link" href="{{ route('kasir') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Dashboard</span></a>
@@ -39,8 +39,8 @@
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Transaksi</span></a>
   </li>
-  <li class="nav-item nav-kasir {{ (Request::segment(1)=='transaksi-pending')?'active':'' }}">
-    <a class="nav-link" href="#">
+  <li class="nav-item nav-kasir {{ (Request::segment(2)=='transaksi-pending')?'active':'' }}">
+    <a class="nav-link" href="{{ route('kasir.pending') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Transaksi Pending</span></a>
   </li>

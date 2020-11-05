@@ -6,6 +6,17 @@
   #content{
     background-color:#f2f2f2;
   }
+
+  li.transaction-action{
+      padding-top:3px;
+      padding-bottom:3px;
+  }
+
+  .transaction-action button{
+      display:block;
+      width:100%;
+  }
+
 </style>
 @endsection
 
@@ -47,7 +58,7 @@
                 <div class="card-body center">
                   <center>
                   <h6 class="card-title" v-text="product.nama_produk"></h6>
-                  <h4 class="card-text"><b v-text="rupiahFormat(product.harga)"></b></h4>
+                  <h4 class="card-text">Rp <b v-text="rupiahFormat(product.harga)"></b></h4>
                   <button type="button" class="btn btn-success" @click="addToCart(product)">+ Tambah Keranjang</button>
                   <center>
                 </div>
@@ -68,7 +79,7 @@
                 <h5 v-text="elem.nama_produk"></h5>
                 <div class="row">
                   <div class="col-md-3">
-                    <input type="number" class="form-control bg-light border-3 large" style="width:100%;" min="1" :value="elem.quantity">
+                    <input type="number" class="form-control bg-light border-3 large" style="width:100%;" min="1" :value="elem.quantity" @keyup="changeQuantity($event, elem.produk_id)" @change="changeQuantity($event, elem.produk_id)">
                   </div>
                   <div class="col-md-6">
                     <center>Rp <b v-text="rupiahFormat(elem.harga * elem.quantity)"></b></center>
@@ -82,11 +93,14 @@
               <li class="list-group-item" v-if="cart.length">
                 <h4>Total (<span v-text="cart.length"></span> item)<span style="float:right">Rp <b v-text="rupiahFormat(subtotal)"></b></span></h4>
               </li>
-              <li class="list-group-item">
-                  <button type="button" :disabled="!cart.length" class="d-none d-sm-inline-block btn btn-lg shadow-sm btn-success" @click="checkout" title="Bayar" style="display:block;height:100%;width:100%">Bayar</button>
+              <li class="list-group-item transaction-action">
+                  <button type="button" :disabled="!cart.length" class="d-none d-sm-inline-block btn btn-lg shadow-sm btn-success" @click="checkout" title="Bayar">Bayar</button>
               </li>
-              <li class="list-group-item">
-                  <button type="button" :disabled="!cart.length" class="d-none d-sm-inline-block btn btn-lg shadow-sm btn-danger" @click="resetCart" title="Batalkan Transaksi" style="display:block;height:100%;width:100%">Batalkan</button>
+              <li class="list-group-item transaction-action">
+                  <button type="button" :disabled="!cart.length" class="d-none d-sm-inline-block btn btn-lg shadow-sm btn-danger" @click="resetCart" title="Batalkan Transaksi">Batalkan</button>
+              </li>
+              <li class="list-group-item transaction-action">
+                  <button type="button" :disabled="!cart.length" class="d-none d-sm-inline-block btn btn-lg shadow-sm btn-warning" @click="newCart" title="Buat Transaksi baru">Transaksi Baru</button>
               </li>
             </ul>
           </div>
@@ -103,44 +117,38 @@
 <script>
   let user = $auth.userCredentials();
 
-  window.onscroll = function() {myFunction()};
-
-  var _isSticky = false;
-
-  function myFunction() {
-    if (window.pageYOffset >= 100) {
-      if (!_isSticky) {
-        $('#sticky-section').css('position', 'fixed');
-        var parentwidth = $("#resume-section").width();
-        $("#sticky-section").width(parentwidth);
-        $("#sticky-section").css('top', 20);
-        _isSticky = true
-      }
-    } else {
-      if (_isSticky) {
-        $('#sticky-section').css('position', 'relative');
-        _isSticky = false;
-      }
-    }
-  }
-
   var vue_kasir = new Vue({
     el: '#transaksi-kasir-content',
     data (){
       return{
-        umkm_id: 2,
+        umkm_id: user.umkm_id,
+        kasir: user.kasir,
+        username: user.user.username,
         category: null,
         products: null,
         filteredProducts: null,
         selectedCategory: 0,
         searchedProduct: '',
         cart: [],
-        subtotal: 0
+        subtotal: 0,
+        continue: null
       }
     },
 
     mounted() {
       //do something after mounting vue instance
+      const urlParams = new URLSearchParams(window.location.search);
+      const pending_id = urlParams.get('continue'); //return pending_id or null
+
+      if (pendingTransaction.isValidId(pending_id)) {
+          this.cart = pendingTransaction.getItem(pending_id).cart_items;
+          this.continue = pending_id;
+          this.calculateSubtotal();
+      }
+    },
+
+    created() {
+      //do something after creating vue instance
       this.getAllProduct();
       this.getKategori();
     },
@@ -194,6 +202,16 @@
         this.calculateSubtotal();
       },
 
+      changeQuantity(event, produk_id){
+        let index = this.cart.findIndex(cartItem => cartItem.produk_id == produk_id)
+        if (index != -1) {
+          if (event.target.value) {
+            this.cart[index].quantity = event.target.value;
+          }
+        }
+        this.calculateSubtotal();
+      },
+
       deleteItem(produk_id){
         let index = this.cart.findIndex(cartItem => cartItem.produk_id == produk_id)
         if (index != -1) {
@@ -222,15 +240,55 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              if (this.continue) {
+                window.location.href = '/kasir/transaksi'; // reset url
+              }
+
               this.cart = [];
-            } else {
-              // $swal("Kategori Batal Dihapus!");
             }
           });
       },
 
       checkout(){
         console.log("checkout");
+      },
+
+      newCart(){
+        $swal({
+            title: "Anda yakin ingin membuat transaksi baru?",
+            text: `Transaksi ini akan tetap disimpan di transaksi pending!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              this.addToPendingCart();
+              this.cart = [];
+              if (this.continue) {
+                // reset url
+                window.location.href = '/kasir/transaksi';
+              }
+            }
+          });
+      },
+
+      addToPendingCart(){
+        if (this.continue) {
+          // if pending the continued cart
+          // remove and replace it with new one
+          pendingTransaction.remove(this.continue);
+        }
+
+        const payload = {
+          pending_id: new Date().getTime(),
+          cart_items: this.cart,
+          tanggal_transaksi: new Date(),
+          kasir: this.kasir,
+          username: this.username
+        };
+
+        pendingTransaction.store(payload);
       },
 
       changeTab(id_kategori){
@@ -269,6 +327,33 @@
 
     }
   });
+
+
+  /*
+    handle sticky section
+  */
+  window.onscroll = function() {myFunction()};
+
+  var _isSticky = false;
+
+  function myFunction() {
+    if (window.pageYOffset >= 100 && !($('#sticky-section').height()>=window.innerHeight)) {
+      if (!_isSticky) {
+        if ($(window).scrollTop() >= $('#sticky-section').offset().top + $('#sticky-section').outerHeight() - window.innerHeight) {
+          $('#sticky-section').css('position', 'fixed');
+          var parentwidth = $("#resume-section").width();
+          $('#sticky-section').width(parentwidth);
+          $('#sticky-section').css('top', 20);
+          _isSticky = true
+        }
+      }
+    } else {
+      if (_isSticky) {
+        $('#sticky-section').css('position', 'relative');
+        _isSticky = false;
+      }
+    }
+  }
 
 </script>
 @endsection
