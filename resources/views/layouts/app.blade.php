@@ -85,7 +85,7 @@
         $('.nav-cabang').show();
         break;
       case 'pengelola':
-        $('.nav-kasir').show();
+        $('.nav-pengelola').show();
         break;
       case 'umkm':
         $('.nav-umkm').show();

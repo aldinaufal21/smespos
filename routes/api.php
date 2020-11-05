@@ -35,8 +35,20 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::delete('addresses/{address}', 'api\v1\ShippingAddressController@destroy');
         });
 
-        Route::group(['prefix' => 'umkm', 'middleware' => ['role:umkm']], function () {
-            Route::post('profile/edit/', 'api\v1\UmkmController@update');
+        Route::group(['prefix' => 'umkm'], function () {
+            Route::group(['middleware' => ['role:umkm']], function () {
+                Route::post('profile/edit/', 'api\v1\UmkmController@update');
+            });
+
+            
+            Route::group(['middleware' => ['role:pengelola']], function () {
+                Route::post('/approve', 'api\v1\UmkmController@approveRegister');
+            });
+        });
+
+        Route::group(['prefix' => 'umkm-registration'], function () {
+           Route::get('/', 'api\v1\PendaftaranUmkmController@index'); 
+           Route::post('/', 'api\v1\PendaftaranUmkmController@store'); 
         });
 
         Route::group(['middleware' => ['role:umkm']], function () {
@@ -128,8 +140,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         });
     });
 
-    Route::group(['prefix' => 'umkm', ], function () {
+    Route::group(['prefix' => 'umkm'], function () {
         Route::get('/profile/{umkm}', 'api\v1\UmkmController@profile');
+        Route::post('register', 'api\v1\UmkmController@register');
     });
 
     Route::post('login', 'api\v1\AuthController@login');
@@ -139,9 +152,5 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
     Route::group(['prefix' => 'consumer'], function () {
         Route::post('register', 'api\v1\KonsumenController@register');
-    });
-
-    Route::group(['prefix' => 'umkm'], function () {
-        Route::post('register', 'api\v1\UmkmController@register');
     });
 });

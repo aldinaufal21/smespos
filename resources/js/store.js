@@ -28,3 +28,6 @@ window.stockOpnameStore = require('./store/stockOpname');
 
 // pending transactions data stores
 window.pendingTransaction = require('./store/pendingTransaction');
+
+// pending transactions data stores
+window.umkm = require('./store/umkm');

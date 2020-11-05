@@ -107,7 +107,7 @@
 
   <!-- Pengelola start -->
   <li class="nav-item nav-pengelola">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{{ route('umkm.index') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Pendaftaran UMKM</span></a>
   </li>

@@ -119,6 +119,14 @@ class AuthController extends Controller
                     'kasir' => $kasir,
                     'umkm_id' => $umkm_id
                 ];
+
+            case 'pengelola':
+                $pengelola = $user->pengelola()->first();
+                return [
+                    'token' => $token,
+                    'user' => $user,
+                    'pengelola' => $pengelola,
+                ];
             default:
                 break;
         }

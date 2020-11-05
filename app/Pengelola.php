@@ -6,18 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengelola extends Model
 {
-    public function users()
-    {
-        return $this->hasOne('App\Models\User');
-    }
+    protected $primaryKey = 'pengelola_id';
 
-    public function produkFavorit()
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama_pengelola',
+        'user_id',
+        'login_terakhir',
+    ];
+
+    public function user()
     {
-        return $this->hasOne('App\Models\ProdukFavorit');
+        return $this->belongsTo('App\User');
     }
 
     public function pendaftaranUmkm()
     {
-        return $this->hasMany('App\Models\PendaftaranUmkm');
+        return $this->hasMany('App\PendaftaranUmkm', 'pengelola_id', 'pengelola_id');
     }
 }
