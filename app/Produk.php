@@ -29,12 +29,10 @@ class Produk extends Model
         )
     {
         $produk = DB::table('produks')
-                    ->join('stok_opnames', 'stok_opnames.produk_id', '=', 'produks.produk_id')
                     ->join('kategori_produks', 'kategori_produks.kategori_produk_id', '=', 'produks.kategori_produk_id')
                     ->join('umkms', 'umkms.umkm_id', '=', 'kategori_produks.umkm_id')
                     ->select(
                         'produks.*',
-                        'stok_opnames.harga',
                         'kategori_produks.nama_kategori',
                         'umkms.*'
                     );
