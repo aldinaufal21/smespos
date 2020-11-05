@@ -18,7 +18,7 @@ class StokOpnameController extends Controller
         $beforeDate = $request->sebelum_tanggal;
         $afterDate = $request->sesudah_tanggal;
 
-        $stokOpname = StokOpname::getStockOpnameByQuery($cabangId, $produkId, $beforeDate, $afterDate);
+        $stokOpname = StokOpname::getStockOpnameByQuery($cabangId, $produkId, $beforeDate, $afterDate)->get();
 
         return response()->json($stokOpname, 200);
     }
@@ -66,7 +66,14 @@ class StokOpnameController extends Controller
         $stokOpname = StokOpname::find($stokOpname);
         $stokOpname->update($data);
 
-        return response()->json($data, 201);
+        return response()->json($stokOpname, 200);
+    }
+
+    public function show(Request $request, $stokOpname)
+    {
+        $stokOpname = StokOpname::getDetailStockOpname($stokOpname)->first();
+
+        return response()->json($stokOpname, 200);
     }
 
     private function getCabang($request)

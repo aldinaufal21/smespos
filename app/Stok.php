@@ -20,32 +20,40 @@ class Stok extends Model
 
     public static function getStockByQuery($cabangId = null, $produkId = null, $beforeDate = null, $afterDate = null)
     {
-        $stok = DB::table('stock')
-            ->join('produks', 'stock.produk_id', '=', 'produks.produk_id')
+        $stok = DB::table('stoks')
+            ->join('produks', 'stoks.produk_id', '=', 'produks.produk_id')
             ->select(
-                'stock.*',
+                'stoks.*',
                 'produks.nama_produk',
                 'produks.gambar_produk',
                 'produks.deskripsi_produk'
             );
 
         if ($produkId) {
-            $stok->where('stock.produk_id', $produkId);
+            $stok->where('stoks.produk_id', $produkId);
         }
 
         if ($cabangId) {
-            $stok->where('stock.cabang_id', $cabangId);
+            $stok->where('stoks.cabang_id', $cabangId);
         }
 
         if ($beforeDate) {
-            $stok->where('stock.tanggal_input', '<', $beforeDate);
+            $stok->where('stoks.tanggal_input', '<', $beforeDate);
         }
 
         if ($afterDate) {
-            $stok->where('stock.tanggal_input', '>', $afterDate);
+            $stok->where('stoks.tanggal_input', '>', $afterDate);
         }
 
-        return $stok->get();
+        $stok->orderBy('stoks.tanggal_input', 'desc');
+
+        return $stok;
+    }
+
+    public static function getDetailStock($stokId)
+    {
+        return self::getStockByQuery()
+            ->where('stoks.stok_id', $stokId);
     }
 
     public function Produk()

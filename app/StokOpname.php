@@ -47,7 +47,15 @@ class StokOpname extends Model
             $stokOpname->where('stok_opnames.tanggal_stok_opname', '>', $afterDate);
         }
 
-        return $stokOpname->get();
+        $stokOpname->orderBy('stok_opnames.tanggal_stok_opname', 'desc');
+
+        return $stokOpname;
+    }
+
+    public static function getDetailStockOpname($stokOpnameId)
+    {
+        return self::getStockOpnameByQuery()
+            ->where('stok_opnames.stok_opname_id', $stokOpnameId);
     }
 
     public function Produk()

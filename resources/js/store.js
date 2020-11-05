@@ -22,3 +22,6 @@ window.cashierStore = require('./store/cashier');
 
 // stock data stores
 window.stockStore = require('./store/stock');
+
+// stock data stores
+window.stockOpnameStore = require('./store/stockOpname');

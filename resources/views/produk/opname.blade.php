@@ -48,7 +48,7 @@
 
   <div class="card shadow mb-4" id="js-stok-opname-card" style="display: none;">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Stok Opname Produk</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Stok Opname Produk <span id="js-nama-produk-stok-opname"></span></h6>
       <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -82,156 +82,6 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
-            <tr>
-              <td>x</td>
-              <td>10</td>
-              <td>1000000</td>
-              <td>DD:MM:YY</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-success" onclick="openEditForm('x')">
-                  Ubah Stok Opname</button>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -304,13 +154,13 @@
           <div class="form-group">
             <label class="control-label">Jumlah Produk</label>
             <div>
-              <input type="number" class="form-control input-lg" name="jumlah" placeholder="Jumlah Produk">
+              <input type="number" class="form-control input-lg" name="jumlah" id="js-jumlah-stok-opname" placeholder="Jumlah Produk">
             </div>
           </div>
           <div class="form-group">
             <label class="control-label">Harga Produk</label>
             <div>
-              <input type="number" class="form-control input-lg" name="harga" placeholder="Harga Produk">
+              <input type="number" class="form-control input-lg" name="harga" id="js-harga-stok-opname" placeholder="Harga Produk">
             </div>
           </div>
           <div class="form-group">
@@ -337,6 +187,7 @@
 <script>
   let tabelProduk = null;
   let tabelStokOpname = null;
+  let _idStokOpname = null;
   let user = null;
   let namaProduk = $('.js-nama-produk');
   let hargaProduk = $('.js-harga-produk');
@@ -374,19 +225,23 @@
     $("#js-stok-opname-card").hide();
   }
 
-  const openEditForm = (idProduk) => {
+  const openEditForm = (idStokOpname) => {
+    _idStokOpname = idStokOpname;
+    stockOpnameStore.stockOpnameDetail(idStokOpname).then((res) => {
+      let data = res.data;
+
+      $('#js-jumlah-stok-opname').val(data.jumlah);
+      $('#js-harga-stok-opname').val(data.harga);
+    });
+    
     $('#js-stok-opname-produk-form').attr('data-edit', 'true');
     $('#js-submit-button').text('Ubah');
     $('#js-produk-stok-opname-modal-form').modal('show');
   }
 
-  const openAddForm = (idProduk) => {
-    productStore.productDetail(idProduk)
-      .then(res => {
-        data = res.data;
-        $('#js-hidden-produk-id').val(data.produk_id);
-        $('#js-nama-produk').text(data.nama_produk);
-      });
+  const openAddForm = (idProduk, namaProduk) => {
+    $('#js-hidden-produk-id').val(idProduk);
+    $('#js-nama-produk').text(namaProduk);
 
     $('#js-stok-opname-produk-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
@@ -402,21 +257,25 @@
       data: formData
     }
 
-    let formEdit = $('#js-produk-form').attr('data-edit');
+    let formEdit = $('#js-stok-opname-produk-form').attr('data-edit');
 
     if (formEdit) {
-      payload.id = _idProduk;
-      productStore.updateProduct(payload)
+      payload.id = _idStokOpname;
+      delete payload.data.produk_id;
+
+      stockOpnameStore.updateStockOpname(payload)
         .then(res => {
+          let data = res.data;
           if (res.status == 200) {
-            getProducts();
+            showProdukStockOpname(data.produk_id);
           }
         })
     } else {
-      productStore.addProduct(payload)
+      stockOpnameStore.addStockOpname(payload)
         .then(res => {
+          let data = res.data;
           if (res.status == 201) {
-            getProducts();
+            showProdukStockOpname(data.produk_id);
           }
         })
     }
@@ -437,11 +296,21 @@
   }
 
   const showProdukStockOpname = (produkId) => {
-    $('#js-stok-opname-card').show();
+    productStore.productDetail(produkId).then((res) => {
+      data = res.data
+      $('#js-nama-produk-stok-opname').text(data.nama_produk);
+    });
 
-    $([document.documentElement, document.body]).animate({
-      scrollTop: $("#js-stok-opname-card").offset().top
-    }, 1000);
+    stockOpnameStore.allStockOpname(produkId).then((res) => {
+      let data = res.data;
+      populateStockOpnameTable(data);
+      
+      $('#js-stok-opname-card').show();
+
+      $([document.documentElement, document.body]).animate({
+        scrollTop: $("#js-stok-opname-card").offset().top
+      }, 1000);
+    });
   }
 
   const tableProdukActionButtons = (item) => {
@@ -457,7 +326,7 @@
           onclick="showProdukStockOpname(${item.produk_id})">
           Lihat Stok Opname</button>
         <button type="button" class="btn btn-sm btn-success"
-          onclick="openAddForm(${item.produk_id})">
+          onclick="openAddForm(${item.produk_id}, '${item.nama_produk}')">
           Tambah Stok Opname</button>`;
     }
   }
@@ -476,6 +345,34 @@
       ]).draw();
       number++;
     });
+  }
+
+  const populateStockOpnameTable = (data) => {
+    tabelStokOpname.clear().draw();
+    let number = 1;
+
+    data.forEach(item => {
+      tabelStokOpname.row.add([
+        number,
+        item.jumlah,
+        item.harga,
+        item.tanggal_stok_opname,
+        `<button 
+          type="button" 
+          class="btn btn-sm btn-success" 
+          onclick="openEditForm(${item.stok_opname_id})"
+          style='display: ${buttonAvailability(item.tanggal_stok_opname)}'>
+          Ubah Stok Opname</button>`
+      ]).draw();
+      number++;
+    });
+
+    function buttonAvailability(dateTime) {
+      let inputDate = new Date(dateTime).getDate();
+      let todayDate = new Date(Date.now()).getDate();
+
+      return inputDate == todayDate ? 'block': 'none';
+    }
   }
 
   const getOwnerId = () => {

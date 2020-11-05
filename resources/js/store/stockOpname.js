@@ -1,4 +1,4 @@
-exports.allStock = (productId = null, beforeDate = null, afterDate = null) => {
+exports.allStockOpname = (productId = null, beforeDate = null, afterDate = null) => {
   let condition = '';
 
   // ?produk_id=1&sebelum_tanggal=2020-10-30 03:02:25.0&sesudah_tanggal=2020-10-30 03:02:24.0
@@ -18,11 +18,11 @@ exports.allStock = (productId = null, beforeDate = null, afterDate = null) => {
     condition += `sesudah_tanggal=${productId}`;
   }
 
-  return axios.get(`/stock/${condition}`);
+  return axios.get(`/stock-opname/${condition}`);
 }
 
-exports.addStock = ({ data }) => {
-  return axios.post(`/stock`, data)
+exports.addStockOpname = ({ data }) => {
+  return axios.post(`/stock-opname`, data)
     .then((res) => {
       $swal({
         icon: 'success',
@@ -42,8 +42,8 @@ exports.addStock = ({ data }) => {
     })
 }
 
-exports.updateStock = ({ data, id }) => {
-  return axios.put(`/stock/${id}`, data)
+exports.updateStockOpname = ({ data, id }) => {
+  return axios.put(`/stock-opname/${id}`, data)
     .then((res) => {
       $swal({
         icon: 'success',
@@ -63,6 +63,6 @@ exports.updateStock = ({ data, id }) => {
     })
 }
 
-exports.stockDetail = (id) => {
-  return axios.get(`/stock/${id}`)
+exports.stockOpnameDetail = (id) => {
+  return axios.get(`/stock-opname/${id}`)
 }
