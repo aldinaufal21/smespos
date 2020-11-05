@@ -222,7 +222,7 @@
 
       $('.js-nama-kasir').text(data.nama_kasir);
       $('.js-status-kasir').text(data.status_kasir);
-      $('.js-username-kasir').text("");
+      $('.js-username-kasir').text(data.username);
 
       $('#js-kasir-modal-detail').modal('show');
     });

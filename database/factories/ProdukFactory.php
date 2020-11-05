@@ -118,5 +118,6 @@ $factory->define(Produk::class, function (Faker $faker) {
         'gambar_produk' => 'http://localhost:8000/images/image_dummy.png',
         'deskripsi_produk' => $faker->realText(100, 2),
         'tanggal_input' => Carbon::now(),
+        'harga' => $faker->numberBetween(10000,100000),
     ];
 });

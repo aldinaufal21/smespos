@@ -111,6 +111,7 @@ class KasirController extends Controller
 
         $cabang = $this->getCabang($request);
         $kasir = Kasir::find($id);
+        $user = $kasir->user()->first();
 
         if (!$kasir->wasBelongsTo($cabang)) {
             return response()->json([
@@ -118,7 +119,9 @@ class KasirController extends Controller
             ], 403);
         }
 
-        return response()->json($kasir, 200);
+        $response = array_merge($kasir->toArray(), $user->toArray());
+
+        return response()->json($response, 200);
     }
 
     public function destroy(Request $request, $id)

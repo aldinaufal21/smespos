@@ -160,7 +160,7 @@
           <div class="form-group">
             <label class="control-label">Kode Cabang</label>
             <div>
-              <textarea class="form-control input-lg" name="kode_cabang" id="js-kode-cabang" cols="30" rows="5" placeholder="Kode Cabang"></textarea>
+              <input type="text" class="form-control input-lg" name="kode_cabang" id="js-kode-cabang" placeholder="Kode Cabang">
             </div>
           </div>
           <div class="form-group">

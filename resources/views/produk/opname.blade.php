@@ -67,7 +67,6 @@
             <tr>
               <th>No</th>
               <th>Jumlah</th>
-              <th>Harga</th>
               <th>Tanggal</th>
               <th>Aksi</th>
             </tr>
@@ -76,7 +75,6 @@
             <tr>
               <th>No</th>
               <th>Jumlah</th>
-              <th>Harga</th>
               <th>Tanggal</th>
               <th>Aksi</th>
             </tr>
@@ -158,12 +156,6 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label">Harga Produk</label>
-            <div>
-              <input type="number" class="form-control input-lg" name="harga" id="js-harga-stok-opname" placeholder="Harga Produk">
-            </div>
-          </div>
-          <div class="form-group">
             <button type="submit" class="btn btn-primary float-right" id="js-submit-button"></button>
             <button type="reset" class="btn btn-warning float-right mr-2">
               Batal
@@ -231,7 +223,6 @@
       let data = res.data;
 
       $('#js-jumlah-stok-opname').val(data.jumlah);
-      $('#js-harga-stok-opname').val(data.harga);
     });
     
     $('#js-stok-opname-produk-form').attr('data-edit', 'true');
@@ -355,7 +346,6 @@
       tabelStokOpname.row.add([
         number,
         item.jumlah,
-        item.harga,
         item.tanggal_stok_opname,
         `<button 
           type="button" 

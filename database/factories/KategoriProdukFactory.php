@@ -19,15 +19,3 @@ $factory->afterCreating(KategoriProduk::class, function ($kategoriProduk, $faker
         'kategori_produk_id' => $kategoriProduk->kategori_produk_id
     ])->toArray());
 });
-
-$factory->afterCreating(Produk::class, function ($produk, $faker) {
-    $produk->save(factory(StokOpname::class)->create([
-        'produk_id' => $produk->produk_id
-    ])->toArray());
-});
-
-$factory->afterCreating(Produk::class, function ($produk, $faker) {
-    $produk->save(factory(Stok::class)->create([
-        'produk_id' => $produk->produk_id
-    ])->toArray());
-});

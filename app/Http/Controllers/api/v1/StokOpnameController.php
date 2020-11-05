@@ -27,7 +27,6 @@ class StokOpnameController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'jumlah' => 'required|numeric|gte:0',
-            'harga' => 'required|numeric|gte:0',
         ]);
 
         if ($validator->fails()) {
@@ -50,7 +49,6 @@ class StokOpnameController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'jumlah' => 'required|numeric|gte:0',
-            'harga' => 'required|numeric|gte:0',
         ]);
 
         if ($validator->fails()) {
