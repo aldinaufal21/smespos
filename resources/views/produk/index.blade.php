@@ -33,6 +33,7 @@
               <th>Deskripsi</th>
               <th>Kategori</th>
               <th>Harga</th>
+              <th>Stok</th>
               <th>Tanggal Input</th>
               <th>Aksi</th>
             </tr>
@@ -44,6 +45,7 @@
               <th>Deskripsi</th>
               <th>Kategori</th>
               <th>Harga</th>
+              <th>Stok</th>
               <th>Tanggal Input</th>
               <th>Aksi</th>
             </tr>
@@ -90,6 +92,9 @@
               </p>
               <h3 class="my-3">Kategori Produk</h3>
               <span class="js-kategori-produk"></span>
+
+              <h3 class="my-3">Stok</h3>
+              <span class="js-stok-produk"></span>
             </div>
 
           </div>
@@ -215,6 +220,7 @@
   let hargaProduk = $('.js-harga-produk');
   let deskripsiProduk = $('.js-deskripsi-produk');
   let kategoriProduk = $('.js-kategori-produk');
+  let stokProduk = $('.js-stok-produk');
   let gambarProduk = $('.js-gambar-produk');
 
   let listKategoriProduk = null;
@@ -320,6 +326,7 @@
       hargaProduk.text(data.harga);
       deskripsiProduk.text(data.deskripsi_produk);
       kategoriProduk.text(data.nama_kategori);
+      stokProduk.text(data.stok);
       gambarProduk.attr("src", data.gambar_produk);
 
       $('#js-produk-modal-detail').modal('show');
@@ -376,10 +383,7 @@
     } else {
       return `<button type="button" class="btn btn-sm btn-primary"
           onclick="showProdukModal(${item.produk_id})">
-          <i class="fas fa-eye"></i></button>
-        <button type="button" class="btn btn-sm btn-success"
-          onclick="productStockForm(${item.produk_id})">
-          <i class="fas fa-edit"></i></button>`;
+          <i class="fas fa-eye"></i></button>`;
     }
   }
 
@@ -402,6 +406,7 @@
         item.deskripsi_produk,
         item.nama_kategori,
         item.harga,
+        item.stok,
         item.tanggal_input,
         tableActionButtons(item)
       ]).draw();

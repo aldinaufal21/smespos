@@ -121,6 +121,9 @@
               </p>
               <h3 class="my-3">Kategori Produk</h3>
               <span class="js-kategori-produk"></span>
+
+              <h3 class="my-3">Stok</h3>
+              <span class="js-stok-produk"></span>
             </div>
 
           </div>
@@ -185,6 +188,7 @@
   let hargaProduk = $('.js-harga-produk');
   let deskripsiProduk = $('.js-deskripsi-produk');
   let kategoriProduk = $('.js-kategori-produk');
+  let stokProduk = $('.js-stok-produk');
   let gambarProduk = $('.js-gambar-produk');
 
   let listKategoriProduk = null;
@@ -280,6 +284,7 @@
       hargaProduk.text(data.harga);
       deskripsiProduk.text(data.deskripsi_produk);
       kategoriProduk.text(data.nama_kategori);
+      stokProduk.text(data.stok);
       gambarProduk.attr("src", data.gambar_produk);
 
       $('#js-produk-modal-detail').modal('show');

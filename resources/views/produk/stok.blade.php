@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <div class="card shadow mb-4" id="js-stok-card" style="display: block;">
+  <div class="card shadow mb-4" id="js-stok-card" style="display: none;">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
       <h6 class="m-0 font-weight-bold text-primary">Stok Produk <span id="js-nama-produk-stok"></span></h6>
       <div class="dropdown no-arrow">
@@ -121,6 +121,9 @@
               </p>
               <h3 class="my-3">Kategori Produk</h3>
               <span class="js-kategori-produk"></span>
+
+              <h3 class="my-3">Stok</h3>
+              <span class="js-stok-produk"></span>
             </div>
 
           </div>
@@ -185,6 +188,7 @@
   let hargaProduk = $('.js-harga-produk');
   let deskripsiProduk = $('.js-deskripsi-produk');
   let kategoriProduk = $('.js-kategori-produk');
+  let stokProduk = $('.js-stok-produk');
   let gambarProduk = $('.js-gambar-produk');
 
   let listKategoriProduk = null;
@@ -224,7 +228,7 @@
 
       $('#js-jumlah-stok').val(data.stok);;
     });
-    
+
     $('#js-stok-produk-form').attr('data-edit', 'true');
     $('#js-submit-button').text('Ubah');
     $('#js-produk-stok-modal-form').modal('show');
@@ -280,6 +284,7 @@
       hargaProduk.text(data.harga);
       deskripsiProduk.text(data.deskripsi_produk);
       kategoriProduk.text(data.nama_kategori);
+      stokProduk.text(data.stok);
       gambarProduk.attr("src", data.gambar_produk);
 
       $('#js-produk-modal-detail').modal('show');
@@ -296,7 +301,7 @@
       let data = res.data;
 
       populateStockTable(data);
-      
+
       $('#js-stok-card').show();
 
       $([document.documentElement, document.body]).animate({
@@ -362,7 +367,7 @@
       let inputDate = new Date(dateTime).getDate();
       let todayDate = new Date(Date.now()).getDate();
 
-      return inputDate == todayDate ? 'block': 'none';
+      return inputDate == todayDate ? 'block' : 'none';
     }
   }
 
