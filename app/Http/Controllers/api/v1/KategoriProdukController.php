@@ -41,7 +41,7 @@ class KategoriProdukController extends Controller
 
         $kategoriProduk->nama_kategori = $request->nama_kategori;
         $kategoriProduk->umkm_id = $umkm->umkm_id;
-        
+
         $kategoriProduk->save();
 
         return response()->json($kategoriProduk, 201);
@@ -58,16 +58,16 @@ class KategoriProdukController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
         $kategoriProduk = KategoriProduk::find($id);
 
         $kategoriProduk->nama_kategori = $request->nama_kategori;
-        
+
         $kategoriProduk->save();
 
         return response()->json($kategoriProduk, 200);
     }
- 
+
     public function show(Request $request, $id)
     {
         $kategoriProduk = KategoriProduk::find($id);
