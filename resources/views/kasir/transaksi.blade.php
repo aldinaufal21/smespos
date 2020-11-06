@@ -17,6 +17,12 @@
       width:100%;
   }
 
+  .center-modal{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 </style>
 @endsection
 
@@ -76,17 +82,20 @@
             <ul class="list-group list-group-flush">
               <p v-if="!cart.length">Keranjang Kosong</p>
               <li class="list-group-item" v-for="elem in cart" :key="elem.produk_id">
-                <h5 v-text="elem.nama_produk"></h5>
+                <h5><b v-text="elem.nama_produk"></b></h5>
                 <div class="row">
+                  <div class="col-md-2">
+                    {{-- <button type="button" class="d-none d-sm-inline-block btn btn-sm shadow-sm btn-primary" style="width:40%;" title="Kurang" @click="subtractQuantity(elem.produk_id)"><i class="fas fa-minus"></i></button> --}}
+                    <button type="button" class="d-none d-sm-inline-block btn btn-sm shadow-sm btn-danger"  title="hapus" @click="deleteItem(elem.produk_id)"><i class="fas fa-trash"></i></button>
+                  </div>
                   <div class="col-md-3">
                     <input type="number" class="form-control bg-light border-3 large" style="width:100%;" min="1" :value="elem.quantity" @keyup="changeQuantity($event, elem.produk_id)" @change="changeQuantity($event, elem.produk_id)">
                   </div>
-                  <div class="col-md-6">
-                    <center>Rp <b v-text="rupiahFormat(elem.harga * elem.quantity)"></b></center>
-                  </div>
                   <div class="col-md-3">
-                    <button type="button" class="d-none d-sm-inline-block btn btn-sm shadow-sm btn-primary" style="width:40%;" title="Kurang" @click="subtractQuantity(elem.produk_id)"><i class="fas fa-minus"></i></button>
-                    <button type="button" class="d-none d-sm-inline-block btn btn-sm shadow-sm btn-danger" style="width:40%;" title="hapus" @click="deleteItem(elem.produk_id)"><i class="fas fa-trash"></i></button>
+                    <center>@<b v-text="rupiahFormat(elem.harga)"></b></center>
+                  </div>
+                  <div class="col-md-4">
+                    <center>Rp <b v-text="rupiahFormat(elem.harga * elem.quantity)"></b></center>
                   </div>
                 </div>
               </li>
@@ -108,6 +117,39 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Pembayaran start -->
+  <div class="modal fade" id="modal-pembayaran" tabindex="-1" role="dialog" aria-labelledby="kasirModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg center-modal" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kasirModal">Kasir Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Page Content -->
+          <div class="container">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Cash
+                bsandbahjsdkashjbdkhjasbhdkjahsjk
+              </li>
+              <li class="list-group-item">
+                Debit
+              </li>
+              <li class="list-group-item">
+                Qris
+              </li>
+            </ul>
+          </div>
+          <!-- /.container -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Pembayaran end -->
 @endsection
 
 @section('extra_script')
@@ -121,9 +163,7 @@
     el: '#transaksi-kasir-content',
     data (){
       return{
-        umkm_id: user.umkm_id,
-        kasir: user.kasir,
-        username: user.user.username,
+        authData: user,
         category: null,
         products: null,
         filteredProducts: null,
@@ -155,7 +195,7 @@
 
     methods: {
       getKategori() {
-        categoryStore.UmkmsCategory(this.umkm_id).then((res) => {
+        categoryStore.UmkmsCategory(this.authData.umkm_id).then((res) => {
           // console.log(res.data);
           this.category = res.data;
           this.category.unshift({
@@ -166,7 +206,7 @@
       },
 
       getAllProduct(){
-        productStore.UmkmsProduct(this.umkm_id).then((res) => {
+        productStore.UmkmsProduct(this.authData.umkm_id).then((res) => {
           // console.log(res.data);
           this.products = res.data;
           this.filteredProducts = this.products;
@@ -250,7 +290,8 @@
       },
 
       checkout(){
-        console.log("checkout");
+        console.log("tes");
+        $('#modal-pembayaran').modal('show');
       },
 
       newCart(){
@@ -284,8 +325,8 @@
           pending_id: new Date().getTime(),
           cart_items: this.cart,
           tanggal_transaksi: new Date(),
-          kasir: this.kasir,
-          username: this.username
+          kasir: this.authData.kasir,
+          username: this.authData.user.kasir
         };
 
         pendingTransaction.store(payload);

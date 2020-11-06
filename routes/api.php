@@ -40,18 +40,18 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
                 Route::post('profile/edit/', 'api\v1\UmkmController@update');
             });
 
-            
+
             Route::group(['middleware' => ['role:pengelola']], function () {
                 Route::post('/approve', 'api\v1\UmkmController@approveRegister');
             });
         });
 
         Route::group(['prefix' => 'umkm-registration'], function () {
-           Route::get('/', 'api\v1\PendaftaranUmkmController@index'); 
-           Route::post('/', 'api\v1\PendaftaranUmkmController@store'); 
+           Route::get('/', 'api\v1\PendaftaranUmkmController@index');
+           Route::post('/', 'api\v1\PendaftaranUmkmController@store');
         });
 
-        Route::group(['middleware' => ['role:umkm']], function () {
+        Route::group(['middleware' => ['role:kasir']], function () {
             Route::post('createTransaksiKasir', 'api\v1\KasirTransactionController@store');
         });
 
@@ -107,7 +107,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::match(['put', 'patch'], '/{stock}', 'api\v1\StokController@update');
             Route::get('/{stock}', 'api\v1\StokController@show');
         });
-        
+
         Route::group(['prefix' => 'stock-opname', 'middleware' => ['role:cabang']], function () {
             // cashier route
             Route::get('/', 'api\v1\StokOpnameController@index');
@@ -132,7 +132,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         // product categories route
         Route::get('/', 'api\v1\KategoriProdukController@index');
         Route::get('/{category}', 'api\v1\KategoriProdukController@show');
-        
+
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
             Route::post('/', 'api\v1\KategoriProdukController@store');
             Route::match(['put', 'patch'], '/{category}', 'api\v1\KategoriProdukController@update');
