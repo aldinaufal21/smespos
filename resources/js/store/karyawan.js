@@ -2,6 +2,24 @@ exports.allEmployee = () => {
   return axios.get('/employees')
 }
 
+exports.getEmployee = (umkmId = null, cabangId = null) => {
+  let condition = '';
+
+  if (cabangId || umkmId) {
+    condition += '?';
+  }
+
+  if (cabangId) {
+    condition += `cabang_id=${cabangId}&`;
+  }
+
+  if (umkmId) {
+    condition += `umkm_id=${umkmId}&`;
+  }
+  
+  return axios.get(`/employees/all/${condition}`)
+}
+
 exports.addEmployee = ({ data }) => {
   return axios.post('/employees', data)
     .then((res) => {
@@ -49,5 +67,5 @@ exports.destroyEmployee = (id) => {
 }
 
 exports.detailEmployee = (id) => {
-  return axios.get(`/employees/${id}`)
+  return axios.get(`/employees/${id}/detail`)
 }

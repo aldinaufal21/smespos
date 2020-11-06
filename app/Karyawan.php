@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Karyawan extends Model
 {
@@ -23,6 +24,21 @@ class Karyawan extends Model
         'umkm_id',
         'cabang_id',
     ];
+
+    public static function getKaryawanByQuery($cabangId = null, $umkmId = null)
+    {
+        $karyawan = DB::table('karyawans');
+
+        if ($cabangId) {
+            $karyawan->where('cabang_id', $cabangId);
+        }
+
+        if ($umkmId) {
+            $karyawan->where('umkm_id', $umkmId);
+        }
+
+        return $karyawan;
+    }
 
     public function umkm()
     {

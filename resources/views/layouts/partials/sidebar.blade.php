@@ -122,9 +122,9 @@
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item" href="#">Data UMKM</a>
-        <a class="collapse-item" href="#">Data Karyawan UMKM</a>
-        <a class="collapse-item" href="#">Kategori UMKM</a>
+        <a class="collapse-item" href="{{ route('umkm.data') }}">Data UMKM</a>
+        <a class="collapse-item" href="{{ route('umkm.karyawan') }}">Data Karyawan UMKM</a>
+        <a class="collapse-item" href="{{ route('umkm.kategori') }}">Kategori UMKM</a>
         <a class="collapse-item" href="#">Data Route Table Kategori</a>
         <a class="collapse-item" href="#">Data Route Table Produk</a>
       </div>
