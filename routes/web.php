@@ -49,6 +49,12 @@ Route::resource('umkm', 'UmkmController')->only([
     'index',
 ]);
 
+Route::group(['prefix' => 'umkm'], function () {
+    Route::get('/data', 'UmkmController@dataUmkm')->name('umkm.data');
+    Route::get('/karyawan', 'UmkmController@dataKaryawanUmkm')->name('umkm.karyawan');
+    Route::get('/kategori', 'UmkmController@dataKategoriUmkm')->name('umkm.kategori');
+});
+
 Route::group(['prefix' => 'kasir'], function (){
     Route::get('/', 'TransaksiKasirController@index')->name('kasir');
     Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');

@@ -121,6 +121,16 @@ class KaryawanController extends Controller
         return response()->json(new stdClass(), 200);
     }
 
+    public function getAll(Request $request)
+    {
+        $cabangId = $request->cabang_id;
+        $umkmId = $request->umkm_id;
+
+        $karyawan = Karyawan::getKaryawanByQuery($cabangId, $umkmId)->get();
+        
+        return response()->json($karyawan, 200);
+    }
+
     private function getUmkm($request)
     {
         return $request->user()->umkm()->first();

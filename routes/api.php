@@ -71,9 +71,10 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
         Route::group(['prefix' => 'employees'], function () {
             // employees route
-            Route::group(['middleware' => ['role:umkm,cabang']], function () {
+            Route::group(['middleware' => ['role:umkm,cabang,pengelola']], function () {
                 Route::get('/', 'api\v1\KaryawanController@index');
-                Route::get('/{employees}', 'api\v1\KaryawanController@show');
+                Route::get('/{employees}/detail', 'api\v1\KaryawanController@show');
+                Route::get('/all', 'api\v1\KaryawanController@getAll');
             });
             Route::group(['middleware' => ['role:umkm']], function () {
                 Route::post('/', 'api\v1\KaryawanController@store');

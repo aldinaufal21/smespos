@@ -16,4 +16,19 @@ class UmkmController extends Controller
     {
         return view('umkm.index');
     }
+
+    public function dataUmkm()
+    {
+        return view('umkm.data_umkm');
+    }
+
+    public function dataKaryawanUmkm()
+    {
+        return view('umkm.karyawan');
+    }
+
+    public function dataKategoriUmkm()
+    {
+        return view('umkm.kategori');
+    }
 }

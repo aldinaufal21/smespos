@@ -28,13 +28,100 @@ class Produk extends Model
         $produkId = null
         )
     {
+        
+        $sql = "
+            SELECT 
+                p.*,
+                COALESCE ((
+                    CASE 
+                        WHEN so.tanggal_stok_opname IS NULL THEN (
+                            SELECT
+                                SUM(stok) AS stok
+                            FROM stoks s 
+                            GROUP BY produk_id, cabang_id
+                            HAVING s.produk_id = p.produk_id 
+                        )
+                        WHEN so.tanggal_stok_opname IS NOT NULL 
+                            AND so.tanggal_stok_opname > s.tanggal_input THEN (
+                            SELECT
+                                SUM(jumlah) AS stok
+                            FROM stok_opnames so 
+                            GROUP BY produk_id, cabang_id, so.tanggal_stok_opname 
+                            HAVING so.produk_id = p.produk_id
+                            ORDER BY so.tanggal_stok_opname DESC
+                            LIMIT 1
+                        )
+                        WHEN so.tanggal_stok_opname IS NOT NULL 
+                            AND s.tanggal_input > so.tanggal_stok_opname THEN (
+                            SELECT
+                                SUM(jumlah) + s2.stok AS stok
+                            FROM stok_opnames so
+                            JOIN stoks s2 ON s2.produk_id = so.produk_id 
+                            WHERE s2.tanggal_input > so.tanggal_stok_opname 
+                            GROUP BY so.produk_id, so.cabang_id 
+                            HAVING so.produk_id = p.produk_id 
+                        )
+                    END 
+                ) - tr.jumlah, 0) AS stok
+            FROM  produks p
+            LEFT JOIN (
+                SELECT
+                    so2.cabang_id,
+                    so2.produk_id,
+                    MAX(so2.tanggal_stok_opname) AS tanggal_stok_opname,
+                    so2.jumlah 
+                FROM stok_opnames so2 
+                ORDER BY so2.tanggal_stok_opname DESC
+            ) so ON so.produk_id = p.produk_id 
+            LEFT JOIN (
+                SELECT
+                    s2.stok,
+                    s2.produk_id,
+                    s2.cabang_id,
+                    MAX(s2.tanggal_input) AS tanggal_input 
+                FROM stoks s2 
+                ORDER BY s2.tanggal_input DESC
+            ) s ON s.produk_id = p.produk_id
+            LEFT JOIN (
+                SELECT 
+                    SUM(y.jumlah) AS jumlah,
+                    y.produk_id,
+                    y.tanggal_transaksi
+                FROM (
+                        (
+                            SELECT 
+                                tkd.produk_id, 
+                                SUM(tkd.jumlah)      AS jumlah, 
+                                tk.tanggal_transaksi AS tanggal_transaksi 
+                            FROM transaksi_kasir_details tkd 
+                            JOIN transaksi_kasirs tk ON tk.transaksi_kasir_id = tkd.transaksi_kasir_id 
+                            GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
+                        ) 
+                        UNION 
+                        (
+                            SELECT 
+                                tkd.produk_id, 
+                                SUM(tkd.jumlah)      AS jumlah, 
+                                tk.tanggal_transaksi AS tanggal_transaksi 
+                            FROM transaksi_konsumen_details tkd 
+                            JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id 
+                            GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
+                        )
+                    ) y
+                GROUP BY produk_id
+            ) tr ON tr.produk_id = p.produk_id 
+            GROUP BY p.produk_id 
+        ";
+
         $produk = DB::table('produks')
                     ->join('kategori_produks', 'kategori_produks.kategori_produk_id', '=', 'produks.kategori_produk_id')
                     ->join('umkms', 'umkms.umkm_id', '=', 'kategori_produks.umkm_id')
+                    ->leftJoin(DB::raw('('.$sql.') as ps'), 'ps.produk_id', '=', 'produks.produk_id')
                     ->select(
                         'produks.*',
                         'kategori_produks.nama_kategori',
-                        'umkms.*'
+                        'umkms.*',
+                        'ps.stok'
                     );
 
 

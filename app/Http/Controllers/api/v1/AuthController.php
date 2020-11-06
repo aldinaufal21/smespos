@@ -28,12 +28,21 @@ class AuthController extends Controller
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
+
+                if ($user->role == 'umkm') {
+                    if (!$this->umkmApproved($user)) {
+                        return response()->json([
+                            'message' => 'UMKM Belum Disetujui'
+                        ], 401);
+                    }
+                }
+
                 $responseEachUser = $this->responseEachUser($user);
 
                 return response()->json($responseEachUser, 200);
             } else {
                 return response()->json([
-                    'message', 'Password missmatch'
+                    'message' => 'Password missmatch'
                 ], 401);
             }
         } else {
@@ -130,5 +139,13 @@ class AuthController extends Controller
             default:
                 break;
         }
+    }
+
+    private function umkmApproved($user): bool
+    {
+        $statusPendaftaran = $user->umkm()->first()
+            ->pendaftaranUmkm()->first()->status_pendaftaran;
+
+        return $statusPendaftaran == 'approved' ? true : false;
     }
 }
