@@ -29,7 +29,7 @@ class Produk extends Model
         )
     {
         
-        $sql = "
+        $sql = '
             SELECT 
                 p.*,
                 COALESCE ((
@@ -111,7 +111,7 @@ class Produk extends Model
                 GROUP BY produk_id
             ) tr ON tr.produk_id = p.produk_id 
             GROUP BY p.produk_id 
-        ";
+        ';
 
         $produk = DB::table('produks')
                     ->join('kategori_produks', 'kategori_produks.kategori_produk_id', '=', 'produks.kategori_produk_id')

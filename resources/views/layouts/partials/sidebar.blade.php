@@ -66,7 +66,7 @@
       <span>Kelola Cabang</span></a>
   </li>
   <li class="nav-item nav-cabang nav-pemilik nav-umkm">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{{ route('report.sales') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Laporan Penjualan</span></a>
   </li>

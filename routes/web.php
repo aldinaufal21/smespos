@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\DB;
+
 Route::get('/', function () {
     return redirect('/dashboard');
 });
@@ -61,7 +63,18 @@ Route::group(['prefix' => 'kasir'], function (){
     Route::get('/transaksi-pending', 'TransaksiKasirController@pendingTransaction')->name('kasir.pending');
 });
 
+Route::group(['prefix' => 'report'], function (){
+    Route::get('/sales', 'ReportController@sales')->name('report.sales');
+});
+
 Route::get('/stok', 'StokController@stok')->name('stok');
 Route::get('/stok-opname', 'StokController@stokOpname')->name('stok.opname');
+
+Route::get('nyoba_query', function () {
+    DB::enableQueryLog();
+    \App\Report::getTransaksiKasirReport(null, null, '2020-10-12','2020-11-12');
+    return dd(DB::getQueryLog());
+    // return dd(\App\Report::getTransaksiKasirReport(null, null, '2020-10-12','2020-11-12'));
+});
 
 Auth::routes();
