@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\TransaksiKasir;
 use App\TransaksiKasirDetail;
+use App\Produk;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -23,6 +24,7 @@ class KasirTransactionController extends Controller
 
         $validator = Validator::make($requestData, [
             'kasir_id' => 'required',
+            'metode_bayar' => 'required',
             'produk' => 'required|array|min:1',
             'produk.*.produk_id' => 'required',
             'produk.*.jumlah' => 'required'
@@ -44,6 +46,7 @@ class KasirTransactionController extends Controller
 
             foreach ($requestData['produk'] as $key => $value) {
                 $requestData['produk'][$key]['transaksi_kasir_id'] = $order->transaksi_kasir_id;
+                $requestData['produk'][$key]['harga'] = Produk::getProductDetailById($value['produk_id'])->harga;
             }
 
             $orderDetail = TransaksiKasirDetail::insert($requestData['produk']);
@@ -52,7 +55,7 @@ class KasirTransactionController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([
-                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+                'message' => env('APP_ENV') != 'production' ? "Error ".$e : 'Internal Server Error',
             ], 500);
         }
 
