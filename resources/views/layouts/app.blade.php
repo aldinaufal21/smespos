@@ -93,6 +93,8 @@
       default:
     }
 
+    $('#js-usersname-display').text(_user.user.username);
+
     const logoutOperation = () => {
       localStorage.clear();
       window.location.href = '/login';
