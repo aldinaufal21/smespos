@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -121,13 +122,17 @@ class AuthController extends Controller
 
             case 'kasir':
                 $kasir = $user->kasir()->first();
-                $umkm_id = $kasir->cabang()->first()->umkm_id;
-                return [
+                $cabang = $kasir->cabang()->first();
+                $data = [
                     'token' => $token,
                     'user' => $user,
                     'kasir' => $kasir,
-                    'umkm_id' => $umkm_id
+                    'cabang' => $cabang
                 ];
+                if($kasir->status_kasir=='buka')
+                  $data['sesi_kasir'] = DB::table('sesi_kasirs')->where('kasir_id', $kasir->kasir_id)->orderBy('sesi_kasir_id', 'DESC')->first();
+
+                return $data;
 
             case 'pengelola':
                 $pengelola = $user->pengelola()->first();

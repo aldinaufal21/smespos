@@ -24,6 +24,6 @@ exports.showAxiosError = (err) => {
   $swal({
     icon: 'error',
     title: 'Oops...',
-    text: (err.response.statusText)?err.response.statusText:'Terjadi Kesalahan!',
+    text: (err.response)?err.response.statusText:'Terjadi Kesalahan!',
   })
 }

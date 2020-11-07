@@ -14,7 +14,7 @@ exports.addCashier = ({ data }) => {
     })
     .catch((err) => {
       console.log(err.response);
-      
+
       $swal({
         icon: 'error',
         title: 'Oops...',
@@ -35,7 +35,7 @@ exports.updateCashier = ({ data, id }) => {
     })
     .catch((err) => {
       console.log(err.response);
-      
+
       $swal({
         icon: 'error',
         title: 'Oops...',
@@ -50,4 +50,44 @@ exports.destroyCashier = (id) => {
 
 exports.detailCashier = (id) => {
   return axios.get(`/cashier/${id}`)
+}
+
+exports.openCashier = (data) => {
+  return axios.post(`/bukaKasir`, data)
+    .then((res) => {
+      let user = JSON.parse(localStorage.getItem('user'));
+      if (!user) throw 'User data not found';
+      if (!user.kasir) throw 'Kasir data not found';
+
+      user.kasir.status_kasir = 'buka';
+      user.sesi_kasir = res.data;
+      localStorage.setItem("user", JSON.stringify(user));
+
+      window.location.href = '/kasir/transaksi';
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      $helper.showAxiosError(err);
+    })
+}
+
+exports.closeCashier = (data) => {
+  return axios.post(`/tutupKasir`, data)
+    .then((res) => {
+      let user = JSON.parse(localStorage.getItem('user'));
+      if (!user){throw 'User data not found';}
+      if (!user.kasir){throw 'Kasir data not found';}
+
+      user.kasir.status_kasir = 'tutup';
+      delete user.sesi_kasir;
+      localStorage.setItem("user", JSON.stringify(user));
+
+      window.location.href = '/kasir';
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      $helper.showAxiosError(err);
+    })
 }
