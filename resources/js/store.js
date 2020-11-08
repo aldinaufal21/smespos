@@ -31,3 +31,6 @@ window.pendingTransaction = require('./store/pendingTransaction');
 
 // pending transactions data stores
 window.umkmStore = require('./store/umkm');
+
+// pending transactions data stores
+window.reportStore = require('./store/report');

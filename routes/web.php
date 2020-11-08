@@ -74,7 +74,7 @@ Route::get('nyoba_query', function () {
     // DB::enableQueryLog();
     // \App\Report::getTransaksiKasirReport(null, null, '2020-10-12','2020-11-12');
     // return dd(DB::getQueryLog());
-    // return dd(\App\Report::getTransaksiKasirReport(null, null, '2020-10-12','2020-11-12'));
+    return dd(\App\Report::getAllTransaksiReport(null, '2020-11-12','2020-11-12'));
 });
 
 Auth::routes();

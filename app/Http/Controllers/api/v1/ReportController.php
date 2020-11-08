@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Cabang;
 use App\Http\Controllers\Controller;
+use App\Produk;
 use App\Report;
 use App\Umkm;
 use Carbon\Carbon;
@@ -10,10 +12,11 @@ use DateInterval;
 use DatePeriod;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function overallUmkmReport(Type $var = null)
+    public function overallUmkmReport(Request $request)
     {
         # code...
     }
@@ -22,15 +25,45 @@ class ReportController extends Controller
     {
         $idUmkm = $request->umkm_id;
         $umkm = Umkm::find($idUmkm);
-        
-        $months = $this->getMonthBetween($umkm->tanggal_bergabung, Carbon::now());
 
+        $startMonth = $request->mulai_bulan ? $request->mulai_bulan : $umkm->tanggal_bergabung;
+        $endMonth = $request->sampai_bulan ? $request->sampai_bulan : Carbon::now();
+
+        $products = Produk::getProductByQuery(null, null, null, $idUmkm)->map(function ($p) {
+            return collect($p)
+                ->only(['produk_id', 'nama_produk', 'nama_kategori', 'harga'])
+                ->all();
+        });
         $response = [];
-        
-        foreach ($months as $m) {
-            array_push($response, [
-                'month' => $m,
-                'report' => Report::getAllTransaksiReport($idUmkm, $m, $m)
+
+        $months = $this->getMonthBetween($startMonth, $endMonth);
+        /**
+         *  product ->
+         *      nama
+         *      kategori
+         *      harga
+         *  report ->
+         *      {data report}
+         */
+
+        foreach ($products as $product) {
+            $reports = [];
+            foreach ($months as $m) {
+                array_push($reports, [
+                    'month' => date("m-Y", strtotime($m)),
+                    'data' => Report::getAllTransaksiReport($idUmkm, $m, $m)->map(function ($p) {
+                        return collect($p)
+                            ->only(['produk_id', 'nama_produk', 'harga', 'produk_id', 'jumlah', 'total_harga', 'tanggal_transaksi',])
+                            ->all();
+                    })->filter(function($p) use ($product){
+                        return $p['produk_id'] == $product['produk_id'];
+                    })
+                ]);
+            }
+
+            array_push($response,[
+                'produk' => $product,
+                'report' => $reports,
             ]);
         }
 
@@ -39,7 +72,21 @@ class ReportController extends Controller
 
     public function monthlyCabangReport(Request $request)
     {
-        
+        $idCabang = $request->cabang_id;
+        $umkm = Cabang::find($idCabang)->umkm()->first();
+
+        $months = $this->getMonthBetween($umkm->tanggal_bergabung, Carbon::now());
+
+        $response = [];
+
+        foreach ($months as $m) {
+            array_push($response, [
+                'month' => $m,
+                'report' => Report::getTransaksiKasirReport($idCabang, null, $m, $m)
+            ]);
+        }
+
+        return response()->json($response, 200);
     }
 
     private function getMonthBetween($startDate, $endDate)
@@ -51,7 +98,7 @@ class ReportController extends Controller
         $months = [];
 
         foreach ($period as $dt) {
-            array_push($months, $dt->format("Y-m"));
+            array_push($months, $dt->format("Y-m-d"));
         }
 
         return $months;
