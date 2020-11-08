@@ -126,7 +126,7 @@
   });
 
   const showUmkmModal = (umkmId) => {
-    umkm.detailUmkm(umkmId).then((res) => {
+    umkmStore.detailUmkm(umkmId).then((res) => {
       data = res.data
 
       $('.js-nama-umkm').text(data.nama_umkm);
@@ -160,7 +160,7 @@
   }
 
   const getApprovedUmkm = () => {
-    umkm.approvedUmkm().then((res) => {
+    umkmStore.approvedUmkm().then((res) => {
       approvedUmkm = res.data;
       populateApprovedTable(approvedUmkm);
       // populateCards(approvedUmkm);

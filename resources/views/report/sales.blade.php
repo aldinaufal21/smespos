@@ -16,7 +16,7 @@
 
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Produk</h1>
+    <h1 class="h3 mb-0 text-gray-800">Laporan Penjualan</h1>
     <button class="btn btn-primary">
       <i class="fas fa-download fa-sm text-white-50"></i> Cetak Laporan
     </button>
@@ -44,22 +44,18 @@
           </div>
         </div>
       </div>
-      <div class="card shadow mb-4">
-        <!-- Card Header - Dropdown -->
+      <!-- <div class="card shadow mb-4 cabang-list" style="display: none;">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
           <h6 class="m-0 font-weight-bold text-primary">Laporan UMKM</h6>
         </div>
-        <!-- Card Body -->
         <div class="card-body">
           <div class="form-group">
             <div>
-              <select name="umkm_id" id="js-umkm-choice" class="form-control input-lg">
-                <option value="">Pilih UMKM</option>
-              </select>
+              <select name="cabang_id" id="js-cabang-choice" class="form-control input-lg"></select>
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="col-9">
       <div class="card shadow mb-4">
@@ -138,9 +134,37 @@
       format: "yyyy-mm",
       viewMode: "months",
       minViewMode: "months",
-      startDate:'2020-01-01',
+      startDate: '2020-01-01',
       endDate: new Date(),
     });
+
+    getDefaultData();
+
+    /**
+     * component on change events
+     */
+
+    // select value on change
+    // $('#js-cabang-choice').on('change', function() {
+    //   idCabang = this.value;
+    //   getReportData();
+    // });
   });
+
+  const getDefaultData = () => {
+    let role = _user.user.role;
+
+    if (role == 'umkm') {
+
+      getReportData();
+    } else if (role == 'cabang') {
+
+      getReportData();
+    }
+  }
+
+  const getReportData = () => {
+    console.log('hai');
+  }
 </script>
 @endsection

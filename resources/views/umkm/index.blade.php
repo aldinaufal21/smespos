@@ -267,7 +267,7 @@
 
     let formEdit = $('#js-umkm-form').attr('data-edit');
 
-    umkm.addUmkm(payload)
+    umkmStore.addUmkm(payload)
       .then(res => {
         if (res.status == 201) {
           getApprovedUmkm();
@@ -276,7 +276,7 @@
   }
 
   const approveModal = (umkmId) => {
-    umkm.detailUmkm(umkmId)
+    umkmStore.detailUmkm(umkmId)
       .then(res => {
         data = res.data;
 
@@ -289,7 +289,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
-              umkm.approveUmkm(umkmId)
+              umkmStore.approveUmkm(umkmId)
                 .then(res => {
                   $swal("UMKM Disetujui!", {
                     icon: "success",
@@ -313,7 +313,7 @@
   }
 
   const showUmkmModal = (umkmId) => {
-    umkm.detailUmkm(umkmId).then((res) => {
+    umkmStore.detailUmkm(umkmId).then((res) => {
       data = res.data
 
       $('.js-nama-umkm').text(data.nama_umkm);
@@ -370,14 +370,14 @@
   }
 
   const getPendingUmkm = () => {
-    umkm.pendingUmkm().then((res) => {
+    umkmStore.pendingUmkm().then((res) => {
       pendingUmkm = res.data;
       populatePendingTable(pendingUmkm);
     });
   }
 
   const getApprovedUmkm = () => {
-    umkm.approvedUmkm().then((res) => {
+    umkmStore.approvedUmkm().then((res) => {
       approvedUmkm = res.data;
       populateApprovedTable(approvedUmkm);
     });

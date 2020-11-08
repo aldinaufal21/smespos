@@ -17,18 +17,47 @@ class UmkmController extends Controller
 {
     use ImageUpload;
 
+    public function index(Request $request)
+    {
+        $umkmId = $request->umkm_id;
+        $response = [];
+
+        if ($umkmId) {
+            $umkm = Umkm::where('umkm_id', $umkmId)->first();
+
+            $cabang = $umkm->cabang()->get();
+
+            return response()->json([
+                'umkm' => $umkm,
+                'cabang' => $cabang,
+            ], 200);
+        }
+
+        $umkm = Umkm::all();
+
+        foreach ($umkm as $u) {
+            $cabang = $u->cabang()->get();
+            array_push($response, [
+                'umkm' => $u,
+                'cabang' => $cabang,
+            ]);
+        }
+
+        return response()->json($response, 200);
+    }
+
     public function profile(Request $request, $umkm)
     {
         /**
          * @return -> data umkm
          */
         $umkm = Umkm::find($umkm);
-        
+
         return response()->json($umkm, 200);
     }
-    
+
     public function register(Request $request)
-    {        
+    {
         $requestData = $request->all();
 
         $validator = Validator::make($request->all(), [
@@ -45,28 +74,28 @@ class UmkmController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
         $requestData['password'] = Hash::make($requestData['password']);
         $requestData['role'] = 'umkm';
 
         DB::beginTransaction();
         try {
             $user = User::create($requestData);
-    
+
             $userAvatar = $request->gambar;
             $avatarUrl = $request->gambar != null ?
-                    $this->storeUmkmImage($userAvatar) : null;
+                $this->storeUmkmImage($userAvatar) : null;
             $requestData['gambar'] = $avatarUrl;
             $requestData['user_id'] = $user->id;
 
             $umkm = Umkm::create($requestData);
-            
+
             $requestData['umkm_id'] = $umkm->umkm_id;
             $requestData['tanggal_pendaftaran'] = Carbon::now();
             $pendaftaranUmkm = PendaftaranUmkm::create($requestData);
 
             $response = array_merge($user->toArray(), $umkm->toArray(), $pendaftaranUmkm->toArray());
-            
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -96,14 +125,14 @@ class UmkmController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
         $id = $request->user()->id;
         $umkm = User::find($id)->umkm()->first();
         $requestData = $request->all();
 
         $userAvatar = $request->gambar;
         $avatarUrl = $request->gambar != null ?
-                $this->storeUmkmImage($userAvatar) : null;
+            $this->storeUmkmImage($userAvatar) : null;
         $requestData['gambar'] = $avatarUrl;
 
         $umkm->update($requestData);
@@ -117,14 +146,14 @@ class UmkmController extends Controller
 
         $UmkmId = $request->umkm_id;
         $umkm = Umkm::find($UmkmId);
-        
+
         DB::beginTransaction();
         try {
             $dataUmkm['tanggal_bergabung'] = Carbon::now();
             $umkm->update($dataUmkm);
-    
+
             $pendaftaranUmkm = $umkm->pendaftaranUmkm()->first();
-    
+
             $dataPendaftaranUmkm['pengelola_id'] = $pengelola->pengelola_id;
             $dataPendaftaranUmkm['status_pendaftaran'] = 'approved';
 
