@@ -137,7 +137,7 @@ class Report extends Model
         return $produk->get();
     }
     
-    public static function getAllTransaksiReport($umkmId = null, $beforeDate = null, $afterDate = null)
+    public static function getAllTransaksiReport($umkmId = null, $beforeDate = null, $afterDate = null, $produkId = null)
     {
         $dateCondition = [];
         $whereCondition = '';
@@ -152,7 +152,7 @@ class Report extends Model
 
         if (count($dateCondition) > 0) {
             $whereCondition .= 'WHERE';
-            $condition = count($dateCondition) > 0 ? join("OR",$dateCondition) : $dateCondition;
+            $condition = count($dateCondition) > 0 ? join("AND",$dateCondition) : $dateCondition;
             $whereCondition .= $condition;
         }
 

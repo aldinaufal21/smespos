@@ -5,8 +5,8 @@
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <style>
   .css-cust-responsive {
-    overflow-y: auto;
-    max-height: 500px;
+    /* overflow-y: auto; */
+    /* max-height: 500px; */
   }
 </style>
 @endsection
@@ -60,61 +60,13 @@
     <div class="col-9">
       <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">Produk</h6>
+          <h6 class="m-0 font-weight-bold text-primary">Laporan Barang Terjual</h6>
         </div>
         <div class="card-body">
           <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
           </div>
           <div class="table-responsive css-cust-responsive">
-            <table class="table" id="example" class="display" style="width:100%">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                  <th scope="col">Heading</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for ($i = 1; $i < 30; $i++) <tr>
-                  <th scope="row">{{ $i }}</th>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  <td>Cell</td>
-                  </tr>
-                  @endfor
-              </tbody>
-            </table>
+            <table class="table" id="js-report-table" class="display" style="width:100%"></table>
           </div>
         </div>
       </div>
@@ -129,6 +81,7 @@
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+  let reportTable = null;
   $(document).ready(() => {
     $(".js-month-datepicker").datepicker({
       format: "yyyy-mm",
@@ -138,7 +91,8 @@
       endDate: new Date(),
     });
 
-    getDefaultData();
+    initDataTable();
+    getReportData();
 
     /**
      * component on change events
@@ -151,20 +105,83 @@
     // });
   });
 
-  const getDefaultData = () => {
-    let role = _user.user.role;
-
-    if (role == 'umkm') {
-
-      getReportData();
-    } else if (role == 'cabang') {
-
-      getReportData();
+  const initDataTable = (columns = null, rows = null) => {
+    if (columns || rows) {
+      $('#js-report-table').show();
+      reportTable = $('#js-report-table').DataTable({
+        dom: "Bfrtip",
+        data: rows,
+        columns: columns
+      });
+    } else {
+      $('#js-report-table').hide();
+      reportTable = $('#js-report-table').DataTable({
+        dom: "Bfrtip",
+        data: [
+          ["Row 1 - Field 1", "Row 1 - Field 2", "Row 1 - Field 3"],
+          ["Row 2 - Field 1", "Row 2 - Field 2", "Row 2 - Field 3"],
+        ],
+        columns: [{
+            "title": "Basic Column"
+          },
+          {
+            "title": "Basic Column"
+          },
+          {
+            "title": "Basic Column"
+          }
+        ]
+      });
     }
   }
 
   const getReportData = () => {
-    console.log('hai');
+    let role = _user.user.role;
+
+    switch (role) {
+      case 'umkm':
+        reportStore.monthlyUmkm(_user.umkm.umkm_id)
+          .then((res) => {
+            showReports(res.data);
+          });
+        break;
+
+      case 'cabang':
+        // 
+        break;
+
+      default:
+        return;
+    }
+  }
+
+  const showReports = (data) => {
+    let columns = [];
+    let body = [];
+
+    // initiate left header
+    columns.push({
+      'title': "Produk"
+    });
+
+    data.bulan.forEach(item => {
+      columns.push({
+        'title': item
+      });
+    });
+
+    data.report_data.forEach(item => {
+      let arr = [];
+      arr.push(item.produk.nama_produk);
+
+      item.report.forEach(reportItem => {
+        arr.push(reportItem.data.jumlah);
+      });
+      body.push(arr);
+    });
+
+    reportTable.destroy();
+    initDataTable(columns, body);
   }
 </script>
 @endsection

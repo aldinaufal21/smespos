@@ -37,6 +37,11 @@ class ReportController extends Controller
         $response = [];
 
         $months = $this->getMonthBetween($startMonth, $endMonth);
+
+        $formattedMonths = array_map(function($m){
+            return date("m-Y", strtotime($m));
+        }, $months);
+        
         /**
          *  product ->
          *      nama
@@ -57,7 +62,7 @@ class ReportController extends Controller
                             ->all();
                     })->filter(function($p) use ($product){
                         return $p['produk_id'] == $product['produk_id'];
-                    })
+                    })->first()
                 ]);
             }
 
@@ -67,7 +72,10 @@ class ReportController extends Controller
             ]);
         }
 
-        return response()->json($response, 200);
+        return response()->json([
+            'bulan' => $formattedMonths,
+            'report_data' => $response,
+        ], 200);
     }
 
     public function monthlyCabangReport(Request $request)
