@@ -38,6 +38,8 @@ if (token) {
 }
 
 window.$swal = require('sweetalert');
+window.$moment = require('moment');
+require("moment/min/locales.min");
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

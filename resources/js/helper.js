@@ -27,3 +27,7 @@ exports.showAxiosError = (err) => {
     text: (err.response)?err.response.statusText:'Terjadi Kesalahan!',
   })
 }
+
+exports.rupiahFormat = (value) => {
+  return (value/1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+}

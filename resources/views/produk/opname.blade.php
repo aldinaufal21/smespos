@@ -1,8 +1,15 @@
 @extends('layouts.app')
 
+@section('title','Stok Opname Produk')
+
 @section('extra_head')
 <!-- Custom styles for this page -->
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<style media="screen">
+  .action-button{
+    margin-top: 5px;
+  }
+</style>
 @endsection
 
 @section('content')
@@ -20,7 +27,7 @@
     <div class="card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right"></div>
       <div class="table-responsive">
-        <table class="table table-bordered" id="js-tabel-produk" width="100%" cellspacing="0">
+        <table class="table table-bordered table-striped" id="js-tabel-produk" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>No</th>
@@ -48,7 +55,7 @@
 
   <div class="card shadow mb-4" id="js-stok-opname-card" style="display: none;">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Stok Opname Produk <span id="js-nama-produk-stok-opname"></span></h6>
+      <h6 class="m-0 font-weight-bold text-primary">Stok Opname Produk <b>"<span id="js-nama-produk-stok-opname"></span>"</b></h6>
       <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -62,7 +69,7 @@
     <div class="card-body collapse show" id="js-stok-opname-card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right"></div>
       <div class="table-responsive">
-        <table class="table table-bordered" id="js-tabel-stok-opname" width="100%" cellspacing="0">
+        <table class="table table-bordered table-striped" id="js-tabel-stok-opname" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>No</th>
@@ -149,7 +156,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <h4>Tambah Stok Opname <span id="js-nama-produk"></span></h4>
+        <h4>Tambah Stok Opname <b>"<span id="js-nama-produk"></span>"</b></h4>
         <form role="form" id="js-stok-opname-produk-form" data-edit="" onsubmit="submitStockOpnameChanges(event)">
           <input type="hidden" name="produk_id" id="js-hidden-produk-id" value="">
           <div class="form-group">
@@ -180,6 +187,7 @@
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+  $auth.needRole(['cabang','umkm']);
   let tabelProduk = null;
   let tabelStokOpname = null;
   let _idStokOpname = null;
@@ -228,7 +236,7 @@
 
       $('#js-jumlah-stok-opname').val(data.jumlah);
     });
-    
+
     $('#js-stok-opname-produk-form').attr('data-edit', 'true');
     $('#js-submit-button').text('Ubah');
     $('#js-produk-stok-opname-modal-form').modal('show');
@@ -281,7 +289,7 @@
       data = res.data
 
       namaProduk.text(data.nama_produk);
-      hargaProduk.text(data.harga);
+      hargaProduk.text($helper.rupiahFormat(data.harga));
       deskripsiProduk.text(data.deskripsi_produk);
       kategoriProduk.text(data.nama_kategori);
       stokProduk.text(data.stok);
@@ -300,7 +308,7 @@
     stockOpnameStore.allStockOpname(produkId).then((res) => {
       let data = res.data;
       populateStockOpnameTable(data);
-      
+
       $('#js-stok-opname-card').show();
 
       $([document.documentElement, document.body]).animate({
@@ -311,19 +319,19 @@
 
   const tableProdukActionButtons = (item) => {
     if (user.user.role == 'umkm') {
-      return `<button type="button" class="btn btn-sm btn-primary"
+      return `<button type="button" class="btn btn-sm btn-primary action-button"
           onclick="showProdukModal(${item.produk_id})">
-          Detail Produk</button>`;
+          <i class="fas fa-eye"></i> Detail Produk</button>`;
     } else {
-      return `<button type="button" class="btn btn-sm btn-primary"
+      return `<button type="button" class="btn btn-sm btn-primary action-button"
           onclick="showProdukModal(${item.produk_id})">
-          Detail Produk</button>
-        <button type="button" class="btn btn-sm btn-info"
+          <i class="fas fa-eye"></i> Detail Produk</button>
+        <button type="button" class="btn btn-sm btn-info action-button"
           onclick="showProdukStockOpname(${item.produk_id})">
-          Lihat Stok Opname</button>
-        <button type="button" class="btn btn-sm btn-success"
+          <i class="fas fa-eye"></i> Lihat Stok Opname</button>
+        <button type="button" class="btn btn-sm btn-success action-button"
           onclick="openAddForm(${item.produk_id}, '${item.nama_produk}')">
-          Tambah Stok Opname</button>`;
+          <i class="fas fa-plus"></i> Tambah Stok Opname</button>`;
     }
   }
 
@@ -336,11 +344,13 @@
         number,
         item.nama_produk,
         item.nama_kategori,
-        item.harga,
+        $helper.rupiahFormat(item.harga),
         tableProdukActionButtons(item)
       ]).draw();
       number++;
     });
+
+    tableProduk.columns.adjust().draw();
   }
 
   const populateStockOpnameTable = (data) => {
@@ -352,15 +362,17 @@
         number,
         item.jumlah,
         item.tanggal_stok_opname,
-        `<button 
-          type="button" 
-          class="btn btn-sm btn-success" 
+        `<button
+          type="button"
+          class="btn btn-sm btn-success"
           onclick="openEditForm(${item.stok_opname_id})"
           style='display: ${buttonAvailability(item.tanggal_stok_opname)}'>
           Ubah Stok Opname</button>`
       ]).draw();
       number++;
     });
+
+    tabelStokOpname.columns.adjust().draw();
 
     function buttonAvailability(dateTime) {
       let inputDate = new Date(dateTime).getDate();

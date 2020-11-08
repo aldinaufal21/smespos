@@ -77,4 +77,8 @@ Route::get('nyoba_query', function () {
     return dd(\App\Report::getAllTransaksiReport(null, '2020-11-12','2020-11-12'));
 });
 
+Route::get('/dashboard-cabang', function () {
+    return view('demo');
+});
+
 Auth::routes();

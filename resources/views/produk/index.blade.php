@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Produk')
+
 @section('extra_head')
 <!-- Custom styles for this page -->
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -25,7 +27,7 @@
         </button>
       </div>
       <div class="table-responsive">
-        <table class="table table-bordered" id="js-tabel-produk" width="100%" cellspacing="0">
+        <table class="table table-bordered table-striped" id="js-tabel-produk" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>No</th>
@@ -213,6 +215,7 @@
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+  $auth.needRole(['cabang','umkm']);
   let tabelProduk = null;
   let user = null;
   let _idProduk = null;
@@ -323,7 +326,7 @@
       data = res.data
 
       namaProduk.text(data.nama_produk);
-      hargaProduk.text(data.harga);
+      hargaProduk.text($helper.rupiahFormat(data.harga));
       deskripsiProduk.text(data.deskripsi_produk);
       kategoriProduk.text(data.nama_kategori);
       stokProduk.text(data.stok);
@@ -383,7 +386,7 @@
     } else {
       return `<button type="button" class="btn btn-sm btn-primary"
           onclick="showProdukModal(${item.produk_id})">
-          <i class="fas fa-eye"></i></button>`;
+          <i class="fas fa-eye"></i> Detail</button>`;
     }
   }
 
@@ -405,13 +408,15 @@
         item.nama_produk,
         item.deskripsi_produk,
         item.nama_kategori,
-        item.harga,
+        $helper.rupiahFormat(item.harga),
         item.stok,
-        item.tanggal_input,
+        $moment(item.tanggal_input).format('DD MMM YYYY'),
         tableActionButtons(item)
       ]).draw();
       number++;
     });
+
+    tableProduk.columns.adjust().draw();
   }
 
   const populateDropdown = () => {
