@@ -36,10 +36,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         });
 
         Route::group(['prefix' => 'umkm'], function () {
+            Route::get('/', 'api\v1\UmkmController@index');
+
             Route::group(['middleware' => ['role:umkm']], function () {
                 Route::post('profile/edit/', 'api\v1\UmkmController@update');
             });
-
 
             Route::group(['middleware' => ['role:pengelola']], function () {
                 Route::post('/approve', 'api\v1\UmkmController@approveRegister');
@@ -117,6 +118,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('/', 'api\v1\StokOpnameController@store');
             Route::match(['put', 'patch'], '/{stockOpname}', 'api\v1\StokOpnameController@update');
             Route::get('/{stockOpname}', 'api\v1\StokOpnameController@show');
+        });
+
+        Route::group(['prefix' => 'report'], function () {
+            Route::get('umkm-overall', 'api\v1\ReportController@overallUmkmReport');
+            Route::get('umkm-monthly', 'api\v1\ReportController@monthlyUmkmReport');
+            // Route::get('cabang-overall', 'api\v1\ReportController@overallCabangReport');
+            Route::get('cabang-monthly', 'api\v1\ReportController@monthlyCabangReport');
         });
     });
 

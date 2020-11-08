@@ -10,6 +10,16 @@ exports.approvedUmkm = () => {
   return axios.get('/umkm-registration/?q=approved')
 }
 
+exports.allUmkmDetails = (umkmId) => {
+  let condition = '';
+
+  if (umkmId) {
+    condition = `?umkm_id=${umkmId}`;
+  }
+
+  return axios.get(`/umkm/${condition}`)
+}
+
 exports.addUmkm = ({ data }) => {
   return axios.post('/umkm-registration', data)
     .then((res) => {

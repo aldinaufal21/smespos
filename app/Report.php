@@ -22,7 +22,7 @@ class Report extends Model
 
         if (count($dateCondition) > 0) {
             $whereCondition .= 'WHERE';
-            $condition = join("OR",$dateCondition);
+            $condition = count($dateCondition) > 0 ? join("OR",$dateCondition) : $dateCondition;
             $whereCondition .= $condition;
         }
 
@@ -90,7 +90,7 @@ class Report extends Model
 
         if (count($dateCondition) > 0) {
             $whereCondition .= 'WHERE';
-            $condition = join("OR",$dateCondition);
+            $condition = count($dateCondition) > 0 ? join("OR",$dateCondition) : $dateCondition;
             $whereCondition .= $condition;
         }
 
@@ -137,7 +137,7 @@ class Report extends Model
         return $produk->get();
     }
     
-    public static function getAllTransaksiReport($umkmId = null, $beforeDate = null, $afterDate = null)
+    public static function getAllTransaksiReport($umkmId = null, $beforeDate = null, $afterDate = null, $produkId = null)
     {
         $dateCondition = [];
         $whereCondition = '';
@@ -152,7 +152,7 @@ class Report extends Model
 
         if (count($dateCondition) > 0) {
             $whereCondition .= 'WHERE';
-            $condition = join("OR",$dateCondition);
+            $condition = count($dateCondition) > 0 ? join("AND",$dateCondition) : $dateCondition;
             $whereCondition .= $condition;
         }
 
@@ -160,7 +160,7 @@ class Report extends Model
         SELECT 
             SUM(tr.jumlah) AS jumlah,
             SUM(tr.jumlah * p.harga ) AS total_harga,
-            tanggal_transaksi,
+            tr.tanggal_transaksi AS tanggal_transaksi,
             tr.produk_id,
             u2.umkm_id 
         FROM (

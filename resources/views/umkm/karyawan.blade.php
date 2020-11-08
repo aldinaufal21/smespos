@@ -133,7 +133,7 @@
   }
 
   const showKaryawan = (umkmId) => {
-    umkm.detailUmkm(umkmId).then((res) => {
+    umkmStore.detailUmkm(umkmId).then((res) => {
       let data = res.data;
       $('.js-nama-umkm').text(data.nama_umkm);
     });
@@ -188,7 +188,7 @@
   }
 
   const getApprovedUmkm = () => {
-    umkm.approvedUmkm().then((res) => {
+    umkmStore.approvedUmkm().then((res) => {
       let dataUmkm = res.data;
       populateUmkmTable(dataUmkm);
     });
