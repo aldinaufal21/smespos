@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Kasir')
+
 @section('extra_head')
 <!-- Custom styles for this page -->
 <style media="screen">
@@ -183,6 +185,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
 <script>
+  $auth.needRole(['kasir']);
   let user = $auth.userCredentials();
 
   checkStatusKasir();
@@ -384,7 +387,7 @@
           cart_items: this.cart,
           tanggal_transaksi: new Date(),
           kasir: this.authData.kasir,
-          username: this.authData.user.kasir
+          username: this.authData.user.username
         };
 
         pendingTransaction.store(payload);

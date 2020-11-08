@@ -78,6 +78,7 @@
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+  $auth.needRole(['kasir']);
   let tablePendingTransaction = null;
   let user = null;
   let _idKasir = null;

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Dashboard Kasir')
+
 @section('extra_head')
 <!-- Custom styles for this page -->
 <style media="screen">
@@ -118,6 +120,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 
 <script>
+  $auth.needRole(['kasir']);
   var user = $auth.userCredentials();
 
   var vue_dashboard_kasir = new Vue({
@@ -165,10 +168,6 @@
           }
         });
       },
-
-      requestBukaTutupKasir(status){
-
-      }
     }
   });
 

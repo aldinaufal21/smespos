@@ -1,16 +1,17 @@
 // function to make sure stored pending_transactions only one user
-exports.checkUser = (username) => {
+const checkUser = () => {
   let data = JSON.parse(localStorage.getItem('pending_transactions')) || [];
+  let user = JSON.parse(localStorage.getItem('user'));
 
-  if (data.length) {
-      if (data[0].username != username) {
-          // removeAll();
+  if (data.length && user) {
+      if (data[0].username != user.user.username) {
           localStorage.removeItem("pending_transactions");
       }
   }
 }
 
 exports.store = (data) => {
+  checkUser();
   let oldData = JSON.parse(localStorage.getItem('pending_transactions')) || [];
   oldData.push(data);
 
@@ -18,6 +19,7 @@ exports.store = (data) => {
 }
 
 exports.getAll = () => {
+  checkUser();
   return JSON.parse(localStorage.getItem('pending_transactions')) || [];
 }
 
