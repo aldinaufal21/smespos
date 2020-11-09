@@ -30,18 +30,25 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-          <div class="input-group mb-3">
-            <input type="text" name="start_month" class="form-control js-month-datepicker" placeholder="Dari Bulan" aria-label="Dari Bulan" aria-describedby="calendar-addon">
-            <div class="input-group-append">
-              <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
+          <form role="form" id="js-filter-form" onsubmit="filterReport(event)">
+            <div class="input-group mb-3">
+              <input type="text" name="mulai_bulan" class="form-control js-month-datepicker" placeholder="Dari Bulan" aria-label="Dari Bulan" aria-describedby="calendar-addon">
+              <div class="input-group-append">
+                <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
+              </div>
             </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="text" name="end_month" class="form-control js-month-datepicker" placeholder="Sampai Bulan" aria-label="Dari Bulan" aria-describedby="calendar-addon">
-            <div class="input-group-append">
-              <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
+            <div class="input-group mb-3">
+              <input type="text" name="sampai_bulan" class="form-control js-month-datepicker" placeholder="Sampai Bulan" aria-label="Dari Bulan" aria-describedby="calendar-addon">
+              <div class="input-group-append">
+                <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
+              </div>
             </div>
-          </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary float-right">
+                Filter
+              </button>
+            </div>
+          </form>
         </div>
       </div>
       <!-- <div class="card shadow mb-4 cabang-list" style="display: none;">
@@ -87,12 +94,12 @@
       format: "yyyy-mm",
       viewMode: "months",
       minViewMode: "months",
-      startDate: '2020-01-01',
+      startDate: _user.umkm.tanggal_bergabung,
       endDate: new Date(),
     });
 
     initDataTable();
-    getReportData();
+    getReportData(null, null);
 
     /**
      * component on change events
@@ -111,36 +118,26 @@
       reportTable = $('#js-report-table').DataTable({
         dom: "Bfrtip",
         data: rows,
-        columns: columns
-      });
-    } else {
-      $('#js-report-table').hide();
-      reportTable = $('#js-report-table').DataTable({
-        dom: "Bfrtip",
-        data: [
-          ["Row 1 - Field 1", "Row 1 - Field 2", "Row 1 - Field 3"],
-          ["Row 2 - Field 1", "Row 2 - Field 2", "Row 2 - Field 3"],
-        ],
-        columns: [{
-            "title": "Basic Column"
-          },
-          {
-            "title": "Basic Column"
-          },
-          {
-            "title": "Basic Column"
-          }
-        ]
+        columns: columns,
+        scrollY: "300px",
+        scrollX: true,
+        scrollCollapse: true,
+        paging: false,
+        fixedColumns: {
+          leftColumns: 1,
+          rightColumns: 1
+        },
+        retrieve: true,
       });
     }
   }
 
-  const getReportData = () => {
+  const getReportData = (startMonth = null, endMonth = null) => {
     let role = _user.user.role;
 
     switch (role) {
       case 'umkm':
-        reportStore.monthlyUmkm(_user.umkm.umkm_id)
+        reportStore.monthlyUmkm(_user.umkm.umkm_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
           });
@@ -180,8 +177,24 @@
       body.push(arr);
     });
 
-    reportTable.destroy();
+
+    if (reportTable) {
+      reportTable.clear().destroy();
+      $('#js-report-table').empty();
+    }
     initDataTable(columns, body);
+  }
+
+  const filterReport = (e) => {
+    e.preventDefault();
+
+    let formData = $helper.serializeObject($('#js-filter-form'));
+
+    let startMonth = formData.mulai_bulan != "" ? formData.mulai_bulan : null;
+    let endMonth = formData.sampai_bulan != "" ? formData.sampai_bulan : null;
+
+    getReportData(startMonth, endMonth);
+
   }
 </script>
 @endsection
