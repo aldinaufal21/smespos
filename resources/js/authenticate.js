@@ -31,8 +31,11 @@ exports.needRole = (roles) => {
     if (!roles.includes(user.user.role)) {
       $swal({
         'title': 'Forbidden!!'
+      }).then((ok)=>{
+        if (ok) {
+          window.location.href = '/dashboard';
+        }
       })
-      window.location.href = '/dashboard';
     }
   }else {
     if (user.user.role != roles) {
