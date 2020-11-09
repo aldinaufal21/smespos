@@ -4,10 +4,6 @@
 <!-- Custom styles for this page -->
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <style>
-  .css-cust-responsive {
-    /* overflow-y: auto; */
-    /* max-height: 500px; */
-  }
 </style>
 @endsection
 
@@ -17,9 +13,18 @@
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Laporan Penjualan</h1>
-    <button class="btn btn-primary">
-      <i class="fas fa-download fa-sm text-white-50"></i> Cetak Laporan
-    </button>
+    <form action="{{ route('report.download') }}" method="post">
+      @csrf
+      <input type="hidden" id="js-role" name="role" value="">
+      <input type="hidden" id="js-id_cabang" name="cabang_id" value="">
+      <input type="hidden" id="js-id_umkm" name="umkm_id" value="">
+      <input type="hidden" id="js-dari_bulan" name="dari_bulan" value="">
+      <input type="hidden" id="js-sampai_bulan" name="sampai_bulan" value="">
+
+      <button class="btn btn-primary">
+        <i class="fas fa-download fa-sm text-white-50"></i> Cetak Laporan
+      </button>
+    </form>
   </div>
   <div class="row">
     <div class="col-3">
@@ -72,7 +77,7 @@
         <div class="card-body">
           <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
           </div>
-          <div class="table-responsive css-cust-responsive">
+          <div class="table-responsive">
             <table class="table" id="js-report-table" class="display" style="width:100%"></table>
           </div>
         </div>
@@ -90,15 +95,20 @@
 <script>
   let reportTable = null;
   $(document).ready(() => {
+    $('#js-role').val(_user.user.role);
+
     let shouldStartDate = null;
 
     switch (_user.user.role) {
       case 'umkm':
         shouldStartDate = _user.umkm.tanggal_bergabung;
+        $('#js-id_umkm').val(_user.umkm.umkm_id);
         break;
 
       case 'cabang':
         shouldStartDate = _user.created_at;
+        $('#js-id_umkm').val(_user.cabang.umkm_id);
+        $('#js-id_cabang').val(_user.cabang.cabang_id);
         break;
 
       default:
@@ -210,6 +220,9 @@
 
     let startMonth = formData.mulai_bulan != "" ? formData.mulai_bulan : null;
     let endMonth = formData.sampai_bulan != "" ? formData.sampai_bulan : null;
+
+    $('#js-dari_bulan').val(startMonth);
+    $('#js-sampai_bulan').val(endMonth);
 
     getReportData(startMonth, endMonth);
 
