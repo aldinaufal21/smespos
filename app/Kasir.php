@@ -34,7 +34,12 @@ class Kasir extends Model
 
     public function transaksiKasir()
     {
-        return $this->hasMany('App\Models\TransaksiKasir');
+        return $this->hasMany('App\TransaksiKasir');
+    }
+
+    public function sesiKasir()
+    {
+        return $this->hasMany('App\SesiKasir', 'kasir_id', 'kasir_id');
     }
 
     public function wasBelongsTo($cabang)

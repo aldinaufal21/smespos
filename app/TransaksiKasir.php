@@ -13,11 +13,14 @@ class TransaksiKasir extends Model
 
     protected $fillable = [
         'tanggal_transaksi',
-        'kasir_id'
+        'kasir_id',
+        'metode_bayar',
+        'no_transaksi',
+        'no_kartu'
     ];
 
     public function transaksiKasirDetail()
     {
-        return $this->hasMany('App\Models\TransaksiKasirDetail');
+        return $this->hasMany('App\TransaksiKasirDetail');
     }
 }

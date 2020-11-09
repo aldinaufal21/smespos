@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Kasir')
+
 @section('extra_head')
 <!-- Custom styles for this page -->
 <style media="screen">
@@ -154,7 +156,7 @@
                       <input class="form-control" type="number" placeholder="nomor transaksi" v-model="pembayaranForm.debit" @keyup="checkPembayaranForm($event, 'debit')">
                     </div>
                     <div class="col-md-6">
-                      <input class="form-control" type="number" placeholder="nomor kartu">
+                      <input class="form-control" type="number" placeholder="nomor kartu" v-model="pembayaranForm.kartu">
                     </div>
                   </div>
                 </li>
@@ -183,7 +185,10 @@
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
 <script>
+  $auth.needRole(['kasir']);
   let user = $auth.userCredentials();
+
+  checkStatusKasir();
 
   var vue_kasir = new Vue({
     el: '#transaksi-kasir-content',
@@ -205,7 +210,8 @@
         pembayaranForm: {
           cash: '',
           debit: '',
-          qris: ''
+          qris: '',
+          kartu: ''
         },
         metode_bayar: 'cash'
       }
@@ -231,7 +237,7 @@
 
     methods: {
       getKategori() {
-        categoryStore.UmkmsCategory(this.authData.umkm_id).then((res) => {
+        categoryStore.UmkmsCategory(this.authData.cabang.umkm_id).then((res) => {
           // console.log(res.data);
           this.category = res.data;
           this.category.unshift({
@@ -245,7 +251,7 @@
       },
 
       getAllProduct(){
-        productStore.UmkmsProduct(this.authData.umkm_id).then((res) => {
+        productStore.UmkmsProduct(this.authData.cabang.umkm_id).then((res) => {
           // console.log(res.data);
           this.products = res.data;
           this.filteredProducts = this.products;
@@ -381,7 +387,7 @@
           cart_items: this.cart,
           tanggal_transaksi: new Date(),
           kasir: this.authData.kasir,
-          username: this.authData.user.kasir
+          username: this.authData.user.username
         };
 
         pendingTransaction.store(payload);
@@ -427,16 +433,18 @@
             this.metode_bayar = 'cash';
             this.pembayaranForm.cash = '';
             this.pembayaranForm.debit = '';
+            this.pembayaranForm.kartu = '';
             this.pembayaranForm.qris = '';
             break;
           case 'cash':
             this.metode_bayar = 'cash';
             this.cashOptions.selected = null;
             this.pembayaranForm.debit = '';
+            this.pembayaranForm.kartu = '';
             this.pembayaranForm.qris = '';
             break;
           case 'debit':
-            this.metode_bayar = 'debet';
+            this.metode_bayar = 'debit';
             this.cashOptions.selected = null;
             this.pembayaranForm.cash = '';
             this.pembayaranForm.qris = '';
@@ -445,6 +453,7 @@
             this.metode_bayar = 'qris';
             this.cashOptions.selected = null;
             this.pembayaranForm.debit = '';
+            this.pembayaranForm.kartu = '';
             this.pembayaranForm.cash = '';
             break;
           default:
@@ -473,8 +482,12 @@
               const payload = {
                 kasir_id: this.authData.kasir.kasir_id,
                 metode_bayar: this.metode_bayar,
+                no_transaksi: this.pembayaranForm.debit || this.pembayaranForm.qris,
+                no_kartu: this.pembayaranForm.kartu,
                 produk: produk
               }
+
+              // console.log(payload);
 
               axios.post('/createTransaksiKasir',
                 payload,
@@ -507,7 +520,8 @@
         this.pembayaranForm = {
           cash: '',
           debit: '',
-          qris: ''
+          qris: '',
+          kartu: ''
         };
 
         this.metode_bayar = 'cash';
@@ -518,6 +532,32 @@
     }
   });
 
+  function checkStatusKasir() {
+    if (user.kasir.status_kasir=='tutup' || !user.sesi_kasir) {
+      swal({
+        title: 'Harap buka kasir terlebih dahulu!',
+        button: {
+          text: "OK",
+        },
+        closeOnClickOutside: false,
+      }).then((ok)=>{
+        window.location.href = '/kasir'
+      });
+      return;
+    }
+
+    if (user.sesi_kasir.waktu_selesai!=null) {
+      swal({
+        title: 'Harap buka kasir terlebih dahulu!',
+        button: {
+          text: "OK",
+        },
+        closeOnClickOutside: false,
+      }).then((ok)=>{
+        window.location.href = '/kasir'
+      });
+    }
+  }
 
   /*
     handle sticky section

@@ -54,6 +54,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
         Route::group(['middleware' => ['role:kasir']], function () {
             Route::post('createTransaksiKasir', 'api\v1\KasirTransactionController@store');
+            Route::post('bukaKasir', 'api\v1\KasirTransactionController@bukaKasir');
+            Route::post('tutupKasir', 'api\v1\KasirTransactionController@tutupKasir');
         });
 
         Route::group(['middleware' => ['role:konsumen']], function () {

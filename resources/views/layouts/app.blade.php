@@ -96,7 +96,8 @@
     $('#js-usersname-display').text(_user.user.username);
 
     const logoutOperation = () => {
-      localStorage.clear();
+      // localStorage.clear();
+      localStorage.removeItem('user');
       window.location.href = '/login';
     }
   </script>

@@ -25,7 +25,6 @@
             <tr>
               <th>No</th>
               <th>Nama</th>
-              <th>Status</th>
               <th>Tanggal Transaksi</th>
               <th>Aksi</th>
             </tr>
@@ -78,6 +77,9 @@
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+  $auth.needRole(['kasir']);
+
+  $moment.locale('id');
   let tablePendingTransaction = null;
   let user = null;
   let _idKasir = null;
@@ -91,27 +93,6 @@
     getPendingTransactions();
   });
 
-  const openCreateForm = () => {
-    $('#js-kasir-form').attr('data-edit', '');
-    $('#js-submit-button').text('Tambah');
-    $('#js-kasir-modal-form').modal('show');
-  }
-
-  const openEditForm = (idKasir) => {
-    _idKasir = idKasir;
-    cashierStore.detailCashier(idKasir)
-      .then(res => {
-        data = res.data;
-
-        $('#js-username-kasir').val("");
-        $('#js-nama-kasir').val(data.nama_kasir);
-
-        $('#js-kasir-form').attr('data-edit', 'true');
-        $('#js-submit-button').text('Ubah');
-        $('#js-kasir-modal-form').modal('show');
-      });
-  }
-
   const showCashierModal = (id) => {
     let data = pendingTransaction.getItem(id);
     // console.log(data);
@@ -120,7 +101,7 @@
 
     for (var item of data.cart_items) {
         $('#cart-detail-list').append(`
-          <li>${item.nama_produk} (${item.quantity} item) @Rp ${rupiahFormat(item.harga)}</li>
+          <li>${item.nama_produk} (${item.quantity} item) @Rp ${$helper.rupiahFormat(item.harga)}</li>
           `)
     }
 
@@ -150,8 +131,7 @@
       tablePendingTransaction.row.add([
         i+1,
         item.kasir.nama_kasir,
-        item.kasir.status_kasir,
-        item.tanggal_transaksi,
+        $moment(item.tanggal_transaksi).format('D MMM YYYY - HH:mm:ss'),
         `<a href="transaksi?continue=${item.pending_id}" class="btn btn-sm btn-success">
           <i class="fas fa-edit"></i> Lanjutkan Transaksi</a>
         <button type="button" class="btn btn-sm btn-primary"
@@ -173,11 +153,6 @@
     let data = pendingTransaction.getAll();
     console.log(data);
     populateTable(data);
-  }
-
-  function rupiahFormat(value) {
-    let val = (value/1);
-    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
   }
 </script>
 @endsection

@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 });
 
 Route::get('/demo', function () {
@@ -75,6 +75,10 @@ Route::get('nyoba_query', function () {
     // \App\Report::getTransaksiKasirReport(null, null, '2020-10-12','2020-11-12');
     // return dd(DB::getQueryLog());
     return dd(\App\Report::getAllTransaksiReport(null, '2020-11-12','2020-11-12'));
+});
+
+Route::get('/dashboard-cabang', function () {
+    return view('demo');
 });
 
 Auth::routes();
