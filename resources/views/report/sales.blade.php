@@ -90,11 +90,26 @@
 <script>
   let reportTable = null;
   $(document).ready(() => {
+    let shouldStartDate = null;
+
+    switch (_user.user.role) {
+      case 'umkm':
+        shouldStartDate = _user.umkm.tanggal_bergabung;
+        break;
+
+      case 'cabang':
+        shouldStartDate = _user.created_at;
+        break;
+
+      default:
+        return;
+    }
+
     $(".js-month-datepicker").datepicker({
       format: "yyyy-mm",
       viewMode: "months",
       minViewMode: "months",
-      startDate: _user.umkm.tanggal_bergabung,
+      startDate: shouldStartDate,
       endDate: new Date(),
     });
 
@@ -144,7 +159,10 @@
         break;
 
       case 'cabang':
-        // 
+        reportStore.monthlyCabang(_user.cabang.cabang_id, startMonth, endMonth)
+          .then((res) => {
+            showReports(res.data);
+          });
         break;
 
       default:
