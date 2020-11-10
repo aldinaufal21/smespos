@@ -78,6 +78,14 @@ Route::get('nyoba_query', function () {
     return dd(\App\Report::cabangMonthlyProfit(1, '2020-11-12','2020-12-12'));
 });
 
+Route::get('/dashboard-pengelola', function () {
+    return view('demo');
+});
+
+Route::get('/dashboard-umkm', function () {
+    return view('demo');
+});
+
 Route::get('/dashboard-cabang', function () {
     return view('demo');
 });

@@ -9,6 +9,6 @@ exports.doLogin = ({ data }) => {
       window.location.href = '/dashboard';
     })
     .catch(function (error) {
-      console.log(error);
+      $ui.errorModal(error);
     });
 }

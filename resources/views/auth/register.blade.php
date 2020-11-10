@@ -37,37 +37,40 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Buat Akun Konsumen</h1>
                   </div>
-                  <form class="user" enctype="multipart/form-data">
+                  <form class="user" id="js-konsumen-regis-form" enctype="multipart/form-data" onsubmit="konsumenRegis(event)">
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nama Konsumen">
+                        <input type="text" class="form-control form-control-user" name="nama_konsumen" placeholder="Nama Konsumen">
                       </div>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Nomor Telepon">
+                        <input type="text" class="form-control form-control-user" name="nomor_hp" placeholder="Nomor Telepon">
                       </div>
                     </div>
                     <div class="form-group">
-                      <textarea name="" class="form-control form-control-user" cols="30" rows="3" placeholder="Alamat Konsumen"></textarea>
+                      <textarea name="alamat_konsumen" class="form-control form-control-user" cols="30" rows="3" placeholder="Alamat Konsumen"></textarea>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3 mb-3 mb-sm-0">
                         <label>Avatar</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="file" name="" class="form-control">
+                        <input type="file" name="gambar" class="form-control">
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name="username" placeholder="Username">
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                        <input type="password" class="form-control form-control-user" name="password" placeholder="Password">
                       </div>
                       <div class="col-sm-6">
-                        <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Ulangi Password">
+                        <input type="password" class="form-control form-control-user" name="password_confirmation" placeholder="Ulangi Password">
                       </div>
                     </div>
-                    <a href="login.html" class="btn btn-primary btn-user btn-block">
+                    <button type="submit" class="btn btn-primary btn-user btn-block">
                       Daftarkan Akun
-                    </a>
+                    </button>
                   </form>
                   <hr>
                   <div class="text-center">
@@ -80,40 +83,43 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Buat Akun UMKM</h1>
                   </div>
-                  <form class="user" enctype="multipart/form-data">
+                  <form class="user" id="js-umkm-regis-form" enctype="multipart/form-data" onsubmit="umkmRegis(event)">
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nama Pemilik">
+                        <input type="text" class="form-control form-control-user" name="nama_umkm" placeholder="Nama UMKM">
                       </div>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Nomor KTP">
+                        <input type="text" class="form-control form-control-user" name="no_ktp" placeholder="Nomor KTP Pemilik">
                       </div>
                     </div>
                     <div class="form-group">
-                      <textarea name="" class="form-control form-control-user" cols="30" rows="2" placeholder="Alamat Toko"></textarea>
+                      <textarea name="alamat_umkm" class="form-control form-control-user" cols="30" rows="2" placeholder="Alamat Toko"></textarea>
                     </div>
                     <div class="form-group">
-                      <textarea name="" class="form-control form-control-user" cols="30" rows="4" placeholder="Deskripsi Usaha"></textarea>
+                      <textarea name="deskripsi" class="form-control form-control-user" cols="30" rows="4" placeholder="Deskripsi Usaha"></textarea>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3 mb-3 mb-sm-0">
                         <label>Foto Toko</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="file" name="" class="form-control">
+                        <input type="file" name="gambar" class="form-control">
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name="username" placeholder="Username">
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                        <input type="password" class="form-control form-control-user" name="password" placeholder="Password">
                       </div>
                       <div class="col-sm-6">
-                        <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Ulangi Password">
+                        <input type="password" class="form-control form-control-user" name="password_confirmation" placeholder="Ulangi Password">
                       </div>
                     </div>
-                    <a href="login.html" class="btn btn-primary btn-user btn-block">
+                    <button type="submit" class="btn btn-primary btn-user btn-block">
                       Daftarkan Akun
-                    </a>
+                    </button>
                   </form>
                   <hr>
                   <div class="text-center">
@@ -146,6 +152,32 @@
     };
 
     loginStore.doLogin(payload);
+  }
+
+  const konsumenRegis = (e) => {
+    e.preventDefault();
+
+    var formData = new FormData($('#js-konsumen-regis-form')[0]);
+
+    let payload = {
+      data: formData,
+    }
+
+    registrationStore.konsumen(payload);
+  }
+  
+  const umkmRegis = (e) => {
+    e.preventDefault();
+
+    var formData = new FormData($('#js-umkm-regis-form')[0]);
+
+    let payload = {
+      data: formData,
+    }
+
+    console.log(payload.data);
+
+    registrationStore.umkm(payload);
   }
 </script>
 @endsection
