@@ -71,6 +71,7 @@ class KasirTransactionController extends Controller
             ], 500);
         }
 
+        $this->printReceipt($order->transaksi_kasir_id);
         return response()->json($order, 201);
     }
 
@@ -141,8 +142,21 @@ class KasirTransactionController extends Controller
       return response()->json("Tutup kasir berhasil", 201);
     }
 
-    public function printReceipt(){
+    public function testQuery(){
+      $data = TransaksiKasir::where('transaksi_kasir_id', 20)->first();
+      // $data = Kasir::where('kasir_id', 1)->first()->cabang()->first();
+      // $data = TransaksiKasirDetail::join('produks','transaksi_kasir_details.produk_id', '=', 'produks.produk_id')->where('transaksi_kasir_id', 20)->get();
+      print_r($data);
+    }
+
+    public function printReceipt($id_transaksi){
       try {
+          $transaksi = TransaksiKasir::where('transaksi_kasir_id', $id_transaksi)->first();
+          $produk = TransaksiKasirDetail::join('produks','transaksi_kasir_details.produk_id', '=', 'produks.produk_id')
+                                          ->where('transaksi_kasir_id', $id_transaksi)->get();
+          $kasir = Kasir::where('kasir_id', 1)->first();
+          $cabang = $kasir->cabang()->first();
+
           // Enter the share name for your USB printer here
           $connector = new WindowsPrintConnector("POS-58");
           // $connector = new WindowsPrintConnector("smb://yourPrinterIP");
@@ -157,10 +171,10 @@ class KasirTransactionController extends Controller
               $lebar_kolom_4 = 8;
 
               // Melakukan wordwrap(), jadi jika karakter teks melebihi lebar kolom, ditambahkan \n
-              $kolom1 = wordwrap($kolom1, $lebar_kolom_1, "-\n", true);
-              $kolom2 = wordwrap($kolom2, $lebar_kolom_2, "-\n", true);
-              $kolom3 = wordwrap($kolom3, $lebar_kolom_3, "-\n", true);
-              $kolom4 = wordwrap($kolom4, $lebar_kolom_4, "-\n", true);
+              $kolom1 = wordwrap($kolom1, $lebar_kolom_1, "\n", true);
+              $kolom2 = wordwrap($kolom2, $lebar_kolom_2, "\n", true);
+              $kolom3 = wordwrap($kolom3, $lebar_kolom_3, "\n", true);
+              $kolom4 = wordwrap($kolom4, $lebar_kolom_4, "\n", true);
 
               // Merubah hasil wordwrap menjadi array, kolom yang memiliki 2 index array berarti memiliki 2 baris (kena wordwrap)
               $kolom1Array = explode("\n", $kolom1);
@@ -198,13 +212,13 @@ class KasirTransactionController extends Controller
           //$printer->selectPrintMode(Printer::MODE_DOUBLE_HEIGHT); // Setting teks menjadi lebih besar
           $printer->setJustification(Printer::JUSTIFY_CENTER); // Setting teks menjadi rata tengah
     	    $printer->setPrintLeftMargin(10);
-          $printer->text("UMKM 1\n");
+          $printer->text("$cabang->nama_cabang \n");
           $printer->text("\n");
 
           // Data transaksi
           $printer->initialize();
-          $printer->text("Kasir : Rafata Baharanto\n");
-          $printer->text("Waktu : 13-10-2019 19:23:22\n");
+          $printer->text("Kasir : $kasir->nama_kasir \n");
+          $printer->text("Waktu : $transaksi->tanggal_transaksi \n");
 
           // Membuat tabel
           $printer->initialize(); // Reset bentuk/jenis teks
@@ -213,22 +227,31 @@ class KasirTransactionController extends Controller
           $printer->text("-------------------------------\n");
 
           // items start
-          $printer->text(buatBaris4Kolom("Makaroni 250gr", "2pcs", "15.000", "30.000"));
-          $printer->text(buatBaris4Kolom("Telur", "2pcs", "5.000", "10.000"));
-          $printer->text(buatBaris4Kolom("Tepung terigu", "2pcs", "8.200", "16.400"));
+          foreach ($produk as $key => $value) {
+            $printer->text(buatBaris4Kolom($value->nama_produk, $value->jumlah."pcs", number_format($value->harga), number_format($value->harga*$value->jumlah)));
+            if ($key != count($produk)-1) {
+              $printer->text("\n");
+            }
+          }
+          // $printer->text(buatBaris4Kolom("Makaroni 250gr", "2pcs", "15.000", "30.000"));
+          // $printer->text(buatBaris4Kolom("Telur", "2pcs", "5.000", "10.000"));
+          // $printer->text(buatBaris4Kolom("Tepung terigu", "2pcs", "8.200", "16.400"));
 
           // total
           $printer->text("-------------------------------\n");
-          $printer->text(buatBaris4Kolom('', '', "Total", "56.400"));
+          $printer->text(buatBaris4Kolom("Total", '', '',  number_format($transaksi->total_harga)));
+          $printer->text(buatBaris4Kolom("Pembayaran", '', '',  $transaksi->metode_bayar));
+          $printer->text(buatBaris4Kolom("Dibayar", '', '',  number_format($transaksi->total_bayar)));
+          $printer->text(buatBaris4Kolom("Kembali", '', '',  number_format($transaksi->total_bayar - $transaksi->total_harga)));
           $printer->text("\n");
 
            // Pesan penutup
           $printer->initialize();
           $printer->setJustification(Printer::JUSTIFY_CENTER);
-          $printer->text("Terima kasih telah berbelanja\n");
-          // $printer->text("http://badar-blog.blogspot.com\n");
+          $printer->text("Terima kasih telah berbelanja.\n");
+          $printer->text($cabang->alamat_cabang);
 
-          $printer->feed(3); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
+          $printer->feed(4); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
 
           /* Cut the receipt and open the cash drawer */
           // $printer->cut();
@@ -236,10 +259,12 @@ class KasirTransactionController extends Controller
           /* Close printer */
           $printer->close();
           // echo "Sudah di Print";
+          // return "printed";
           return true;
       } catch (Exception $e) {
           $message = "Couldn't print to this printer: " . $e->getMessage() . "\n";
           return false;
+          // return $message;
       }
     }
 

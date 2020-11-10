@@ -97,6 +97,7 @@ Route::get('/phpinfo', function () {
   phpinfo();
 });
 
-Route::get('/test-print', 'api\v1\KasirTransactionController@printReceipt');
+Route::get('/test-print/{id_transaksi}', 'api\v1\KasirTransactionController@printReceipt');
+Route::get('/test-query', 'api\v1\KasirTransactionController@testQuery');
 
 Auth::routes();
