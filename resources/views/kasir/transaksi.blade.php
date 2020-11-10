@@ -485,30 +485,30 @@
                 metode_bayar: this.metode_bayar,
                 no_transaksi: this.pembayaranForm.debit || this.pembayaranForm.qris,
                 no_kartu: this.pembayaranForm.kartu,
-                total_bayar: getTotalBayar(),
+                total_bayar: parseInt(this.getTotalBayar()),
                 produk: produk
               }
 
-              console.log(payload);
+              // console.log(payload);
 
-              // axios.post('/createTransaksiKasir',
-              //   payload,
-              // )
-              //   .then((response) => {
-              //     $.LoadingOverlay("hide");
-              //     this.resetKasir();
-              //     $('#modal-pembayaran').modal('hide');
-              //
-              //     swal({
-              //       icon: "success",
-              //       title: "Transaksi selesai"
-              //     });
-              //   })
-              //   .catch((err) => {
-              //     console.log(err);
-              //     $.LoadingOverlay("hide");
-              //     $helper.showAxiosError(err);
-              //   });
+              axios.post('/createTransaksiKasir',
+                payload,
+              )
+                .then((response) => {
+                  $.LoadingOverlay("hide");
+                  this.resetKasir();
+                  $('#modal-pembayaran').modal('hide');
+
+                  swal({
+                    icon: "success",
+                    title: "Transaksi selesai"
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                  $.LoadingOverlay("hide");
+                  $helper.showAxiosError(err);
+                });
             }
           });
       },

@@ -10,8 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-use Mike42\Escpos\Printer;
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
@@ -98,5 +96,7 @@ Route::get('/dashboard-pengelola', function () {
 Route::get('/phpinfo', function () {
   phpinfo();
 });
+
+Route::get('/test-print', 'api\v1\KasirTransactionController@printReceipt');
 
 Auth::routes();

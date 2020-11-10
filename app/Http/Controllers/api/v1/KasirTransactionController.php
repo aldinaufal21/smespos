@@ -13,6 +13,9 @@ use App\Kasir;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+
 class KasirTransactionController extends Controller
 {
     public function index(Request $request)
@@ -27,7 +30,7 @@ class KasirTransactionController extends Controller
         $validator = Validator::make($requestData, [
             'kasir_id' => 'required',
             'metode_bayar' => 'required',
-            'total_bayar' => 'required'
+            'total_bayar' => 'required',
             'produk' => 'required|array|min:1',
             'produk.*.produk_id' => 'required',
             'produk.*.jumlah' => 'required'
@@ -41,7 +44,7 @@ class KasirTransactionController extends Controller
 
         $total_harga = 0;
         foreach ($requestData['produk'] as $key => $value) {
-            $total_harga += $requestData['produk'][$key]['harga'] = Produk::getProductDetailById($value['produk_id'])->harga;
+            $total_harga += $requestData['produk'][$key]['harga'] = Produk::getProductDetailById($value['produk_id'])->harga * $value['jumlah'];
         }
 
         $requestData['tanggal_transaksi'] = Carbon::now();
