@@ -6,7 +6,7 @@ exports.doLogin = ({ data }) => {
       data = response.data;
 
       localStorage.setItem("user", JSON.stringify(data));
-      window.location.href = '/dashboard';
+      window.location.href = $baseURL + '/dashboard';
     })
     .catch(function (error) {
       console.log(error);

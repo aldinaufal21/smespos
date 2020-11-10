@@ -98,7 +98,7 @@
     const logoutOperation = () => {
       // localStorage.clear();
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.href = $baseURL + '/login';
     }
   </script>
 

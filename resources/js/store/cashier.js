@@ -63,7 +63,7 @@ exports.openCashier = (data) => {
       user.sesi_kasir = res.data;
       localStorage.setItem("user", JSON.stringify(user));
 
-      window.location.href = '/kasir/transaksi';
+      window.location.href = $baseURL + '/kasir/transaksi';
       return res;
     })
     .catch((err) => {
@@ -83,7 +83,7 @@ exports.closeCashier = (data) => {
       delete user.sesi_kasir;
       localStorage.setItem("user", JSON.stringify(user));
 
-      window.location.href = '/kasir';
+      window.location.href = $baseURL + '/kasir';
       return res;
     })
     .catch((err) => {

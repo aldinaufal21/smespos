@@ -186,6 +186,7 @@
 
 <script>
   $auth.needRole(['kasir']);
+  console.log($baseURL);
   let user = $auth.userCredentials();
 
   checkStatusKasir();
@@ -329,7 +330,7 @@
           .then((willDelete) => {
             if (willDelete) {
               if (this.continue) {
-                window.location.href = '/kasir/transaksi'; // reset url
+                window.location.href = $baseURL + '/kasir/transaksi'; // reset url
               }
 
               this.cart = [];
@@ -369,7 +370,7 @@
               this.cart = [];
               if (this.continue) {
                 // reset url
-                window.location.href = '/kasir/transaksi';
+                window.location.href = $baseURL + '/kasir/transaksi';
               }
             }
           });
@@ -484,31 +485,36 @@
                 metode_bayar: this.metode_bayar,
                 no_transaksi: this.pembayaranForm.debit || this.pembayaranForm.qris,
                 no_kartu: this.pembayaranForm.kartu,
+                total_bayar: getTotalBayar(),
                 produk: produk
               }
 
-              // console.log(payload);
+              console.log(payload);
 
-              axios.post('/createTransaksiKasir',
-                payload,
-              )
-                .then((response) => {
-                  $.LoadingOverlay("hide");
-                  this.resetKasir();
-                  $('#modal-pembayaran').modal('hide');
-
-                  swal({
-                    icon: "success",
-                    title: "Transaksi selesai"
-                  });
-                })
-                .catch((err) => {
-                  console.log(err);
-                  $.LoadingOverlay("hide");
-                  $helper.showAxiosError(err);
-                });
+              // axios.post('/createTransaksiKasir',
+              //   payload,
+              // )
+              //   .then((response) => {
+              //     $.LoadingOverlay("hide");
+              //     this.resetKasir();
+              //     $('#modal-pembayaran').modal('hide');
+              //
+              //     swal({
+              //       icon: "success",
+              //       title: "Transaksi selesai"
+              //     });
+              //   })
+              //   .catch((err) => {
+              //     console.log(err);
+              //     $.LoadingOverlay("hide");
+              //     $helper.showAxiosError(err);
+              //   });
             }
           });
+      },
+
+      getTotalBayar(){
+        return (this.cashOptions.selected != null)?this.cashOptions.button[this.cashOptions.selected]:false || this.pembayaranForm.cash || this.subtotal;
       },
 
       resetKasir(){
@@ -541,7 +547,7 @@
         },
         closeOnClickOutside: false,
       }).then((ok)=>{
-        window.location.href = '/kasir'
+        window.location.href = $baseURL + '/kasir'
       });
       return;
     }
@@ -554,7 +560,7 @@
         },
         closeOnClickOutside: false,
       }).then((ok)=>{
-        window.location.href = '/kasir'
+        window.location.href = $baseURL + '/kasir'
       });
     }
   }

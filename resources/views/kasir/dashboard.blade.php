@@ -121,6 +121,7 @@
 
 <script>
   $auth.needRole(['kasir']);
+  console.log($baseURL);
   var user = $auth.userCredentials();
 
   var vue_dashboard_kasir = new Vue({

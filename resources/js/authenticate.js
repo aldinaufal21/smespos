@@ -5,14 +5,14 @@
 exports.needAuthentication = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   if (!user || !user.token) {
-    window.location.href = '/login';
+    window.location.href = $baseURL + '/login';
   }
 }
 
 exports.authenticated = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   if (user && user.token) {
-    window.location.href = '/dashboard';
+    window.location.href = $baseURL + '/dashboard';
   }
 }
 
@@ -33,7 +33,7 @@ exports.needRole = (roles) => {
         'title': 'Forbidden!!'
       }).then((ok)=>{
         if (ok) {
-          window.location.href = '/dashboard';
+          window.location.href = $baseURL + '/dashboard';
         }
       })
     }
@@ -44,7 +44,7 @@ exports.needRole = (roles) => {
         'title': 'Forbidden!!'
       }).then((ok)=>{
         if (ok) {
-          window.location.href = '/dashboard';
+          window.location.href = $baseURL + '/dashboard';
         }
       })
     }

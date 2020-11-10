@@ -41,6 +41,9 @@ window.$swal = require('sweetalert');
 window.$moment = require('moment');
 require("moment/min/locales.min");
 
+// window.$baseURL = window.location.origin + window.location.pathname;
+window.$baseURL =  process.env.MIX_BASE_URL;
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

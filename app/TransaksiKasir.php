@@ -16,7 +16,9 @@ class TransaksiKasir extends Model
         'kasir_id',
         'metode_bayar',
         'no_transaksi',
-        'no_kartu'
+        'no_kartu',
+        'total_bayar',
+        'total_harga'
     ];
 
     public function transaksiKasirDetail()
