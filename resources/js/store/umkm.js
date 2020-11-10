@@ -31,13 +31,7 @@ exports.addUmkm = ({ data }) => {
       return res;
     })
     .catch((err) => {
-      console.log(err.response);
-      
-      $swal({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Terjadi Kesalahan!',
-      })
+      $ui.errorModal(err);
     })
 }
 

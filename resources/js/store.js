@@ -34,3 +34,6 @@ window.umkmStore = require('./store/umkm');
 
 // pending transactions data stores
 window.reportStore = require('./store/report');
+
+// pending transactions data stores
+window.registrationStore = require('./store/registration');
