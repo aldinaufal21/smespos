@@ -1,5 +1,15 @@
 @extends('../layouts.auth')
 
+@section('extra_head')
+  <style media="screen">
+    .bg-login-image{
+      background: url(https://images.unsplash.com/photo-1602665742701-389671bc40c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80);
+      background-position: center;
+      background-size: cover;
+    }
+  </style>
+@endsection
+
 @section('content')
 <div class="container">
 
@@ -55,7 +65,7 @@
       username: $('#js-username').val(),
       password: $('#js-password').val(),
     };
-    
+
     const payload = {
       data: data
     };

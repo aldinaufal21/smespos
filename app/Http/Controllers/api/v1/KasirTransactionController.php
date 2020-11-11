@@ -154,7 +154,7 @@ class KasirTransactionController extends Controller
           $transaksi = TransaksiKasir::where('transaksi_kasir_id', $id_transaksi)->first();
           $produk = TransaksiKasirDetail::join('produks','transaksi_kasir_details.produk_id', '=', 'produks.produk_id')
                                           ->where('transaksi_kasir_id', $id_transaksi)->get();
-          $kasir = Kasir::where('kasir_id', 1)->first();
+          $kasir = Kasir::where('kasir_id', $transaksi->kasir_id)->first();
           $cabang = $kasir->cabang()->first();
 
           // Enter the share name for your USB printer here
