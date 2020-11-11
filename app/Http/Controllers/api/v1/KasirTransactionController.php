@@ -228,7 +228,8 @@ class KasirTransactionController extends Controller
 
           // items start
           foreach ($produk as $key => $value) {
-            $printer->text(buatBaris4Kolom($value->nama_produk, $value->jumlah."pcs", number_format($value->harga), number_format($value->harga*$value->jumlah)));
+            $printer->text($value->nama_produk."\n");
+            $printer->text(buatBaris4Kolom('', $value->jumlah."x", number_format($value->harga), number_format($value->harga*$value->jumlah)));
             if ($key != count($produk)-1) {
               $printer->text("\n");
             }
@@ -241,7 +242,7 @@ class KasirTransactionController extends Controller
           $printer->text("-------------------------------\n");
           $printer->text(buatBaris4Kolom("Total", '', '',  number_format($transaksi->total_harga)));
           $printer->text(buatBaris4Kolom("Pembayaran", '', '',  $transaksi->metode_bayar));
-          $printer->text(buatBaris4Kolom("Dibayar", '', '',  number_format($transaksi->total_bayar)));
+          $printer->text(buatBaris4Kolom("Bayar", '', '',  number_format($transaksi->total_bayar)));
           $printer->text(buatBaris4Kolom("Kembali", '', '',  number_format($transaksi->total_bayar - $transaksi->total_harga)));
           $printer->text("\n");
 
