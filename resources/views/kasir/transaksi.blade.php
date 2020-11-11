@@ -29,6 +29,10 @@
       border: 1px solid black;
   }
 
+  .selected-payment{
+    color:  #1aa245;
+  }
+
 </style>
 @endsection
 
@@ -125,7 +129,7 @@
 
     <!-- Modal Pembayaran start -->
     <div class="modal fade" id="modal-pembayaran" style="background-color:rgba(0, 0, 0, 0.7);" tabindex="-1" role="dialog" aria-labelledby="kasirModal" aria-hidden="true">
-      <div class="modal-dialog modal-lg center-modal" style="top:20%" role="document">
+      <div class="modal-dialog modal-lg center-modal" style="top:10%" role="document">
         <div class="modal-content">
           <div class="modal-header" style="background-color:#1cc88a;">
             <h4 class="modal-title" style="color:#fff"><b>Pembayaran</b></h4>
@@ -138,6 +142,9 @@
             <div class="container">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item metode-bayar-item">
+                  <h4>Total : Rp <b><span v-text="rupiahFormat(subtotal)"></span></b></h4>
+                </li>
+                <li class="list-group-item metode-bayar-item">
                   <h5>Cash</h5>
                   <button type="button"
                           class="d-none d-sm-inline-block btn btn-lg shadow-sm cash-button"
@@ -148,6 +155,9 @@
                           style="margin-right: 5px"></button>
 
                   <input class="form-control" style="margin-top:1rem;" type="number" v-model="pembayaranForm.cash" placeholder="masukan jumlah pembayaran..." @keyup="checkPembayaranForm($event, 'cash')">
+                  <br>
+                  <h4 v-if="kembalian >= 0">Kembali : Rp <b><span v-text="rupiahFormat(kembalian)"></span></b></h4>
+                  <h4 v-else="kembalian < 0"> <span style="color:red">Nominal belum mencukupi</span> </h4>
                 </li>
                 <li class="list-group-item metode-bayar-item">
                   <h5>Debit</h5>
@@ -214,7 +224,8 @@
           qris: '',
           kartu: ''
         },
-        metode_bayar: 'cash'
+        metode_bayar: 'cash',
+        kembalian: 0
       }
     },
 
@@ -228,6 +239,10 @@
           this.continue = pending_id;
           this.calculateSubtotal();
       }
+
+      $('#modal-pembayaran').on('hidden.bs.modal', (e) => {
+        this.resetPembayaran();
+      })
     },
 
     created() {
@@ -339,6 +354,7 @@
       },
 
       pay(){
+        $.LoadingOverlay("show");
         let total = this.subtotal;
         let dummyNumber = [5000,10000,15000,20000,50000,100000,150000,200000,250000,300000];
         let array = [total];
@@ -353,7 +369,10 @@
 
         this.cashOptions.button = array;
 
-        $('#modal-pembayaran').modal('show');
+        setTimeout(()=>{
+          $.LoadingOverlay("hide");
+          $('#modal-pembayaran').modal('show');
+        }, 100);
       },
 
       newCart(){
@@ -436,6 +455,7 @@
             this.pembayaranForm.debit = '';
             this.pembayaranForm.kartu = '';
             this.pembayaranForm.qris = '';
+            this.kembalian = parseInt(this.cashOptions.button[this.cashOptions.selected]) - this.subtotal;
             break;
           case 'cash':
             this.metode_bayar = 'cash';
@@ -443,12 +463,14 @@
             this.pembayaranForm.debit = '';
             this.pembayaranForm.kartu = '';
             this.pembayaranForm.qris = '';
+            this.kembalian = parseInt(this.pembayaranForm.cash) - this.subtotal;
             break;
           case 'debit':
             this.metode_bayar = 'debit';
             this.cashOptions.selected = null;
             this.pembayaranForm.cash = '';
             this.pembayaranForm.qris = '';
+            this.kembalian = 0;
             break;
           case 'qris':
             this.metode_bayar = 'qris';
@@ -456,6 +478,7 @@
             this.pembayaranForm.debit = '';
             this.pembayaranForm.kartu = '';
             this.pembayaranForm.cash = '';
+            this.kembalian = 0;
             break;
           default:
         }
@@ -517,7 +540,11 @@
         return (this.cashOptions.selected != null)?this.cashOptions.button[this.cashOptions.selected]:false || this.pembayaranForm.cash || this.subtotal;
       },
 
-      resetKasir(){
+      validasiPembayaran(){
+
+      },
+
+      resetPembayaran(){
         this.cashOptions = {
           button: [],
           selected: 0
@@ -530,8 +557,13 @@
           kartu: ''
         };
 
-        this.metode_bayar = 'cash';
+        this.kembalian = 0;
 
+        this.metode_bayar = 'cash';
+      },
+
+      resetKasir(){
+        this.resetPembayaran();
         this.cart = [];
         this.calculateSubtotal();
       }
