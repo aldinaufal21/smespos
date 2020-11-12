@@ -37,26 +37,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Buat Akun Konsumen</h1>
                   </div>
-                  <form class="user" id="js-konsumen-regis-form" enctype="multipart/form-data" onsubmit="konsumenRegis(event)">
-                    <div class="form-group row">
-                      <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" name="nama_konsumen" placeholder="Nama Konsumen">
-                      </div>
-                      <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-user" name="nomor_hp" placeholder="Nomor Telepon">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <textarea name="alamat_konsumen" class="form-control form-control-user" cols="30" rows="3" placeholder="Alamat Konsumen"></textarea>
-                    </div>
-                    <div class="form-group row">
-                      <div class="col-sm-3 mb-3 mb-sm-0">
-                        <label>Avatar</label>
-                      </div>
-                      <div class="col-sm-9">
-                        <input type="file" name="gambar" class="form-control">
-                      </div>
-                    </div>
+                  <form class="user" id="js-konsumen-regis-form" onsubmit="konsumenRegis(event)">
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" name="username" placeholder="Username">
                     </div>
@@ -157,7 +138,7 @@
   const konsumenRegis = (e) => {
     e.preventDefault();
 
-    var formData = new FormData($('#js-konsumen-regis-form')[0]);
+    let formData = $helper.serializeObject($('#js-konsumen-regis-form'));
 
     let payload = {
       data: formData,

@@ -40,10 +40,6 @@ class KonsumenController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|max:255|confirmed',
-            'nama_konsumen' => 'required|string|max:255',
-            'alamat_konsumen' => 'required|string|max:255',
-            'nomor_hp' => 'required|numeric|digits_between:10,14',
-            'gambar' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -55,31 +51,9 @@ class KonsumenController extends Controller
         $requestData['password'] = Hash::make($requestData['password']);
         $requestData['role'] = 'konsumen';
 
-        DB::beginTransaction();
-        try {
-            $user = User::create($requestData);
-    
-            $userAvatar = $request->gambar;
-            $avatarUrl = $request->gambar != null ?
-                    $this->storeUserProfileImage($userAvatar) : null;
-            $requestData['gambar'] = $avatarUrl;
-            $requestData['user_id'] = $user->id;
-            $requestData['tanggal_gabung'] = Carbon::now();
-            $requestData['login_terakhir'] = Carbon::createFromDate(null, null, null, null);
-            
-            $konsumen = Konsumen::create($requestData);
+        $user = User::create($requestData);
 
-            $response = array_merge($user->toArray(), $konsumen->toArray());
-            
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json([
-                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
-            ], 500);
-        }
-
-        return response()->json($response, 201);
+        return response()->json($user, 201);
     }
 
     public function update(Request $request)
