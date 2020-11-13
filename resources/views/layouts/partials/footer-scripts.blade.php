@@ -1,5 +1,5 @@
 <!-- Call Main JS -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/admin.js') }}"></script>
 
 <!-- Bootstrap core JavaScript-->
 <!-- Script below ommented because it's causing tabrakan -->

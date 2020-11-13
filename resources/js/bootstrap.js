@@ -42,7 +42,7 @@ window.$moment = require('moment');
 require("moment/min/locales.min");
 
 // window.$baseURL = window.location.origin + window.location.pathname;
-window.$baseURL =  process.env.MIX_BASE_URL;
+window.$baseURL =  process.env.MIX_BASE_URL + '/admin';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

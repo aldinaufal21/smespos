@@ -11,5 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.site = (id, callback) => {
+    if (!process.env.SITE || process.env.SITE === id) {
+        return callback()
+    }
+};
+
+mix.site('admin', () => {
+  mix.js('resources/js/app.js', 'public/js/admin.js')
+      .sass('resources/sass/app.scss', 'public/css/admin.css');
+})
+
+mix.site('app', () => {
+    mix.js("resources/js/konsumen/app.js", "public/js/app.js");
+})
