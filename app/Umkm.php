@@ -45,6 +45,11 @@ class Umkm extends Model
         return $this->hasMany('App\Cabang', 'umkm_id', 'umkm_id');
     }
 
+    public function bank()
+    {
+        return $this->hasMany('App\Bank', 'umkm_id', 'umkm_id');
+    }
+
     public function pendaftaranUmkm()
     {
         return $this->hasOne('App\PendaftaranUmkm', 'umkm_id', 'umkm_id');
