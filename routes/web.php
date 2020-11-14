@@ -16,6 +16,22 @@ Route::get('/demo', function () {
     return view('demo');
 })->name('demo');
 
+Route::get('/', 'KonsumenController@index')->name('konsumen.home');
+Route::get('/login', 'KonsumenController@login')->name('konsumen.login');
+Route::get('/register', 'KonsumenController@register')->name('konsumen.register');
+Route::get('/checkout', 'KonsumenController@checkout')->name('konsumen.checkout');
+
+Route::group(['prefix' => 'user'], function () {
+  Route::get('/', 'KonsumenController@profile')->name('konsumen.profile');
+  Route::get('/wishlist', 'KonsumenController@wishlist')->name('konsumen.wishlist');
+});
+
+Route::group(['prefix' => 'shop'], function () {
+  Route::get('/', 'KonsumenController@shop')->name('konsumen.shop');
+});
+
+Route::get('/cart', 'KonsumenController@cart')->name('konsumen.cart');
+
 Route::group(['prefix' => 'admin'], function () {
 
   Route::get('/', function () {
@@ -111,4 +127,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 });
 
-Route::get('/{any?}', 'KonsumenAppController@index')->where('any', '(.*)');
+// Route::get('/{any?}', 'KonsumenAppController@index')->where('any', '(.*)');

@@ -1,15 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import router from './router.js'
-import store from './store.js'
+require('./bootstrap');
 
-Vue.use(VueRouter)
+// app data stores
+// require('./stores');
 
-import App from './App.vue'
-
-const app = new Vue({
-    el: '#app',
-    components: { App },
-    router,
-    store,
-});
+// mandatory authentication configuration
+// window.$auth = require('./authenticate');

@@ -1,6 +1,37 @@
-<template>
+@extends('konsumen_app.layouts.app')
+
+@section('title','Register')
+
+@section('extra_head')
+<!-- Custom styles for this page -->
+<style media="screen">
+
+</style>
+@endsection
+
+@section('content')
   <!-- main wrapper start -->
   <main>
+      <!-- breadcrumb area start -->
+      <div class="breadcrumb-area common-bg">
+          <div class="container">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="breadcrumb-wrap">
+                          <nav aria-label="breadcrumb">
+                              <h1>Register</h1>
+                              <ul class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                  <li class="breadcrumb-item active" aria-current="page">Register</li>
+                              </ul>
+                          </nav>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- breadcrumb area end -->
+
       <!-- login register wrapper start -->
       <center>
           <div class="login-register-wrapper section-space pb-0">
@@ -36,7 +67,7 @@
                                       <button class="btn btn__bg">Register</button>
                                   </div>
                                   <div class="single-input-item">
-                                      <p>Already have account? <router-link :to="{ name: 'login' }">Login here</router-link></p>
+                                      <p>Already have account? <a href="{{ route('konsumen.login') }}">Login here</a></p>
                                   </div>
                               </form>
                           </div>
@@ -49,43 +80,12 @@
       <!-- login register wrapper end -->
   </main>
   <!-- main wrapper end -->
-</template>
+@endsection
 
+@section('extra_script')
+<!-- Page level plugins -->
 <script>
-import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
-export default {
-    data() {
-        return {
-            login_data: {
-                username: '',
-                password: ''
-            }
-        }
-    },
-    created() {
-        if (this.isAuth) {
-            this.$router.push({ name: 'home' })
-        }
-    },
-    computed: {
-        ...mapGetters(['isAuth']),
-        ...mapState(['errors'])
-    },
-    methods: {
-        ...mapActions('auth', ['submit']),
-        ...mapMutations(['CLEAR_ERRORS']),
-        postLogin(event) {
-            event.preventDefault();
-            this.submit(this.login_data).then(() => {
-                if (this.isAuth) {
-                    this.CLEAR_ERRORS()
-                    this.$router.push({ name: 'home' })
-                }
-            })
-        }
-    },
-    destroyed() {
-        // this.getUserLogin()
-    }
-}
+
+
 </script>
+@endsection
