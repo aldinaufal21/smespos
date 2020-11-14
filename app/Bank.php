@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Bank extends Model
 {
@@ -30,5 +31,19 @@ class Bank extends Model
     public function wasBelongsTo($umkm)
     {
         return $this->umkm_id == $umkm->umkm_id;
+    }
+
+    public static function getBankByUmkm($umkmId = null)
+    {
+        $kategori = DB::table('banks')
+            ->join('umkms', 'umkms.umkm_id', '=', 'banks.umkm_id')
+            ->select(
+                'banks.*',
+            );
+
+        if ($umkmId) {
+            $kategori->where('umkms.umkm_id', $umkmId);
+        }
+        return $kategori->get();
     }
 }

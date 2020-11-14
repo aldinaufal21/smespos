@@ -85,6 +85,11 @@
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Produk</span></a>
   </li>
+  <li class="nav-item nav-umkm">
+    <a class="nav-link" href="{{ route('bank.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Kelola Bank</span></a>
+  </li>
   <li class="nav-item nav-cabang">
     <a class="nav-link" href="{{ route('kasir-cabang.index') }}">
       <i class="fas fa-fw fa-cog"></i>

@@ -37,3 +37,6 @@ window.reportStore = require('./store/report');
 
 // pending transactions data stores
 window.registrationStore = require('./store/registration');
+
+// pending transactions data stores
+window.bankStore = require('./store/bank');

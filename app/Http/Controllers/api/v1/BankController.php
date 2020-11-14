@@ -13,8 +13,8 @@ class BankController extends Controller
 
     public function index(Request $request)
     {   
-        $umkm = $this->getUmkm($request);
-        $bank = $umkm->bank()->get();
+        $umkmId = $request->id_umkm;
+        $bank = Bank::getBankByUmkm($umkmId);
         
         return response()->json($bank, 200);
     }
@@ -34,7 +34,8 @@ class BankController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
+        $requestData['umkm_id'] = $this->getUmkm($request)->umkm_id;
         $bank = Bank::create($requestData);
 
         return response()->json($bank, 201);
@@ -65,6 +66,7 @@ class BankController extends Controller
             ], 403);
         }
 
+        $requestData['umkm_id'] = $umkm->umkm_id;
         $bank->update($requestData);
 
         return response()->json($bank, 200);

@@ -50,6 +50,10 @@ Route::resource('umkm', 'UmkmController')->only([
     'index',
 ]);
 
+Route::resource('bank', 'BankController')->only([
+    'index',
+]);
+
 Route::group(['prefix' => 'umkm'], function () {
     Route::get('/data', 'UmkmController@dataUmkm')->name('umkm.data');
     Route::get('/karyawan', 'UmkmController@dataKaryawanUmkm')->name('umkm.karyawan');
