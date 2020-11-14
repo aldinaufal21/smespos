@@ -14,7 +14,7 @@
 
   <!-- Nav Item - Dashboard -->
   <!-- Dashboard sementara untuk cabang, pemilik, pengelola -->
-  <li class="nav-item nav-cabang nav-pemilik nav-pengelola {{ (Request::segment(1)=='dashboard')?'active':'' }}">
+  <li class="nav-item nav-cabang nav-pemilik nav-pengelola nav-umkm {{ (Request::segment(1)=='dashboard')?'active':'' }}">
     <a class="nav-link" href="{{ route('dashboard') }}">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
@@ -94,6 +94,11 @@
     <a class="nav-link" href="{{ route('kasir-cabang.index') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Kelola Kasir</span></a>
+  </li>
+  <li class="nav-item nav-cabang">
+    <a class="nav-link" href="{{ route('transaksi.index') }}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Transaksi Konsumen</span></a>
   </li>
   <!-- <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduk" aria-expanded="true" aria-controls="collapseProduk">

@@ -128,7 +128,7 @@ class ReportController extends Controller
     private function getMonthBetween($startDate, $endDate)
     {
         $start    = (new DateTime($startDate))->modify('first day of this month');
-        $end      = (new DateTime($endDate))->modify('first day of next month');
+        $end      = (new DateTime($endDate))->modify('last day of this month');
         $interval = DateInterval::createFromDateString('1 month');
         $period   = new DatePeriod($start, $interval, $end);
         $months = [];

@@ -33,19 +33,19 @@
         <tr>
           <td>{{ ($index + 1) }}</td>
           <td>{{ $data['nama_produk'] }}</td>
-          <td>{{ $data['harga'] }}</td>
+          <td>{!! Helper::toRupiah($data['harga']) !!}</td>
           <td>{{ $data['jumlah'] }}</td>
-          <td>{{ $data['total_harga'] }}</td>
+          <td>{!! Helper::toRupiah($data['total_harga']) !!}</td>
         </tr>
       @endforeach
       <tr>
         <th colspan="3">Sub Total</th>
         <th>{{ $report['profit']->jumlah_terjual }}</th>
-        <th>Rp. {{ $report['profit']->total_keuntungan }}</th>
+        <th>{!! Helper::toRupiah($report['profit']->total_keuntungan) !!}</th>
       </tr>
     <table>
+    <div class="page-break"></div>
   @endforeach 
-  <div class="page-break"></div>
 
 </body>
 

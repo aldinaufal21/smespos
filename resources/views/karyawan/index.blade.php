@@ -217,6 +217,7 @@
         .then(res => {
           if (res.status == 200) {
             getEmployee();
+            $helper.resetForm($('#js-karyawan-form'));
           }
         })
     } else {
@@ -224,6 +225,7 @@
         .then(res => {
           if (res.status == 201) {
             getEmployee();
+            $helper.resetForm($('#js-karyawan-form'));
           }
         })
     }

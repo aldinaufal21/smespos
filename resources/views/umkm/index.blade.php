@@ -271,6 +271,7 @@
       .then(res => {
         if (res.status == 201) {
           getApprovedUmkm();
+            $helper.resetForm($('#js-umkm-form'));
         }
       })
   }
