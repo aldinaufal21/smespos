@@ -81,13 +81,14 @@ class ReportController extends Controller
         // return view('report.pdf', $reports);
         $pdf = PDF::loadView('report.pdf', $reports);
 
-        return $pdf->download('sales_report.pdf');
+        // return $pdf->download('sales_report.pdf');
+        return $pdf->stream("sales_report.pdf", array("Attachment" => false));
     }
 
     private function getMonthBetween($startDate, $endDate)
     {
         $start    = (new DateTime($startDate))->modify('first day of this month');
-        $end      = (new DateTime($endDate))->modify('first day of next month');
+        $end      = (new DateTime($endDate))->modify('last day of this month');
         $interval = DateInterval::createFromDateString('1 month');
         $period   = new DatePeriod($start, $interval, $end);
         $months = [];
