@@ -271,6 +271,7 @@
           let data = res.data;
           if (res.status == 200) {
             showProdukStockOpname(data.produk_id);
+            $helper.resetForm($('#js-stok-opname-produk-form'));
           }
         })
     } else {
@@ -279,6 +280,7 @@
           let data = res.data;
           if (res.status == 201) {
             showProdukStockOpname(data.produk_id);
+            $helper.resetForm($('#js-stok-opname-produk-form'));
           }
         })
     }

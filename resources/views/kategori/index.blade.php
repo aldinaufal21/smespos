@@ -148,6 +148,7 @@
         .then(res => {
           if (res.status == 200) {
             getCategories();
+            $helper.resetForm($('#js-kategori-form'));
           }
         })
     } else {
@@ -155,6 +156,7 @@
         .then(res => {
           if (res.status == 201) {
             getCategories();
+            $helper.resetForm($('#js-kategori-form'));
           }
         })
     }

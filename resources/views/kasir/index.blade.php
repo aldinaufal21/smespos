@@ -204,6 +204,7 @@
         .then(res => {
           if (res.status == 200) {
             getCashier();
+            $helper.resetForm($('#js-kasir-form'));
           }
         })
     } else {
@@ -211,6 +212,7 @@
         .then(res => {
           if (res.status == 201) {
             getCashier();
+            $helper.resetForm($('#js-kasir-form'));
           }
         })
     }

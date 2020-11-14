@@ -309,6 +309,7 @@
         .then(res => {
           if (res.status == 200) {
             getProducts();
+            $helper.resetForm($('#js-produk-form'));
           }
         })
     } else {
@@ -316,6 +317,7 @@
         .then(res => {
           if (res.status == 201) {
             getProducts();
+            $helper.resetForm($('#js-produk-form'));
           }
         })
     }

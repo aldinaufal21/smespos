@@ -166,6 +166,7 @@
         .then(res => {
           if (res.status == 200) {
             getBanks();
+            $helper.resetForm($('#js-bank-form'));
           }
         })
     } else {
@@ -173,6 +174,7 @@
         .then(res => {
           if (res.status == 201) {
             getBanks();
+            $helper.resetForm($('#js-bank-form'));
           }
         })
     }

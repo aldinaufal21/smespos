@@ -251,6 +251,7 @@
         .then(res => {
           if (res.status == 200) {
             getBranch();
+            $helper.resetForm($('#js-cabang-form'));
           }
         })
     } else {
@@ -258,6 +259,7 @@
         .then(res => {
           if (res.status == 201) {
             getBranch();
+            $helper.resetForm($('#js-cabang-form'));
           }
         })
     }
