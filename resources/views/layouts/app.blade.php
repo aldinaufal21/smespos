@@ -74,6 +74,7 @@
     $auth.needAuthentication();
 
     let _user = $auth.userCredentials();
+    $('.nav-cabang, .nav-pemilik, .nav-pengelola, .nav-umkm, .nav-kasir').hide();
     switch (_user.user.role) {
       case 'kasir':
         $('.nav-kasir').show();
@@ -90,7 +91,6 @@
       case 'umkm':
         $('.nav-umkm').show();
         break;
-      default:
     }
 
     $('#js-usersname-display').text(_user.user.username);
