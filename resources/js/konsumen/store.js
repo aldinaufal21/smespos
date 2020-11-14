@@ -2,23 +2,21 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import auth from './stores/auth.js'
-import product from './stores/product.js'
-import user from './stores/user.js'
-import transaction from './stores/transaction.js'
-import dashboard from './stores/dashboard.js'
 
 Vue.use(Vuex)
+
+const _user = JSON.parse(localStorage.getItem('user'));
+var token = null;
+if (_user && _user.token) {
+  token = _user.token
+}
 
 const store = new Vuex.Store({
     modules: {
         auth,
-        product,
-        user,
-        transaction,
-        dashboard
     },
     state: {
-        token: localStorage.getItem('token'),
+        token: token,
         errors: []
     },
     getters: {

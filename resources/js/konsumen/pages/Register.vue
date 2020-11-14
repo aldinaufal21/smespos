@@ -1,39 +1,50 @@
 <template>
   <!-- main wrapper start -->
-  <div>
-
+  <main>
       <!-- login register wrapper start -->
       <center>
           <div class="login-register-wrapper section-space pb-0">
               <div class="container">
                   <div class="member-area-from-wrap">
-                      <!-- Login Content Start -->
-                      <div class="col-lg-7 ">
-                          <div class="login-reg-form-wrap">
-                              <h2>Sign In</h2>
-                              <form @submit="postLogin">
+                      <!-- resgiter Content Start -->
+                      <div class="col-lg-7">
+                          <div class="login-reg-form-wrap sign-up-form">
+                              <h2>Registrasi</h2>
+                              <form action="#" method="post">
                                   <div class="single-input-item">
-                                      <input type="username" v-model="login_data.username" placeholder="Username" required />
+                                      <input type="text" placeholder="Full Name" required />
                                   </div>
                                   <div class="single-input-item">
-                                      <input type="password" v-model="login_data.password" placeholder="Enter your Password" required />
+                                      <input type="email" placeholder="Enter your Email" required />
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-lg-6">
+                                          <div class="single-input-item">
+                                              <input type="password" placeholder="Enter your Password" required />
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-6">
+                                          <div class="single-input-item">
+                                              <input type="password" placeholder="Repeat your Password" required />
+                                          </div>
+                                      </div>
                                   </div>
                                   <div class="single-input-item">
-                                      <button class="btn btn__bg">Login</button>
+                                      <button class="btn btn__bg">Register</button>
                                   </div>
                                   <div class="single-input-item">
-                                      <p>don't have account? <router-link :to="{ name: 'register' }">Register here</router-link></p>
+                                      <p>Already have account? <router-link :to="{ name: 'login' }">Login here</router-link></p>
                                   </div>
                               </form>
                           </div>
                       </div>
-                      <!-- Login Content End -->
+                      <!-- register Content End -->
                   </div>
               </div>
           </div>
       </center>
       <!-- login register wrapper end -->
-  </div>
+  </main>
   <!-- main wrapper end -->
 </template>
 

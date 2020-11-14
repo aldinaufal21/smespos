@@ -13,7 +13,7 @@
                       <div class="col-lg-3">
                           <div class="logo">
                               <a href="index.html">
-                                  <img src="assets/img/logo/pos.png" alt="">
+                                  <img src="konsumen_assets/img/logo/pos.png" alt="">
                               </a>
                           </div>
                       </div>
@@ -26,12 +26,17 @@
                                   <!-- main menu navbar start -->
                                   <nav class="desktop-menu">
                                       <ul>
-                                          <li><a href="index.html">Home</a></li>
-                                          <li><a href="shop.html">shop</a>
+                                          <li>
+                                            <router-link :to="{ name: 'home' }">Home</router-link>
                                           </li>
-                                          <li><a href="blog-left-sidebar.html">Blog</a>
+                                          <li>
+                                            <router-link :to="{ name: 'shop' }">Shop</router-link>
                                           </li>
-                                          <li><a href="contact-us.html">Contact us</a></li>
+                                          <!-- <li><a href="blog-left-sidebar.html">Blog</a>
+                                          </li> -->
+                                          <li>
+                                            <router-link :to="{ name: 'contact' }">Contact Us</router-link>
+                                          </li>
                                       </ul>
                                   </nav>
                                   <!-- main menu navbar end -->
@@ -55,22 +60,21 @@
                                               <i class="lnr lnr-user"></i>
                                           </a>
                                           <ul class="dropdown-list">
-                                              <li><a href="login.html">login</a></li>
-                                              <li><a href="register.html">register</a></li>
-                                              <li><a href="my-account.html">my account</a></li>
+                                              <li><router-link :to="{ name: 'user' }">My Account</router-link></li>
+                                              <li><a href="javascript:void(0)" @click="logout">Logout</a></li>
                                           </ul>
                                       </li>
                                       <li>
-                                          <a href="wishlist.html">
-                                              <i class="lnr lnr-heart"></i>
-                                              <div class="notification">0</div>
-                                          </a>
+                                          <router-link :to="{ name: 'wishlist' }">
+                                            <i class="lnr lnr-heart"></i>
+                                            <div class="notification">0</div>
+                                          </router-link>
                                       </li>
                                       <li>
-                                          <a href="#" class="minicart-btn">
-                                              <i class="lnr lnr-cart"></i>
-                                              <div class="notification">2</div>
-                                          </a>
+                                        <a href="#" class="minicart-btn">
+                                            <i class="lnr lnr-cart"></i>
+                                            <div class="notification">2</div>
+                                        </a>
                                       </li>
                                   </ul>
                               </div>
@@ -94,7 +98,7 @@
                       <div class="mobile-main-header">
                           <div class="mobile-logo">
                               <a href="index.html">
-                                  <img src="assets/img/logo/logo.png" alt="Brand Logo">
+                                  <img src="konsumen_assets/img/logo/logo.png" alt="Brand Logo">
                               </a>
                           </div>
                           <div class="mobile-menu-toggler">
@@ -122,20 +126,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import moment from 'moment'
+
 export default {
     computed: {
 
-    },
-    filters: {
-        formatDate(val) {
-            return moment(new Date(val)).fromNow()
-        }
     },
     methods: {
         logout() {
             return new Promise((resolve, reject) => {
                 localStorage.removeItem('user')
+                this.$store.commit('SET_TOKEN', null, { root: true })
                 resolve()
             }).then(() => {
                 // this.$store.state.token = localStorage.getItem('user')
