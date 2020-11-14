@@ -27,13 +27,13 @@
       <app></app>
   </div>
 
-  <script src="{{ asset('js/app.js')}}"></script>
+  <script src="{{ asset('js/app.js')}}" defer></script>
 
   <!-- All vendor & plugins & active js include here -->
   <!--All Vendor Js -->
-  <script src="{{ asset('konsumen_assets/js/vendor.js')}}"></script>
+  <script src="{{ asset('konsumen_assets/js/vendor.js')}}" defer></script>
   <!-- Active Js -->
-  <script src="{{ asset('konsumen_assets/js/active.js')}}"></script>
+  <script src="{{ asset('konsumen_assets/js/active.js')}}" defer></script>
 
 </body>
 

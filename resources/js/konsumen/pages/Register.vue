@@ -9,7 +9,10 @@
                       <!-- resgiter Content Start -->
                       <div class="col-lg-7">
                           <div class="login-reg-form-wrap sign-up-form">
-                              <h2>Registrasi</h2>
+                              <h1 style="margin-bottom:0;">Registrasi</h1>
+                              <img src="/img/logo1.png" alt="" width="30%">
+                              <!-- <div class="icons">
+                              </div> -->
                               <form action="#" method="post">
                                   <div class="single-input-item">
                                       <input type="text" placeholder="Full Name" required />

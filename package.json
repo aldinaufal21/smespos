@@ -13,7 +13,7 @@
         "prod-all": "npm run production && npm run production-app",
         "production": "cross-env NODE_ENV=production SITE=admin node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "production-app": "cross-env NODE_ENV=production SITE=app node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "postinstall": "gulp vendor && npm run development",
+        "postinstall": "gulp vendor && npm run dev-all",
         "watch-production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --watch --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {

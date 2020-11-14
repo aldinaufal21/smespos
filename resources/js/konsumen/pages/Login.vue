@@ -1,6 +1,7 @@
 <template>
   <!-- main wrapper start -->
-  <div>
+  <main>
+    <!-- <breadcrumb></breadcrumb> -->
 
       <!-- login register wrapper start -->
       <center>
@@ -10,8 +11,9 @@
                       <!-- Login Content Start -->
                       <div class="col-lg-7 ">
                           <div class="login-reg-form-wrap">
-                              <h2>Sign In</h2>
+                              <h1 style="margin-bottom:0;">Sign In</h1>
                               <form @submit="postLogin">
+                                  <img src="/img/logo1.png" alt="" width="30%">
                                   <div class="single-input-item">
                                       <input type="username" v-model="login_data.username" placeholder="Username" required />
                                   </div>
@@ -33,12 +35,14 @@
           </div>
       </center>
       <!-- login register wrapper end -->
-  </div>
+  </main>
   <!-- main wrapper end -->
 </template>
 
 <script>
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+import Breadcrumb from '../components/Breadcrumb.vue';
+
 export default {
     data() {
         return {
@@ -47,6 +51,9 @@ export default {
                 password: ''
             }
         }
+    },
+    components: {
+          'breadcrumb': Breadcrumb,
     },
     created() {
         if (this.isAuth) {

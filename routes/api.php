@@ -151,6 +151,18 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         });
     });
 
+    Route::group(['prefix' => 'bank'], function () {
+        // product categories route
+        Route::get('/', 'api\v1\BankController@index');
+        Route::get('/{bank}', 'api\v1\BankController@show');
+
+        Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
+            Route::post('/', 'api\v1\BankController@store');
+            Route::match(['put', 'patch'], '/{bank}', 'api\v1\BankController@update');
+            Route::delete('/{bank}', 'api\v1\BankController@destroy');
+        });
+    });
+
     Route::group(['prefix' => 'umkm'], function () {
         Route::get('/profile/{umkm}', 'api\v1\UmkmController@profile');
         Route::post('register', 'api\v1\UmkmController@register');

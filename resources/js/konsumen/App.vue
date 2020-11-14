@@ -7,7 +7,8 @@
           <router-view></router-view>
       </div>
 
-      <app-footer v-if="isAuth && !checkoutMode" />
+      <!-- <app-footer v-if="isAuth && !checkoutMode" /> -->
+      <app-footer/>
       <app-mini-cart v-if="isAuth && !checkoutMode" />
 
       <!-- Scroll to top start -->
@@ -58,6 +59,7 @@
             'app-footer': Footer,
             'app-aside': Aside,
             'app-mini-cart': MiniCart,
+            // 'breadcrumb': Breadcrumb,
         }
     }
 </script>

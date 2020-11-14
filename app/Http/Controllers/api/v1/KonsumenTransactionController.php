@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Pengiriman;
+use App\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\TransaksiKonsumen;
@@ -14,7 +16,9 @@ class KonsumenTransactionController extends Controller
 {
     public function index(Request $request)
     {
-
+        /**
+         * TODO
+         */
     }
 
     public function store(Request $request)
@@ -25,7 +29,11 @@ class KonsumenTransactionController extends Controller
             'konsumen_id' => 'required',
             'produk' => 'required|array|min:1',
             'produk.*.produk_id' => 'required',
-            'produk.*.jumlah' => 'required'
+            'produk.*.jumlah' => 'required',
+            'jenis_order' => 'required',
+            'catatan_order' => 'string',
+            'alamat_pengiriman_id' => 'required',
+            'bank_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -39,6 +47,18 @@ class KonsumenTransactionController extends Controller
 
         DB::beginTransaction();
         try {
+            /**
+             * (-) status
+             * (-) bukti_transfer
+             */
+            $totalBiaya = 0;
+
+            foreach ($requestData['produk'] as $produk) {
+                $hargaProduk = Produk::find($produk['produk_id'])->harga;
+                $totalBiaya += $hargaProduk * $produk['jumlah'];
+            }
+            
+            $requestData['total_biaya'] = $totalBiaya;
 
             $order = TransaksiKonsumen::create($requestData);
 
@@ -47,6 +67,11 @@ class KonsumenTransactionController extends Controller
             }
 
             $orderDetail = TransaksiKonsumenDetail::insert($requestData['produk']);
+
+            if ($requestData['jenis_order']) {
+                $requestData['transaksi_konsumen_id'] = $order->transaksi_konsumen_id;
+                $pengiriman = Pengiriman::create($requestData);
+            }
 
             DB::commit();
         } catch (\Exception $e) {

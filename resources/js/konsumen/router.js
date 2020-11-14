@@ -78,6 +78,12 @@ const router = new Router({
                     component: Cart,
                     meta: { title: 'Cart' }
                 },
+                // {
+                //     path: 'order-detail',
+                //     name: 'cart',
+                //     component: Cart,
+                //     meta: { title: 'Order Detail' }
+                // },
             ]
         },
         {

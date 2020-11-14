@@ -12,9 +12,10 @@
                       <!-- start logo area -->
                       <div class="col-lg-3">
                           <div class="logo">
-                              <a href="index.html">
-                                  <img src="konsumen_assets/img/logo/pos.png" alt="">
-                              </a>
+                              <router-link :to="{ name: 'home' }">
+                                  <!-- <img src="konsumen_assets/img/logo/pos.png" alt=""> -->
+                                  <img src="/img/logo2.png" alt="">
+                              </router-link>
                           </div>
                       </div>
                       <!-- start logo area -->
@@ -97,15 +98,16 @@
                   <div class="col-12">
                       <div class="mobile-main-header">
                           <div class="mobile-logo">
-                              <a href="index.html">
-                                  <img src="konsumen_assets/img/logo/logo.png" alt="Brand Logo">
-                              </a>
+                              <router-link :to="{ name: 'home' }">
+                                  <!-- <img src="konsumen_assets/img/logo/pos.png" alt=""> -->
+                                  <img src="/img/logo2.png" alt="">
+                              </router-link>
                           </div>
                           <div class="mobile-menu-toggler">
                               <div class="mini-cart-wrap">
-                                  <a href="cart.html">
+                                  <router-link :to="{ name: 'cart' }">
                                       <i class="lnr lnr-cart"></i>
-                                  </a>
+                                  </router-link>
                               </div>
                               <div class="mobile-menu-btn">
                                   <div class="off-canvas-btn">

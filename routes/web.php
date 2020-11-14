@@ -44,7 +44,12 @@ Route::group(['prefix' => 'admin'], function () {
       'index',
   ]);
 
+
   Route::resource('kasir-cabang', 'KasirController')->only([
+      'index',
+  ]);
+
+  Route::resource('bank', 'BankController')->only([
       'index',
   ]);
 

@@ -5,14 +5,14 @@
       <section class="slider-area">
           <div class="hero-slider-active slick-arrow-style slick-arrow-style_hero slick-dot-style">
               <!-- single slider item start -->
-              <div class="hero-single-slide ">
+              <div class="hero-single-slide " v-for="i in 5">
                   <div class="hero-slider-item_3 bg-img" data-bg="konsumen_assets/img/slider/home3-slide1.jpg">
                       <div class="container">
                           <div class="row">
                               <div class="col-md-12">
                                   <div class="hero-slider-content slide-1">
                                       <span>POS</span>
-                                      <h1>Dapatkan Diskon</h1>
+                                      <h1>Dapatkan Diskon {{ i }}</h1>
                                       <h2>disetiap pembelian</h2>
                                       <a href="shop.html" class="btn-hero">shop now</a>
                                   </div>
@@ -23,24 +23,6 @@
               </div>
               <!-- single slider item end -->
 
-              <!-- single slider item start -->
-              <div class="hero-single-slide">
-                  <div class="hero-slider-item_3 bg-img" data-bg="konsumen_assets/img/slider/home3-slide2.jpg">
-                      <div class="container">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <div class="hero-slider-content slide-2">
-                                      <span>valentine gift</span>
-                                      <h1>Fresh Your Mind</h1>
-                                      <h2>& Feeling love</h2>
-                                      <a href="shop.html" class="btn-hero">shop now</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- single slider item start -->
           </div>
       </section>
       <!-- slider area end -->
@@ -697,14 +679,14 @@
       <!-- latest news area end -->
 
       <!-- Instagram Feed Area Start -->
-      <div class="instagram-feed-area">
+      <!-- <div class="instagram-feed-area">
           <div class="container">
               <div class="instagram-feed-thumb">
                   <div id="instafeed" class="instagram-carousel" data-userid="6666969077" data-accesstoken="6666969077.1677ed0.d325f406d94c4dfab939137c5c2cc6c2">
                   </div>
               </div>
           </div>
-      </div>
+      </div> -->
       <!-- Instagram Feed Area End -->
 
   </main>
@@ -716,6 +698,10 @@
             return {
 
             }
+        },
+        created() {
+          //do something after creating vue instance
+
         },
         computed: {
 
