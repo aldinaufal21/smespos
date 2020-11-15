@@ -23,6 +23,7 @@ class TransaksiKonsumen extends Model
         'bank_id',
         'ekspedisi',
         'ongkir',
+        'cabang_id',
     ];
 
     public function transaksiKonsumenDetail()
