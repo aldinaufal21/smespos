@@ -21,6 +21,8 @@ class TransaksiKonsumen extends Model
         'catatan_order',
         'alamat_pengiriman_id',
         'bank_id',
+        'ekspedisi',
+        'ongkir',
     ];
 
     public function transaksiKonsumenDetail()

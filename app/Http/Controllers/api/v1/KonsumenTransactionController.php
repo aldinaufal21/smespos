@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\ImageUpload;
 use App\Pengiriman;
 use App\Produk;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ use Carbon\Carbon;
 
 class KonsumenTransactionController extends Controller
 {
+    use ImageUpload;
+
     public function index(Request $request)
     {
         /**
@@ -47,10 +50,6 @@ class KonsumenTransactionController extends Controller
 
         DB::beginTransaction();
         try {
-            /**
-             * (-) status
-             * (-) bukti_transfer
-             */
             $totalBiaya = 0;
 
             foreach ($requestData['produk'] as $produk) {
@@ -59,6 +58,20 @@ class KonsumenTransactionController extends Controller
             }
             
             $requestData['total_biaya'] = $totalBiaya;
+        
+            $buktiTransfer = $request->bukti_transfer;
+            $urlFoto = $request->bukti_transfer != null ?
+                        $this->storeBuktiPembayaran($buktiTransfer) : null;
+            $requestData['bukti_transfer'] = $urlFoto;
+
+            if ($urlFoto) {
+                $requestData['status'] = 'menunggu_verifikasi';
+            }
+
+            if ($requestData['jenis_order'] == 'take_away') {
+                unset($requestData['ekspedisi']);
+                unset($requestData['ongkir']);
+            }
 
             $order = TransaksiKonsumen::create($requestData);
 
@@ -67,11 +80,6 @@ class KonsumenTransactionController extends Controller
             }
 
             $orderDetail = TransaksiKonsumenDetail::insert($requestData['produk']);
-
-            if ($requestData['jenis_order']) {
-                $requestData['transaksi_konsumen_id'] = $order->transaksi_konsumen_id;
-                $pengiriman = Pengiriman::create($requestData);
-            }
 
             DB::commit();
         } catch (\Exception $e) {

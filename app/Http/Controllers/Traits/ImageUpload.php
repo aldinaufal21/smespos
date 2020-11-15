@@ -6,47 +6,32 @@ trait ImageUpload
 {
     public function storeUserProfileImage($file)
     {
-        if(env('APP_ENV') == 'staging'){
-            return $this->coudinaryUpload($file, '');
-        } else if (env('APP_ENV') == 'production') {
-            return $this->localImageUpload($file, 'user_avatar');
-        }
-        return $this->localImageUpload($file, 'user_avatar');
+        return $this->storeImages($file, 'user_avatar');
     }
 
     public function storeUmkmImage($file)
     {
-        if(env('APP_ENV') == 'staging'){
-            return $this->coudinaryUpload($file, '');
-        } else if (env('APP_ENV') == 'production') {
-            return $this->localImageUpload($file, 'umkm_image');
-        }
-        return $this->localImageUpload($file, 'umkm_image');
+        return $this->storeImages($file, 'umkm_image');
     }
 
     public function storeKaryawanImage($file)
     {
-        if(env('APP_ENV') == 'staging'){
-            return $this->coudinaryUpload($file, '');
-        } else if (env('APP_ENV') == 'production') {
-            return $this->localImageUpload($file, 'karyawan_image');
-        }
-        return $this->localImageUpload($file, 'karyawan_image');
+        return $this->storeImages($file, 'karyawan_image');
     }
 
     public function storeKaryawanCabangImage($file)
     {
-        if(env('APP_ENV') == 'staging'){
-            return $this->coudinaryUpload($file, '');
-        } else if (env('APP_ENV') == 'production') {
-            return $this->localImageUpload($file, 'karyawan_cabang_image');
-        }
-        return $this->localImageUpload($file, 'karyawan_cabang_image');
+        return $this->storeImages($file, 'karyawan_cabang_image');
     }
 
     public function storeProductImages($file)
     {
         return $this->storeImages($file, 'produk');
+    }
+
+    public function storeBuktiPembayaran($file)
+    {
+        return $this->storeImages($file, 'bukti_pembayaran_images');
     }
 
     private function storeImages($file, $folder)
