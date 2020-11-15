@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Konsumen;
-use Illuminate\Http\Request;
-
 class KonsumenController extends Controller
 {
     /**
@@ -12,74 +9,36 @@ class KonsumenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
+        return view('konsumen_app.home');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function shop(){
+        return view('konsumen_app.shop.shop');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function profile(){
+        return view('konsumen_app.user.profile');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Konsumen  $konsumen
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Konsumen $konsumen)
-    {
-        //
+    public function wishlist(){
+        return view('konsumen_app.user.wishlist');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Konsumen  $konsumen
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Konsumen $konsumen)
-    {
-        //
+    public function cart(){
+        return view('konsumen_app.cart');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Konsumen  $konsumen
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Konsumen $konsumen)
-    {
-        //
+    public function login(){
+        return view('konsumen_app.auth.login');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Konsumen  $konsumen
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Konsumen $konsumen)
-    {
-        //
+    public function register(){
+        return view('konsumen_app.auth.register');
     }
+
+    public function checkout(){
+        return view('konsumen_app.checkout');
+    }
+
 }
