@@ -302,8 +302,8 @@
     $('.js-nama_konsumen').text(dataTransaksi.nama_konsumen);
     $('.js-alamat').text(dataTransaksi.alamat);
     $('.js-catatan_order').text(dataTransaksi.catatan_order);
-    $('.js-jenis_order').text(dataTransaksi.jenis_order);
-    $('.js-status').text(statusText);
+    $('.js-jenis_order').text($helper.humanize(dataTransaksi.jenis_order));
+    $('.js-status').text($helper.humanize(statusText));
     $('.js-total_biaya').text(dataTransaksi.total_biaya);
     $('.js-tanggal_transaksi').text(dataTransaksi.tanggal_transaksi);
     $('.js-bukti-pembayaran').html(_btnBuktiTransfer(dataTransaksi.bukti_transfer));
@@ -365,7 +365,7 @@
         continue;
       }
 
-      $dropdown.append($("<option />").val(item).text(item));
+      $dropdown.append($("<option />").val(item).text($helper.humanize(item)));
     }
   }
 
