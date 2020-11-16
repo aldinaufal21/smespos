@@ -113,6 +113,19 @@ class ReportController extends Controller
         foreach ($products as $product) {
             $reports = [];
 
+            foreach ($months as $m) {
+                array_push($reports, [
+                    'month' => date("m-Y", strtotime($m)),
+                    'data' => Report::getTransaksiKasirReport($idCabang, null, $m, $m)->map(function ($p) {
+                        return collect($p)
+                            ->only(['produk_id', 'nama_produk', 'harga', 'produk_id', 'jumlah', 'total_harga', 'tanggal_transaksi',])
+                            ->all();
+                    })->filter(function($p) use ($product){
+                        return $p['produk_id'] == $product['produk_id'];
+                    })->first()
+                ]);
+            }
+
             array_push($response,[
                 'produk' => $product,
                 'report' => $reports,
@@ -128,7 +141,7 @@ class ReportController extends Controller
     private function getMonthBetween($startDate, $endDate)
     {
         $start    = (new DateTime($startDate))->modify('first day of this month');
-        $end      = (new DateTime($endDate))->modify('last day of this month');
+        $end      = (new DateTime($endDate))->modify('first day of next month');
         $interval = DateInterval::createFromDateString('1 month');
         $period   = new DatePeriod($start, $interval, $end);
         $months = [];
