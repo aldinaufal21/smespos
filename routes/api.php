@@ -72,6 +72,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('createTransaksiKonsumen', 'api\v1\KonsumenTransactionController@store');
         });
 
+        Route::group(['middleware' => ['role:konsumen,cabang']], function () {
+            Route::get('getTransaksiKonsumen', 'api\v1\KonsumenTransactionController@index');
+        });
+
+        Route::group(['middleware' => ['role:cabang']], function () {
+            Route::match(['put', 'patch'], 'setTransaksiAction/{idTransaction}', 'api\v1\KonsumenTransactionController@statusAction');
+        });
+
         Route::group(['prefix' => 'employees'], function () {
             // employees route
             Route::group(['middleware' => ['role:umkm,cabang,pengelola']], function () {

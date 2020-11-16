@@ -19,9 +19,36 @@ class KonsumenTransactionController extends Controller
 
     public function index(Request $request)
     {
-        /**
-         * TODO
-         */
+        $cabangId = null;
+        $konsumenId = null;
+
+        switch ($request->user()->role) {
+            case 'konsumen':
+                $konsumenId = $this->getKonsumen($request)->konsumen_id;
+            case 'cabang':
+                $cabangId = $this->getCabang($request)->cabang_id;
+            default:
+                break;
+        }
+
+        $konsumenId = $request->id_konsumen;
+        $transaksiId = $request->id_transaksi;
+        $jenisOrder = $request->jenis_order;
+        $status = $request->status;
+        $buktiTransfer = $request->ada_bukti_transfer;
+        $noResi = $request->no_resi;
+
+        $transaksi = TransaksiKonsumen::getTransaksiByQuery(
+            $cabangId,
+            $transaksiId,
+            $jenisOrder,
+            $status,
+            $buktiTransfer,
+            $konsumenId,
+            $noResi
+        )->get();
+
+        return response()->json($transaksi, 200);
     }
 
     public function store(Request $request)
@@ -56,12 +83,12 @@ class KonsumenTransactionController extends Controller
                 $hargaProduk = Produk::find($produk['produk_id'])->harga;
                 $totalBiaya += $hargaProduk * $produk['jumlah'];
             }
-            
+
             $requestData['total_biaya'] = $totalBiaya;
-        
+
             $buktiTransfer = $request->bukti_transfer;
             $urlFoto = $request->bukti_transfer != null ?
-                        $this->storeBuktiPembayaran($buktiTransfer) : null;
+                $this->storeBuktiPembayaran($buktiTransfer) : null;
             $requestData['bukti_transfer'] = $urlFoto;
 
             if ($urlFoto) {
@@ -92,4 +119,32 @@ class KonsumenTransactionController extends Controller
         return response()->json($order, 201);
     }
 
+    public function statusAction(Request $request, $idTransaction)
+    {
+        $transaksi = TransaksiKonsumen::find($idTransaction);
+        
+        $action = $request->aksi;
+        $validAction = ['diantar','siap diambil','selesai','dibatalkan'];
+
+        if (!in_array($action, $validAction)) {
+            return response()->json([
+                'message' => 'Wrong Action Choice'
+            ], 400);
+        }
+
+        $transaksi->status = $action;
+        $transaksi->update();
+
+        return response()->json($transaksi, 200);
+    }
+
+    private function getKonsumen($request)
+    {
+        return $request->user()->konsumen()->first();
+    }
+
+    private function getCabang($request)
+    {
+        return $request->user()->cabang()->first();
+    }
 }
