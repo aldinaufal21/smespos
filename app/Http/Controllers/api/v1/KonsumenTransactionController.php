@@ -122,14 +122,27 @@ class KonsumenTransactionController extends Controller
     public function statusAction(Request $request, $idTransaction)
     {
         $transaksi = TransaksiKonsumen::find($idTransaction);
-        
+
         $action = $request->aksi;
-        $validAction = ['diantar','siap diambil','selesai','dibatalkan'];
+        $validAction = ['diantar', 'siap diambil', 'selesai', 'dibatalkan'];
 
         if (!in_array($action, $validAction)) {
             return response()->json([
                 'message' => 'Wrong Action Choice'
             ], 400);
+        }
+
+        if ($action == 'diantar') {
+            $validator = Validator::make($request->all(), [
+                'no_resi' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'errors' => $validator->errors()->all()
+                ], 400);
+            }
+            $transaksi->no_resi = $request->no_resi;
         }
 
         $transaksi->status = $action;

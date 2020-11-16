@@ -25,6 +25,7 @@ class TransaksiKonsumen extends Model
         'ekspedisi',
         'ongkir',
         'cabang_id',
+        'no_resi',
     ];
 
     public static function getTransaksiByQuery(
