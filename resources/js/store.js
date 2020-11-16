@@ -40,3 +40,6 @@ window.registrationStore = require('./store/registration');
 
 // pending transactions data stores
 window.bankStore = require('./store/bank');
+
+// pending transactions data stores
+window.transaksiStore = require('./store/transaksi');

@@ -29,15 +29,22 @@ class TransaksiKonsumen extends Model
     ];
 
     public static function getTransaksiByQuery(
-        $cabangId = null, 
-        $transaksiId = null, 
+        $cabangId = null,
+        $transaksiId = null,
         $jenisOrder = null,
-        $status = null, 
-        $buktiTransfer = null, 
+        $status = null,
+        $buktiTransfer = null,
         $konsumenId = null,
-        $noResi = null)
-    {
-        $transaksi = DB::table('transaksi_konsumens');
+        $noResi = null
+    ) {
+        $transaksi = DB::table('transaksi_konsumens')
+            ->join('konsumens', 'konsumens.konsumen_id', '=', 'transaksi_konsumens.konsumen_id')
+            ->join('alamat_pengiriman', 'alamat_pengiriman.alamat_pengiriman_id', '=', 'transaksi_konsumens.alamat_pengiriman_id')
+            ->select(
+                'transaksi_konsumens.*',
+                'konsumens.nama_konsumen',
+                'alamat_pengiriman.alamat'
+            );;
 
         if ($cabangId) {
             $transaksi->where('cabang_id', $cabangId);
@@ -64,7 +71,7 @@ class TransaksiKonsumen extends Model
         }
 
         if ($konsumenId) {
-            $transaksi->where('konsumen_id', $konsumenId);
+            $transaksi->where('transaksi_konsumens.konsumen_id', $konsumenId);
         }
 
         if ($noResi) {
