@@ -98,13 +98,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/stok', 'StokController@stok')->name('stok');
     Route::get('/stok-opname', 'StokController@stokOpname')->name('stok.opname');
 
-    Route::get('nyoba_query', function () {
-        // DB::enableQueryLog();
-        // \App\Report::cabangMonthlyProfit(1, '2020-11-12','2020-12-12');
-        // return dd(DB::getQueryLog());
-        return dd(\App\Report::cabangMonthlyProfit(1, '2020-11-12', '2020-12-12'));
-    });
-
     Route::get('/dashboard-pengelola', function () {
         return view('demo');
     });
@@ -129,6 +122,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/test-query', 'api\v1\KasirTransactionController@testQuery');
 
     Auth::routes();
+});
+
+Route::get('nyoba_query', function () {
+    DB::enableQueryLog();
+    // return dd(\App\Produk::tryBinding(2));
+    \App\Produk::tryBinding(2);
+    return dd(DB::getQueryLog());
+    // return dd(\App\Report::cabangMonthlyProfit(1, '2020-11-12', '2020-12-12'));
 });
 
 // Route::get('/{any?}', 'KonsumenAppController@index')->where('any', '(.*)');
