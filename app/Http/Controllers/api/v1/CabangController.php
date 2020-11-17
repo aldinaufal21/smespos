@@ -134,9 +134,11 @@ class CabangController extends Controller
  
     public function show(Request $request, $id)
     {
-
-        $umkm = $this->getUmkm($request);
-        $cabang = Cabang::getCabangById($id);
+        if (in_array($this->getRole($request), ['umkm', 'cabang', 'pengelola'])) {
+            $cabang = Cabang::getCabangById($id);
+        } else {
+            $cabang = Cabang::find($id);
+        }
 
         return response()->json($cabang, 200);
     }
@@ -173,5 +175,10 @@ class CabangController extends Controller
     private function getUmkm($request)
     {
         return $request->user()->umkm()->first();
+    }
+
+    private function getRole($request)
+    {
+        return $request->user()->role;
     }
 }
