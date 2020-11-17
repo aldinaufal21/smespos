@@ -10,13 +10,30 @@
 @endsection
 
 @section('content')
-<div id="vue-shop">
+<div id="vue-product">
   <!-- main wrapper start -->
   <main>
+      <!-- breadcrumb area start -->
+      <div class="breadcrumb-area common-bg">
+          <div class="container">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="breadcrumb-wrap">
+                          <nav aria-label="breadcrumb">
+                              <h1>shop</h1>
+                              <ul class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                  <li class="breadcrumb-item active" aria-current="page">shop</li>
+                              </ul>
+                          </nav>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- breadcrumb area end -->
 
-      <breadcrumb :title="'Shop'"></breadcrumb>
-
-      <!-- PILIH UMKM -->
+      <!-- PILIH PRODUK -->
       <div class="shop-main-wrapper section-space pb-0">
           <div class="container">
               <div class="row">
@@ -35,6 +52,26 @@
                                       <li><a href="#">Hyacinth <span>5</span></a></li>
                                       <li><a href="#">Bouquet <span>2</span></a></li>
                                   </ul>
+                              </div>
+                          </div>
+                          <!-- single sidebar end -->
+
+                          <!-- single sidebar start -->
+                          <div class="sidebar-single">
+                              <h3 class="sidebar-title">price</h3>
+                              <div class="sidebar-body">
+                                  <div class="price-range-wrap">
+                                      <div class="price-range" data-min="0" data-max="1000"></div>
+                                      <div class="range-slider">
+                                          <form action="#" class="d-flex align-items-center justify-content-between">
+                                              <div class="price-input">
+                                                  <label for="amount">Price: </label>
+                                                  <input type="text" id="amount">
+                                              </div>
+                                              <button class="filter-btn">filter</button>
+                                          </form>
+                                      </div>
+                                  </div>
                               </div>
                           </div>
                           <!-- single sidebar end -->
@@ -116,22 +153,27 @@
                           <!-- product item list wrapper start -->
                           <div class="shop-product-wrap grid-view row mbn-40">
                               <!-- product single item start -->
-                              <div class="col-md-4 col-sm-6" v-for="(elem, index) in umkm" :key="elem.umkm.umkm_id">
+                              <div class="col-md-4 col-sm-6" v-for="(produk, index) in products" :key="produk.produk_id">
                                   <!-- product grid start -->
                                   <div class="product-item">
                                       <figure class="product-thumb">
-                                          <a href="javascript:void(0)" @click="pilihCabang(index)">
-                                              <img class="pri-img" src="konsumen_assets/img/product/product-1.jpg" alt="product">
-                                              <img class="sec-img" src="konsumen_assets/img/product/product-3.jpg" alt="product">
+                                          <a href="javascript:void(0)">
+                                              <img class="pri-img" src="{{ asset('konsumen_assets/img/product/product-1.jpg') }}" alt="product">
+                                              <img class="sec-img" src="{{ asset('konsumen_assets/img/product/product-3.jpg') }}" alt="product">
                                           </a>
                                           <div class="button-group">
-                                              <a href="#" data-toggle="modal" data-target="#umkm_detail"><span data-toggle="tooltip" data-placement="left" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
+                                            <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
+                                            <a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><i class="lnr lnr-cart"></i></a>
                                           </div>
                                       </figure>
                                       <div class="product-caption">
                                           <p class="product-name">
-                                              <a href="product-details.html" v-text="elem.umkm.nama_umkm"></a>
+                                              <a href="product-details.html" v-text="produk.nama_produk"></a>
                                           </p>
+                                          <div class="price-box">
+                                              <span class="price-regular">Rp. @{{ produk.harga }}</span>
+                                          </div>
                                       </div>
                                   </div>
                                   <!-- product grid end -->
@@ -139,16 +181,18 @@
                                   <!-- product list item end -->
                                   <div class="product-list-item">
                                       <figure class="product-thumb">
-                                          <a href="javascript:void(0)" @click="pilihCabang(index)">
-                                              <img class="pri-img" src="konsumen_assets/img/product/product-1.jpg" alt="product">
-                                              <img class="sec-img" src="konsumen_assets/img/product/product-3.jpg" alt="product">
+                                          <a href="javascript:void(0)">
+                                              <img class="pri-img" src="{{ asset('konsumen_assets/img/product/product-1.jpg') }}" alt="product">
+                                              <img class="sec-img" src="{{ asset('konsumen_assets/img/product/product-3.jpg') }}" alt="product">
                                           </a>
                                       </figure>
                                       <div class="product-content-list">
-                                          <h5 class="product-name"><a href="product-details.html" v-text="elem.umkm.nama_umkm"></a></h5>
-                                          <p v-text="elem.umkm.deskripsi"></p>
+                                          <h5 class="product-name"><a href="product-details.html" v-text="produk.nama_produk"></a></h5>
+                                          <p v-text="produk.deskripsi_produk"></p>
                                           <div class="button-group-list">
-                                              <a href="#" data-toggle="modal" data-target="#umkm_detail"><span data-toggle="tooltip"  title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
+                                            <a class="btn-big" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="lnr lnr-cart"></i>Add to Cart</a>
+                                            <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="top" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
+                                            <a href="wishlist.html" data-toggle="tooltip" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
                                           </div>
                                       </div>
                                   </div>
@@ -163,12 +207,12 @@
               </div>
           </div>
       </div>
-      <!-- /PILIH UMKM -->
+      <!-- /PILIH PRODUK -->
   </main>
   <!-- main wrapper end -->
 
   <!-- Quick view modal start -->
-  <div class="modal" id="umkm_detail">
+  <div class="modal" id="produk_detail">
       <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
               <div class="modal-header">
@@ -181,75 +225,43 @@
       </div>
   </div>
   <!-- Quick view modal end -->
-
-  <!-- PILIH CABANG -->
-  <div class="modal" id="pilih-cabang">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body">
-                  <h1>Pilih cabang, dimana anda ingin berbelanja: </h1>
-                  <br>
-                  <div class="list-group">
-                     <a :href="`{{ route('konsumen.produk') }}?cabang=${cabang.cabang_id}`"
-                        class="list-group-item list-group-item-action"
-                        v-for="cabang in cabangs"
-                        :key="cabang.cabang_id"
-                        ><b>@{{ cabang.nama_cabang }}</b> <br> @{{ cabang.alamat_cabang }}</a>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!-- PILIH CABANG -->
 </div>
 @endsection
 
 @section('extra_script')
 <!-- Page level plugins -->
 <script>
-  var vue_shop = new Vue({
-    el: '#vue-shop',
-    // components: {
-    //   breadcrumb: $breadcrumb
-    // },
+  const urlParams = new URLSearchParams(window.location.search);
+  const cabang_id = urlParams.get('cabang'); //return pending_id or null
+
+  // redirect if no cabang selected
+  if (!cabang_id || cabang_id == 0) {
+    window.location.href = '/shop';
+  }
+
+  var vue_product = new Vue({
+    el: '#vue-product',
     data(){
       return {
-        umkm: [],
-        cabangs: [],
+        products: [],
       }
     },
     mounted() {
       //do something after mounting vue instance
-      console.log(this.$options.components);
+
     },
     created() {
       //do something after creating vue instance
-      this.getUmkm();
-      this.getCategory();
+      this.getProduct();
     },
     methods: {
-      getUmkm() {
-        axios.get('umkm').then((res)=>{
-          this.umkm = res.data;
-        }).catch((err)=>{
-          console.log(err);
-        })
-      },
-
-      getCategory(){
-        axios.get('category').then((res)=>{
+      getProduct() {
+        axios.get('product/cabang?cabang_id='+cabang_id).then((res)=>{
           console.log(res);
+          this.products = res.data;
         }).catch((err)=>{
           console.log(err);
         })
-      },
-
-      pilihCabang(index_umkm){
-        this.cabangs = this.umkm[index_umkm].cabang;
-        $('#pilih-cabang').modal('show');
       },
     }
   });

@@ -139,6 +139,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
     Route::group(['prefix' => 'product'], function () {
         // branches route
         Route::get('/', 'api\v1\ProdukController@index');
+        Route::get('/cabang', 'api\v1\ProdukController@getProductByCabang');
         Route::get('/{product}', 'api\v1\ProdukController@show');
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
             Route::post('/', 'api\v1\ProdukController@store');
