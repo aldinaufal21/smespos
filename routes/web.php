@@ -127,9 +127,9 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('nyoba_query', function () {
     DB::enableQueryLog();
     // return dd(\App\Produk::tryBinding(2));
-    \App\Produk::tryBinding(2);
+    \App\Report::getTransaksiCabang(2, "2020-11-01", "2020-11-30");
     return dd(DB::getQueryLog());
-    // return dd(\App\Report::cabangMonthlyProfit(1, '2020-11-12', '2020-12-12'));
+    return dd(\App\Report::getTransaksiCabang(2, "2020-11-01", "2020-11-30"));
 });
 
 // Route::get('/{any?}', 'KonsumenAppController@index')->where('any', '(.*)');
