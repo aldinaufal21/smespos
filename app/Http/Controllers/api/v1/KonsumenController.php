@@ -39,7 +39,8 @@ class KonsumenController extends Controller
 
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|max:255|confirmed',
+            'password' => 'required|string|max:255|min:6|confirmed',
+            'nama_konsumen' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -54,19 +55,19 @@ class KonsumenController extends Controller
         DB::beginTransaction();
         try {
             $user = User::create($requestData);
-    
+
             $userAvatar = $request->gambar;
             $avatarUrl = $request->gambar != null ?
-                $this->storeUserProfileImage($userAvatar) : null;
+                $this->storeUserProfileImage($userAvatar) : '';
             $requestData['gambar'] = $avatarUrl;
             $requestData['user_id'] = $user->id;
             $requestData['tanggal_gabung'] = Carbon::now();
             $requestData['login_terakhir'] = Carbon::createFromDate(null, null, null, null);
-            
+
             $konsumen = Konsumen::create($requestData);
 
             $response = array_merge($user->toArray(), $konsumen->toArray());
-            
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
