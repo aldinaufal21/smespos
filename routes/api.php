@@ -71,6 +71,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::patch('cart/{cart}', 'api\v1\CartController@update');
             Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
 
+            Route::group(['prefix' => 'new-cart'], function () {
+                Route::get('/', 'api\v1\NewCartController@index');
+                Route::post('/', 'api\v1\NewCartController@store');
+                Route::patch('/{cart}', 'api\v1\NewCartController@update');
+                Route::delete('/{cart}', 'api\v1\NewCartController@destroy');
+            });
+
             // order route
             Route::post('createTransaksiKonsumen', 'api\v1\KonsumenTransactionController@store');
         });
