@@ -18,6 +18,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         Route::delete('reset_password', 'api\v1\AuthController@resetPassword');
     });
 
+    Route::get('/umkm-konsumen', 'api\v1\UmkmController@index');
+
     Route::group(['middleware' => 'auth:api'], function () {
         // authenticated account needed
         Route::get('logout', 'api\v1\AuthController@logout');
@@ -143,6 +145,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
     Route::group(['prefix' => 'product'], function () {
         // branches route
         Route::get('/', 'api\v1\ProdukController@index');
+        Route::get('/cabang', 'api\v1\ProdukController@getProductByCabang');
         Route::get('/{product}', 'api\v1\ProdukController@show');
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
             Route::post('/', 'api\v1\ProdukController@store');

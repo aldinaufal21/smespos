@@ -11,26 +11,8 @@
 
 @section('content')
   <!-- main wrapper start -->
-  <main>
-      <!-- breadcrumb area start -->
-      <div class="breadcrumb-area common-bg">
-          <div class="container">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="breadcrumb-wrap">
-                          <nav aria-label="breadcrumb">
-                              <h1>Register</h1>
-                              <ul class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                  <li class="breadcrumb-item active" aria-current="page">Register</li>
-                              </ul>
-                          </nav>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <!-- breadcrumb area end -->
+  <main id="regis-vue">
+      <breadcrumb :title="'Register'"></breadcrumb>
 
       <!-- login register wrapper start -->
       <center>
@@ -44,22 +26,22 @@
                               <img src="/img/logo1.png" alt="" width="30%">
                               <!-- <div class="icons">
                               </div> -->
-                              <form action="#" method="post">
+                              <form @submit="submitRegis">
                                   <div class="single-input-item">
-                                      <input type="text" placeholder="Full Name" required />
+                                      <input type="text" placeholder="Full Name" v-model="regis_data.nama_konsumen" required />
                                   </div>
                                   <div class="single-input-item">
-                                      <input type="email" placeholder="Enter your Email" required />
+                                      <input type="username" placeholder="Enter your Username" v-model="regis_data.username" required />
                                   </div>
                                   <div class="row">
                                       <div class="col-lg-6">
                                           <div class="single-input-item">
-                                              <input type="password" placeholder="Enter your Password" required />
+                                              <input type="password" placeholder="Enter your Password" v-model="regis_data.password" required />
                                           </div>
                                       </div>
                                       <div class="col-lg-6">
                                           <div class="single-input-item">
-                                              <input type="password" placeholder="Repeat your Password" required />
+                                              <input type="password" placeholder="Repeat your Password" v-model="regis_data.password_confirmation" required />
                                           </div>
                                       </div>
                                   </div>
@@ -86,6 +68,46 @@
 <!-- Page level plugins -->
 <script>
 
+  var regis_vue = new Vue({
+    el: '#regis-vue',
+    data(){
+      return{
+        regis_data: {
+          username: '',
+          password: '',
+          password_confirmation: '',
+          nama_konsumen: ''
+        }
+      }
+    },
+    created() {
+      //do something after creating vue instance
+      $auth.authenticated();
+    },
+    methods: {
+      submitRegis(event) {
+        event.preventDefault();
+
+        axios.post('/consumer/register', this.regis_data).then((res)=>{
+          if (res.status == 201) {
+            axios.post('/login', {
+              username: res.data.username,
+              password: this.regis_data.password
+            }).then((result)=>{
+              if (result.token) {
+                localStorage.setItem('token', result.data.token);
+                window.location.href = $baseURL + '/';
+              }
+            }).catch((e)=>{
+              console.log(e);
+            })
+          }
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }
+    }
+})
 
 </script>
 @endsection

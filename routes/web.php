@@ -29,6 +29,9 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['prefix' => 'shop'], function () {
   Route::get('/', 'KonsumenController@shop')->name('konsumen.shop');
+  Route::get('/produk', function () {
+      return view('konsumen_app.shop.produk');
+  })->name('konsumen.produk');
 });
 
 Route::get('/cart', 'KonsumenController@cart')->name('konsumen.cart');

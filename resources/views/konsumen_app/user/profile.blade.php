@@ -11,26 +11,8 @@
 
 @section('content')
   <!-- main wrapper start -->
-  <main>
-      <!-- breadcrumb area start -->
-      <div class="breadcrumb-area common-bg">
-          <div class="container">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="breadcrumb-wrap">
-                          <nav aria-label="breadcrumb">
-                              <h1>my account</h1>
-                              <ul class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                  <li class="breadcrumb-item active" aria-current="page">my account</li>
-                              </ul>
-                          </nav>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <!-- breadcrumb area end -->
+  <main id="profile-vue">
+      <breadcrumb :title="'Profile'"></breadcrumb>
 
       <!-- my account wrapper start -->
       <div class="my-account-wrapper section-space pb-0">
@@ -46,14 +28,12 @@
                                       <div class="myaccount-tab-menu nav" role="tablist">
                                           <a href="#account-info" class="active" data-toggle="tab"><i class="fa fa-user"></i> Account
                                               Details</a>
+                                          <a href="#reset-password" data-toggle="tab"><i class="fa fa-key"></i> Password change</a>
                                           <a href="#orders" data-toggle="tab"><i class="fa fa-cart-arrow-down"></i>
                                               Orders</a>
-                                          <a href="#payment-method" data-toggle="tab"><i class="fa fa-credit-card"></i>
-                                              Payment
-                                              Method</a>
                                           <a href="#address-edit" data-toggle="tab"><i class="fa fa-map-marker"></i>
                                               address</a>
-                                          <a href="login.html"><i class="fa fa-sign-out"></i> Logout</a>
+                                          <a href="javascript:void(0)" onclick="logoutAction()"><i class="fa fa-sign-out"></i> Logout</a>
                                       </div>
                                   </div>
                                   <!-- My Account Tab Menu End -->
@@ -78,7 +58,7 @@
                                                               </tr>
                                                           </thead>
                                                           <tbody>
-                                                              <tr>
+                                                              <tr v-for="(elem, i) in orders" :key="i">
                                                                   <td>1</td>
                                                                   <td>Aug 22, 2019</td>
                                                                   <td>Pending</td>
@@ -86,34 +66,9 @@
                                                                   <td><a href="cart.html" class="btn btn__bg">View</a>
                                                                   </td>
                                                               </tr>
-                                                              <tr>
-                                                                  <td>2</td>
-                                                                  <td>July 22, 2019</td>
-                                                                  <td>Approved</td>
-                                                                  <td>$200</td>
-                                                                  <td><a href="cart.html" class="btn btn__bg">View</a>
-                                                                  </td>
-                                                              </tr>
-                                                              <tr>
-                                                                  <td>3</td>
-                                                                  <td>June 12, 2019</td>
-                                                                  <td>On Hold</td>
-                                                                  <td>$990</td>
-                                                                  <td><a href="cart.html" class="btn btn__bg">View</a>
-                                                                  </td>
-                                                              </tr>
                                                           </tbody>
                                                       </table>
                                                   </div>
-                                              </div>
-                                          </div>
-                                          <!-- Single Tab Content End -->
-
-                                          <!-- Single Tab Content Start -->
-                                          <div class="tab-pane fade" id="payment-method" role="tabpanel">
-                                              <div class="myaccount-content">
-                                                  <h3>Payment Method</h3>
-                                                  <p class="saved-message">You Can't Saved Your Payment Method yet.</p>
                                               </div>
                                           </div>
                                           <!-- Single Tab Content End -->
@@ -143,46 +98,55 @@
                                                           <div class="row">
                                                               <div class="col-lg-6">
                                                                   <div class="single-input-item">
-                                                                      <label for="first-name" class="required">First
-                                                                          Name</label>
-                                                                      <input type="text" id="first-name" placeholder="First Name" />
+                                                                      <label for="first-name" class="required">Nama</label>
+                                                                      <input type="text" v-model="profile_detail.nama_konsumen" placeholder="Nama" />
                                                                   </div>
                                                               </div>
                                                               <div class="col-lg-6">
                                                                   <div class="single-input-item">
-                                                                      <label for="last-name" class="required">Last
-                                                                          Name</label>
-                                                                      <input type="text" id="last-name" placeholder="Last Name" />
+                                                                      <label for="last-name" class="required">No Telpon</label>
+                                                                      <input type="text" v-model="profile_detail.nomor_hp" placeholder="No Telpon" />
                                                                   </div>
                                                               </div>
                                                           </div>
                                                           <div class="single-input-item">
-                                                              <label for="display-name" class="required">Display Name</label>
-                                                              <input type="text" id="display-name" placeholder="Display Name" />
+                                                              <label for="display-name" class="required">Alamat</label>
+                                                              <input type="text" v-model="profile_detail.alamat_konsumen" placeholder="Alamat" />
                                                           </div>
                                                           <div class="single-input-item">
-                                                              <label for="email" class="required">Email Addres</label>
-                                                              <input type="email" id="email" placeholder="Email Address" />
+                                                              <label for="email" class="required">Username</label>
+                                                              <input type="email" v-model="profile_detail.username" placeholder="Username" readonly/>
                                                           </div>
+                                                          <div class="single-input-item">
+                                                              <button class="btn btn__bg">Save Changes</button>
+                                                          </div>
+                                                      </form>
+                                                  </div>
+                                              </div>
+                                          </div> <!-- Single Tab Content End -->
+
+                                          <!-- Single Tab Content Start -->
+                                          <div class="tab-pane fade" id="reset-password" role="tabpanel">
+                                              <div class="myaccount-content">
+                                                  {{-- <h3>Reset Password</h3> --}}
+                                                  <div class="account-details-form">
+                                                      <form action="#">
                                                           <fieldset>
                                                               <legend>Password change</legend>
                                                               <div class="single-input-item">
-                                                                  <label for="current-pwd" class="required">Current
-                                                                      Password</label>
+                                                                  <label for="current-pwd" class="required">Password lama</label>
                                                                   <input type="password" id="current-pwd" placeholder="Current Password" />
                                                               </div>
                                                               <div class="row">
                                                                   <div class="col-lg-6">
                                                                       <div class="single-input-item">
-                                                                          <label for="new-pwd" class="required">New
-                                                                              Password</label>
+                                                                          <label for="new-pwd" class="required">Password Baru</label>
                                                                           <input type="password" id="new-pwd" placeholder="New Password" />
                                                                       </div>
                                                                   </div>
                                                                   <div class="col-lg-6">
                                                                       <div class="single-input-item">
-                                                                          <label for="confirm-pwd" class="required">Confirm
-                                                                              Password</label>
+                                                                          <label for="confirm-pwd" class="required">Konfirmasi Password Baru</label>
                                                                           <input type="password" id="confirm-pwd" placeholder="Confirm Password" />
                                                                       </div>
                                                                   </div>
@@ -212,6 +176,42 @@
 @section('extra_script')
 <!-- Page level plugins -->
 <script>
+  $auth.needAuthentication();
 
+  var vue_profile = new Vue({
+    el: '#profile-vue',
+    data(){
+      return {
+        profile_detail: {
+          nama_konsumen: '',
+          nomor_hp: '',
+          alamat_konsumen: '',
+          username: ''
+        },
+        password_changes: {
+          password_lama: '',
+          password: '',
+          password_confirmation: '',
+        },
+        orders: [],
+        address: []
+      }
+    },
+    mounted() {
+      //do something after mounting vue instance
+    },
+    created() {
+      //do something after creating vue instance
+    },
+    methods: {
+      getUmkm() {
+        axios.get('umkm-konsumen').then((res)=>{
+          this.umkm = res.data;
+        }).catch((err)=>{
+          console.log(err);
+        })
+      },
+    }
+  });
 </script>
 @endsection

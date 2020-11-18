@@ -1,6 +1,6 @@
 import axios_ from 'axios';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const token = localStorage.getItem('token');
 
 let axios = axios_.create({
   baseURL: process.env.MIX_APP_ROOT_API,
@@ -15,8 +15,8 @@ let axios = axios_.create({
   xsrfHeaderName: "X-CSRFTOKEN",
 })
 
-if (user && user.token) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
 export default axios

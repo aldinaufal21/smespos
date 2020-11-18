@@ -52,22 +52,25 @@
                                         <a href="#">
                                             <i class="lnr lnr-user"></i>
                                         </a>
-                                        <ul class="dropdown-list">
+                                        <ul class="dropdown-list" id="js-non-authenticated-user" style="display:none">
                                             <li><a href="{{ route('konsumen.login') }}">Login</a></li>
                                             <li><a href="{{ route('konsumen.register') }}">Register</a></li>
+                                        </ul>
+                                        <ul class="dropdown-list" id="js-authenticated-user" style="display:none">
                                             <li><a href="{{ route('konsumen.profile') }}">My Account</a></li>
+                                            <li><a href="javascript:void(0)" onclick="logoutAction()">Logout</a></li>
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="{{ route('konsumen.wishlist') }}">
                                             <i class="lnr lnr-heart"></i>
-                                            <div class="notification">0</div>
+                                            <div class="notification" id="wishlist-notification">0</div>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="minicart-btn">
                                             <i class="lnr lnr-cart"></i>
-                                            <div class="notification">2</div>
+                                            <div class="notification" id="cart-notification">0</div>
                                         </a>
                                     </li>
                                 </ul>

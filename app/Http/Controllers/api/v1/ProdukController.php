@@ -9,6 +9,7 @@ use App\Produk;
 use App\Stok;
 use App\StokOpname;
 use App\Umkm;
+use App\Cabang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ use stdClass;
 class ProdukController extends Controller
 {
     use ImageUpload;
-    
+
     /**
      * API for all users
      */
@@ -31,6 +32,14 @@ class ProdukController extends Controller
 
         $produk = Produk::getProductByQuery($namaProduk, $kategoriProduk, $idKategori, $idUmkm);
 
+        return response()->json($produk, 200);
+    }
+
+    public function getProductByCabang(Request $request){
+        $cabang = Cabang::getCabangById($request->id_cabang);
+        $id_umkm = $cabang->umkm_id;
+
+        $produk = Produk::getProductByQuery(null, null, null, $id_umkm);
         return response()->json($produk, 200);
     }
 
@@ -53,7 +62,7 @@ class ProdukController extends Controller
         }
 
         $data = $request->all();
-        
+
         $data['tanggal_input'] = $data['tanggal_stok_opname'] = Carbon::now();
 
         DB::beginTransaction();
@@ -61,7 +70,7 @@ class ProdukController extends Controller
             $gambarProduk = $request->gambar_produk;
             $data['gambar_produk'] = $gambarProduk != null ?
                         $this->storeProductImages($gambarProduk) : null;
-                        
+
             $produk = Produk::create($data);
 
             DB::commit();
