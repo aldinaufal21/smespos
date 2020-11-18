@@ -38,6 +38,12 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+window.$baseURL =  process.env.MIX_BASE_URL;
+
+window.$swal = require('sweetalert');
+window.$moment = require('moment');
+require("moment/min/locales.min");
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

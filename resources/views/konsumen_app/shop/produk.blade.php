@@ -13,25 +13,7 @@
 <div id="vue-product">
   <!-- main wrapper start -->
   <main>
-      <!-- breadcrumb area start -->
-      <div class="breadcrumb-area common-bg">
-          <div class="container">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="breadcrumb-wrap">
-                          <nav aria-label="breadcrumb">
-                              <h1>shop</h1>
-                              <ul class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                  <li class="breadcrumb-item active" aria-current="page">shop</li>
-                              </ul>
-                          </nav>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <!-- breadcrumb area end -->
+      <breadcrumb :title="'Produk'"></breadcrumb>
 
       <!-- PILIH PRODUK -->
       <div class="shop-main-wrapper section-space pb-0">
@@ -158,13 +140,13 @@
                                   <div class="product-item">
                                       <figure class="product-thumb">
                                           <a href="javascript:void(0)">
-                                              <img class="pri-img" src="{{ asset('konsumen_assets/img/product/product-1.jpg') }}" alt="product">
-                                              <img class="sec-img" src="{{ asset('konsumen_assets/img/product/product-3.jpg') }}" alt="product">
+                                              <img class="pri-img" :src="produk.gambar_produk" alt="product">
+                                              <img class="sec-img" :src="produk.gambar_produk" alt="product">
                                           </a>
                                           <div class="button-group">
                                             <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
                                             <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
-                                            <a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><i class="lnr lnr-cart"></i></a>
+                                            <a href="javascript:void(0)" @click="addToCart" data-toggle="tooltip" data-placement="left" title="Add to Cart"><i class="lnr lnr-cart"></i></a>
                                           </div>
                                       </figure>
                                       <div class="product-caption">
@@ -182,15 +164,15 @@
                                   <div class="product-list-item">
                                       <figure class="product-thumb">
                                           <a href="javascript:void(0)">
-                                              <img class="pri-img" src="{{ asset('konsumen_assets/img/product/product-1.jpg') }}" alt="product">
-                                              <img class="sec-img" src="{{ asset('konsumen_assets/img/product/product-3.jpg') }}" alt="product">
+                                            <img class="pri-img" :src="produk.gambar_produk" alt="product">
+                                            <img class="sec-img" :src="produk.gambar_produk" alt="product">
                                           </a>
                                       </figure>
                                       <div class="product-content-list">
                                           <h5 class="product-name"><a href="product-details.html" v-text="produk.nama_produk"></a></h5>
                                           <p v-text="produk.deskripsi_produk"></p>
                                           <div class="button-group-list">
-                                            <a class="btn-big" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="lnr lnr-cart"></i>Add to Cart</a>
+                                            <a @click="addToCart" class="btn-big" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="lnr lnr-cart"></i>Add to Cart</a>
                                             <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="top" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
                                             <a href="wishlist.html" data-toggle="tooltip" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
                                           </div>
@@ -263,6 +245,21 @@
           console.log(err);
         })
       },
+
+      addToCart(){
+        // $auth.needAuthentication();
+        // mini_cart_vue.item++;
+        const payload = {
+
+        }
+
+        axios.post('/cart', ).then((res)=>{
+          console.log(res);
+          this.cart = res.data;
+        }).catch((err)=>{
+          console.log(err);
+        });
+      }
     }
   });
 </script>

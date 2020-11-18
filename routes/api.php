@@ -18,6 +18,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         Route::delete('reset_password', 'api\v1\AuthController@resetPassword');
     });
 
+    Route::get('/umkm-konsumen', 'api\v1\UmkmController@index');
+
     Route::group(['middleware' => 'auth:api'], function () {
         // authenticated account needed
         Route::get('logout', 'api\v1\AuthController@logout');

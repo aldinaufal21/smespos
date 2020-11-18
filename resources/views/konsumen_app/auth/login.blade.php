@@ -11,26 +11,8 @@
 
 @section('content')
   <!-- main wrapper start -->
-    <main>
-        <!-- breadcrumb area start -->
-        <div class="breadcrumb-area common-bg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb-wrap">
-                            <nav aria-label="breadcrumb">
-                                <h1>Login</h1>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Login</li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- breadcrumb area end -->
+    <main id="login-vue">
+        <breadcrumb :title="'Login'"></breadcrumb>
 
         <!-- login register wrapper start -->
         <center>
@@ -41,16 +23,16 @@
                         <div class="col-lg-7 ">
                             <div class="login-reg-form-wrap">
                                 <h1 style="margin-bottom:0;">Sign In</h1>
-                                <form>
+                                <form @submit="submitLogin">
                                     <img src="/img/logo1.png" alt="" width="30%">
                                     <div class="single-input-item">
-                                        <input type="username" placeholder="Username" required />
+                                        <input type="username" v-model="login_data.username" placeholder="Username" required />
                                     </div>
                                     <div class="single-input-item">
-                                        <input type="password" placeholder="Enter your Password" required />
+                                        <input type="password" v-model="login_data.password" placeholder="Enter your Password" required />
                                     </div>
                                     <div class="single-input-item">
-                                        <button class="btn btn__bg">Login</button>
+                                        <button class="btn btn__bg" type="submit">Login</button>
                                     </div>
                                     <div class="single-input-item">
                                         <p>don't have account? <a href="{{ route('konsumen.register') }}">Register here</a></p>
@@ -71,7 +53,36 @@
 @section('extra_script')
 <!-- Page level plugins -->
 <script>
+  var login_vue = new Vue({
+    el: '#login-vue',
+    data(){
+      return{
+        login_data: {
+          username: '',
+          password: ''
+        }
+      }
+    },
+    created() {
+      //do something after creating vue instance
+      $auth.authenticated();
+    },
+    methods: {
+      submitLogin(event) {
+        event.preventDefault();
 
+        axios.post('/login', this.login_data).then((res)=>{
+          // console.log(res);
+          if (res.data.token) {
+            localStorage.setItem('token', res.data.token);
+            window.location.href = $baseURL + '/';
+          }
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }
+    }
+  })
 
 </script>
 @endsection

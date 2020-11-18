@@ -121,8 +121,8 @@
                                   <div class="product-item">
                                       <figure class="product-thumb">
                                           <a href="javascript:void(0)" @click="pilihCabang(index)">
-                                              <img class="pri-img" src="konsumen_assets/img/product/product-1.jpg" alt="product">
-                                              <img class="sec-img" src="konsumen_assets/img/product/product-3.jpg" alt="product">
+                                            <img class="pri-img" :src="elem.umkm.gambar" alt="product">
+                                            <img class="sec-img" :src="elem.umkm.gambar" alt="product">
                                           </a>
                                           <div class="button-group">
                                               <a href="#" data-toggle="modal" data-target="#umkm_detail"><span data-toggle="tooltip" data-placement="left" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
@@ -140,8 +140,8 @@
                                   <div class="product-list-item">
                                       <figure class="product-thumb">
                                           <a href="javascript:void(0)" @click="pilihCabang(index)">
-                                              <img class="pri-img" src="konsumen_assets/img/product/product-1.jpg" alt="product">
-                                              <img class="sec-img" src="konsumen_assets/img/product/product-3.jpg" alt="product">
+                                              <img class="pri-img" :src="elem.umkm.gambar" alt="product">
+                                              <img class="sec-img" :src="elem.umkm.gambar" alt="product">
                                           </a>
                                       </figure>
                                       <div class="product-content-list">
@@ -232,7 +232,7 @@
     },
     methods: {
       getUmkm() {
-        axios.get('umkm').then((res)=>{
+        axios.get('umkm-konsumen').then((res)=>{
           this.umkm = res.data;
         }).catch((err)=>{
           console.log(err);

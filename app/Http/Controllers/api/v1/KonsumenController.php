@@ -24,17 +24,17 @@ class KonsumenController extends Controller
         /**
          * @param $request -> isinya kolom fillable dari kolom konsumen
          * ex. nama_konsumen, alamat_konsumen, nomor_hp, gambar
-         * 
+         *
          * @return -> data konsumen
          */
         $id = $request->user()->id;
         $konsumen = User::find($id)->konsumen()->first();
-        
+
         return response()->json($konsumen, 200);
     }
-    
+
     public function register(Request $request)
-    {        
+    {
         $requestData = $request->all();
 
         $validator = Validator::make($request->all(), [
@@ -47,7 +47,7 @@ class KonsumenController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
         $requestData['password'] = Hash::make($requestData['password']);
         $requestData['role'] = 'konsumen';
 
@@ -61,7 +61,7 @@ class KonsumenController extends Controller
         /**
          * @param $request -> isinya kolom fillable dari kolom konsumen
          * ex. nama_konsumen, alamat_konsumen, nomor_hp, gambar
-         * 
+         *
          * @return response -> data konsumen
          */
         $validator = Validator::make($request->all(), [
@@ -76,7 +76,7 @@ class KonsumenController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
         $id = $request->user()->id;
         $konsumen = User::find($id)->konsumen()->first();
         $requestData = $request->all();

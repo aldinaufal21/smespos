@@ -11,7 +11,7 @@
 
 @section('content')
   <!-- main wrapper start -->
-  <main>
+  <main id="regis-vue">
       <!-- breadcrumb area start -->
       <div class="breadcrumb-area common-bg">
           <div class="container">
@@ -44,22 +44,22 @@
                               <img src="/img/logo1.png" alt="" width="30%">
                               <!-- <div class="icons">
                               </div> -->
-                              <form action="#" method="post">
+                              <form @submit="submitRegis">
                                   <div class="single-input-item">
-                                      <input type="text" placeholder="Full Name" required />
+                                      <input type="text" placeholder="Full Name" v-model="regis_data.nama_konsumen" required />
                                   </div>
                                   <div class="single-input-item">
-                                      <input type="email" placeholder="Enter your Email" required />
+                                      <input type="username" placeholder="Enter your Username" v-model="regis_data.username" required />
                                   </div>
                                   <div class="row">
                                       <div class="col-lg-6">
                                           <div class="single-input-item">
-                                              <input type="password" placeholder="Enter your Password" required />
+                                              <input type="password" placeholder="Enter your Password" v-model="regis_data.password" required />
                                           </div>
                                       </div>
                                       <div class="col-lg-6">
                                           <div class="single-input-item">
-                                              <input type="password" placeholder="Repeat your Password" required />
+                                              <input type="password" placeholder="Repeat your Password" v-model="regis_data.password_confirmation" required />
                                           </div>
                                       </div>
                                   </div>
@@ -86,6 +86,35 @@
 <!-- Page level plugins -->
 <script>
 
+  var regis_vue = new Vue({
+    el: '#regis-vue',
+    data(){
+      return{
+        regis_data: {
+          username: '',
+          password: '',
+          password_confirmation: '',
+          nama_konsumen: ''
+        }
+      }
+    },
+    created() {
+      //do something after creating vue instance
+      $auth.authenticated();
+    },
+    methods: {
+      submitRegis(event) {
+        event.preventDefault();
+
+        axios.post('/consumer/register', this.regis_data).then((res)=>{
+          console.log(res);
+          // localStorage.setItem('token', res.data.token);
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }
+    }
+})
 
 </script>
 @endsection
