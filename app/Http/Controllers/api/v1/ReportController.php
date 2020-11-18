@@ -57,7 +57,7 @@ class ReportController extends Controller
             foreach ($months as $m) {
                 array_push($reports, [
                     'month' => date("m-Y", strtotime($m)),
-                    'data' => Report::getAllTransaksiReport($idUmkm, $m, $m)->map(function ($p) {
+                    'data' => Report::getTransaksiUmkm($idUmkm, $m, $m)->map(function ($p) {
                         return collect($p)
                             ->only(['produk_id', 'nama_produk', 'harga', 'produk_id', 'jumlah', 'total_harga', 'tanggal_transaksi',])
                             ->all();

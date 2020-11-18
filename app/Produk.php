@@ -152,7 +152,6 @@ class Produk extends Model
         $namaProduk = null,
         $kategoriProduk = null,
         $idKategori = null,
-        $IdUmkm = null,
         $produkId = null,
         $idCabang = null
     ) {
@@ -275,11 +274,6 @@ class Produk extends Model
 
         if ($idKategori) {
             $produk->whereIn('produks.kategori_produk_id', $idKategori);
-        }
-
-        if ($IdUmkm) {
-            $produk->groupBy('umkms.umkm_id');
-            $produk->where('umkms.umkm_id', $IdUmkm);
         }
 
         if ($produkId) {

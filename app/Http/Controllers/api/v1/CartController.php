@@ -24,22 +24,32 @@ class CartController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
+            'quantity' => 'required',
         ]);
+
+        $idKonsumen = $this->getKonsumen($request)->konsumen_id;
+        $idProduk = $request->produk_id;
+        $produk = Produk::find($idProduk);
 
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
-        $idKonsumen = $this->getKonsumen($request)->konsumen_id;
-        $idProduk = $request->produk_id;
-        $produk = Produk::find($idProduk);
 
-        $detail = $produk->stokOpname()->first();
+        if ($this->getItemValue($idKonsumen, $idProduk)) {
+            $existingItem = json_decode($this->getItemValue($idKonsumen, $idProduk));
+            $existingItem->quantity += $request->quantity;
+
+            $produk = json_encode($existingItem);
+
+            $this->setItemValue($idKonsumen, $idProduk, $produk);
+
+            return response()->json($existingItem, 200);
+        }
         
         $produk = $produk->toArray();
-        $produk['harga'] = $detail->harga;
+        $produk['quantity'] = $request->quantity;
         
         $produk = json_encode($produk);
 
@@ -49,9 +59,7 @@ class CartController extends Controller
             throw $e;
         }
 
-        return response()->json([
-            'produk_id' => $idProduk,
-        ], 201);
+        return response()->json($produk, 201);
     }
 
     public function destroy(Request $request, $id)
@@ -86,5 +94,15 @@ class CartController extends Controller
         }
         
         return $shoppingCartItems;
+    }
+
+    private function getItemValue($idKonsumen, $idProduk)
+    {
+        return Redis::get('cart:user:' . $idKonsumen . ':cart:'. $idProduk);
+    }
+
+    private function setItemValue($idKonsumen, $idProduk, $produk)
+    {
+        Redis::set('cart:user:' . $idKonsumen . ':cart:' . $idProduk, $produk);
     }
 }

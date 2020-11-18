@@ -51,9 +51,31 @@ class KonsumenController extends Controller
         $requestData['password'] = Hash::make($requestData['password']);
         $requestData['role'] = 'konsumen';
 
-        $user = User::create($requestData);
+        DB::beginTransaction();
+        try {
+            $user = User::create($requestData);
+    
+            $userAvatar = $request->gambar;
+            $avatarUrl = $request->gambar != null ?
+                $this->storeUserProfileImage($userAvatar) : null;
+            $requestData['gambar'] = $avatarUrl;
+            $requestData['user_id'] = $user->id;
+            $requestData['tanggal_gabung'] = Carbon::now();
+            $requestData['login_terakhir'] = Carbon::createFromDate(null, null, null, null);
+            
+            $konsumen = Konsumen::create($requestData);
 
-        return response()->json($user, 201);
+            $response = array_merge($user->toArray(), $konsumen->toArray());
+            
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+            ], 500);
+        }
+
+        return response()->json($response, 201);
     }
 
     public function update(Request $request)
