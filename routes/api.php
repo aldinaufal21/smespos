@@ -66,6 +66,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             // cart route
             Route::get('cart', 'api\v1\CartController@index');
             Route::post('cart', 'api\v1\CartController@store');
+            Route::patch('cart/{cart}', 'api\v1\CartController@update');
             Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
 
             // order route
