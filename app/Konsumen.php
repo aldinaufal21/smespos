@@ -35,6 +35,11 @@ class Konsumen extends Model
         return $this->belongsToMany('App\Produk', 'produk_favorits', 'konsumen_id', 'produk_id');
     }
 
+    public function keranjang()
+    {
+        return $this->hasMany('App\Keranjang', 'konsumen_id', 'konsumen_id');
+    }
+
     public function transaksiKonsumen()
     {
         return $this->hasMany('App\TransaksiKonsumen');

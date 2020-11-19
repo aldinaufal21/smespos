@@ -64,6 +64,31 @@ class CartController extends Controller
         return response()->json($produk, 201);
     }
 
+    public function update(Request $request, $idProduk)
+    {
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'required',
+        ]);
+
+        $idKonsumen = $this->getKonsumen($request)->konsumen_id;
+        $produk = Produk::find($idProduk);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
+        $existingItem = json_decode($this->getItemValue($idKonsumen, $idProduk));
+        $existingItem->quantity = $request->quantity;
+
+        $produk = json_encode($existingItem);
+
+        $this->setItemValue($idKonsumen, $idProduk, $produk);
+
+        return response()->json($existingItem, 200);
+    }
+
     public function destroy(Request $request, $id)
     {
         $idKonsumen = $this->getKonsumen($request)->konsumen_id;

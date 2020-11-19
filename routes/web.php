@@ -129,10 +129,12 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('nyoba_query', function () {
     DB::enableQueryLog();
-    // return dd(\App\Produk::tryBinding(2));
-    \App\Report::getTransaksiCabang(2, "2020-11-01", "2020-11-30");
+    \App\Report::getTransaksiUmkm(1, "2020-11-01", "2020-11-30");
     return dd(DB::getQueryLog());
-    return dd(\App\Report::getTransaksiCabang(2, "2020-11-01", "2020-11-30"));
+});
+
+Route::get('hasil_query', function () {
+    return dd(\App\Report::getTransaksiUmkm(1, "2020-11-01", "2020-11-30"));
 });
 
 // Route::get('/{any?}', 'KonsumenAppController@index')->where('any', '(.*)');

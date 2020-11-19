@@ -412,6 +412,11 @@ class Produk extends Model
         return $this->hasMany('App\Stok', 'produk_id', 'produk_id');
     }
 
+    public function keranjang()
+    {
+        return $this->hasMany('App\Keranjang', 'produk_id', 'produk_id');
+    }
+
     public function transaksiKasirDetail()
     {
         return $this->hasMany('App\TransaksiKasirDetail');
