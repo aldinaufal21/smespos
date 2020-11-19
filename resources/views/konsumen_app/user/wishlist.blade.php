@@ -38,7 +38,7 @@
                                       <tr v-for="item in wishlists" :key="item.produk_id">
                                           <td class="pro-thumbnail"><a href="#"><img class="img-fluid" :src="item.gambar_produk" alt="Product" /></a></td>
                                           <td class="pro-title"><a href="#" v-text="item.nama_produk"></a></td>
-                                          <td class="pro-price">Rp. <span v-text="item.harga"></span></td>
+                                          <td class="pro-price">Rp <span v-text="rupiahFormat(item.harga)"></span></td>
                                           {{-- <td class="pro-quantity"><span class="text-success">In Stock</span></td> --}}
                                           <td class="pro-subtotal"><a href="#" @click="addToCart(item.produk_id)" class="btn btn__bg">Add to Cart</a></td>
                                           <td class="pro-remove"><a href="#" @click="deleteItem(item.produk_id)"><i class="fa fa-trash-o"></i></a></td>
@@ -98,7 +98,7 @@
           })
           .then((deleteData)=>{
             if (deleteData) {
-              axios.delete('favorite-product').then((res)=>{
+              axios.delete(`favorite-product/${produk_id}`).then((res)=>{
                 this.getWishlist();
               }).catch((err)=>{
                 console.log(err);
@@ -109,7 +109,19 @@
       },
 
       addToCart(produk_id){
+        const payload = {
+          produk_id: produk_id,
+          quantity: 1
+        }
 
+        cartStore.addCart(payload).then((res)=>{
+          // console.log(res);
+          mini_cart_vue.updateCart();
+        })
+      },
+
+      rupiahFormat(value){
+        return $helper.rupiahFormat(value);
       },
     }
   });

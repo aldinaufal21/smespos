@@ -254,19 +254,9 @@
           quantity: 1
         }
 
-        axios.post('/cart', payload).then((res)=>{
-          console.log(res);
-          if (res.status == 201) {
-            swal({
-              icon: "success",
-              title: "Produk berhasil dimasukkan ke keranjang"
-            });
-
-            mini_cart_vue.updateCart();
-          }
-        }).catch((err)=>{
-          console.log(err);
-        });
+        cartStore.addCart(payload).then((res)=>{
+          mini_cart_vue.updateCart();
+        })
       },
 
       addToWishlist(produk_id){
