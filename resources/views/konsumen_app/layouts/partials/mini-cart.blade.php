@@ -17,11 +17,11 @@
                             </div>
                             <div class="minicart-content">
                                 <h3 class="product-name">
-                                    <a href="product-details.html">@{{ item.produk.nama_produk }}</a>
+                                    <a href="product-details.html">@{{ item.nama_produk }}</a>
                                 </h3>
                                 <p>
                                     <span class="cart-quantity">@{{ item.quantity }} <strong>&times;</strong></span>
-                                    <span class="cart-price">@{{ item.produk.harga }}</span>
+                                    <span class="cart-price">@{{ item.harga }}</span>
                                 </p>
                             </div>
                             <button class="minicart-remove" @click="deleteItem(item.produk_id)"><i class="lnr lnr-cross"></i></button>
@@ -85,6 +85,10 @@
             axios.get('/cart').then((res)=>{
               console.log(res);
               this.cart = res.data;
+              this.cart.forEach((item, i) => {
+                this.total += item.harga * item.quantity
+              });
+
               $('#cart-notification').text(this.cart.length);
             }).catch((err)=>{
               console.log(err);
@@ -92,6 +96,10 @@
         }else {
           console.log("belum login");
         }
+      },
+
+      updateCart(){
+        this.getCartItem();
       },
 
       deleteItem(produk_id){

@@ -45,12 +45,12 @@ class CartController extends Controller
 
             $this->setItemValue($idKonsumen, $idProduk, $produk);
 
-            return response()->json($existingItem, 200);
+            return response()->json($existingItem, 201);
         }
-        
+
         $produk = $produk->toArray();
         $produk['quantity'] = $request->quantity;
-        
+
         $produk = json_encode($produk);
 
         try {
@@ -58,6 +58,8 @@ class CartController extends Controller
         } catch (\Exception $e) {
             throw $e;
         }
+
+        $produk = json_decode($produk);
 
         return response()->json($produk, 201);
     }
@@ -90,7 +92,7 @@ class CartController extends Controller
     public function destroy(Request $request, $id)
     {
         $idKonsumen = $this->getKonsumen($request)->konsumen_id;
-        
+
         try {
             Redis::del('cart:user:' . $idKonsumen . ':cart:' . $id);
         } catch (\Exception $e) {
@@ -112,12 +114,12 @@ class CartController extends Controller
 
         foreach (Redis::keys("{$keyPrefix}*") as $key) {
             $key = str_replace(config('database.redis.options.prefix'), '', $key);
-            
+
             $item = json_decode(Redis::get($key));
-            
+
             array_push($shoppingCartItems, $item);
         }
-        
+
         return $shoppingCartItems;
     }
 
