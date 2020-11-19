@@ -211,6 +211,7 @@
   });
 
   const openCreateForm = () => {
+    $helper.resetForm($('#js-cabang-form'));
     $('#js-cabang-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-cabang-modal-form').modal('show');

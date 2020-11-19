@@ -238,6 +238,7 @@
   }
 
   const openAddForm = (idProduk, namaProduk) => {
+    $helper.resetForm($('#js-stok-produk-form'));
     $('#js-hidden-produk-id').val(idProduk);
     $('#js-nama-produk').text(namaProduk);
 

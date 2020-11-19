@@ -167,6 +167,7 @@
   });
 
   const openCreateForm = () => {
+    $helper.resetForm($('#js-kasir-form'));
     $('#js-kasir-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-kasir-modal-form').modal('show');
@@ -180,6 +181,7 @@
 
         $('#js-username-kasir').val("");
         $('#js-nama-kasir').val(data.nama_kasir);
+        $('#js-username-kasir').val(data.username);
 
         $('#js-kasir-form').attr('data-edit', 'true');
         $('#js-submit-button').text('Ubah');

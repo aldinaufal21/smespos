@@ -163,6 +163,7 @@
   }
 
   const createCategory = () => {
+    $helper.resetForm($('#js-kategori-form'));
     $('#js-kategori-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-kategori-modal').modal('show');

@@ -181,6 +181,7 @@
   }
 
   const createBank = () => {
+    $helper.resetForm($('#js-bank-form'));
     $('#js-bank-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-bank-modal').modal('show');

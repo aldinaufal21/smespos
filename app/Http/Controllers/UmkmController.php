@@ -22,6 +22,11 @@ class UmkmController extends Controller
         return view('umkm.data_umkm');
     }
 
+    public function transaksiUmkm()
+    {
+        return view('umkm.transaksi');
+    }
+
     public function dataKaryawanUmkm()
     {
         return view('umkm.karyawan');
