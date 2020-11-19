@@ -38,7 +38,7 @@ exports.umkm = ({ data }) => {
           confirm: true,
         },
       }).then((res) => {
-        window.location.href = '/login';
+        window.location.href = '/admin/login';
       });
   
       setTimeout(() => {
