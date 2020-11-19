@@ -179,6 +179,7 @@
   });
 
   const openCreateForm = () => {
+    $helper.resetForm($('#js-karyawan-form'));
     $('#js-karyawan-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-karyawan-modal-form').modal('show');

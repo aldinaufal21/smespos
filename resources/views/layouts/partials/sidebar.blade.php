@@ -121,7 +121,7 @@
       <span>Pendaftaran UMKM</span></a>
   </li>
   <li class="nav-item nav-pengelola">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{{ route('umkm.transaksi') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>List Transaksi UMKM</span></a>
   </li>

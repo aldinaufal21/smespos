@@ -240,6 +240,7 @@
   const openCreateForm = () => {
     populateDropdown();
 
+    $helper.resetForm($('#js-produk-form'));
     $('#js-produk-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-produk-modal-form').modal('show');

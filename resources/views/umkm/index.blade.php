@@ -251,6 +251,7 @@
   });
 
   const openCreateForm = () => {
+    $helper.resetForm($('#js-umkm-form'));
     $('#js-umkm-form').attr('data-edit', '');
     $('#js-submit-button').text('Tambah');
     $('#js-umkm-modal-form').modal('show');

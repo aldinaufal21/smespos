@@ -52,7 +52,7 @@
   </div>
 
   <div class="card shadow mb-4" id="js-kategori-card" style="display: none;">
-    <div class="card-header py-3">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
       <h6 class="m-0 font-weight-bold text-primary">Data Kategori <span class="js-nama-umkm"></span></h6>
       <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
