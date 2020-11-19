@@ -38,24 +38,21 @@ class ProdukFavoritController extends Controller
                 'errors' => $validator->errors()->all()
             ], 400);
         }
-        
+
         $konsumen = $this->getKonsumen($request);
         $idProduk = $request->produk_id;
-        $dataProdukFavorit = [];
-        
+
         DB::beginTransaction();
         try {
-            foreach ($idProduk as $p) {
-                $data['produk_id'] = $p;
-                $data['konsumen_id'] = $konsumen->konsumen_id;
-                ProdukFavorit::create($data);
-                array_push($dataProdukFavorit, $data);
-            }
+            $data['produk_id'] = $idProduk;
+            $data['konsumen_id'] = $konsumen->konsumen_id;
+            $dataProdukFavorit = ProdukFavorit::create($data);
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([
-                'message' => env('APP_ENV') != 'production' ? $e : 'Internal Server Error',
+                'message' => env('APP_ENV') != 'production' ? "Error ".$e : 'Internal Server Error',
             ], 500);
         }
 

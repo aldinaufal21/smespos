@@ -11,26 +11,8 @@
 
 @section('content')
   <!-- main wrapper start -->
-  <main>
-      <!-- breadcrumb area start -->
-      <div class="breadcrumb-area common-bg">
-          <div class="container">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="breadcrumb-wrap">
-                          <nav aria-label="breadcrumb">
-                              <h1>wishlist</h1>
-                              <ul class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                  <li class="breadcrumb-item active" aria-current="page">wishlist</li>
-                              </ul>
-                          </nav>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <!-- breadcrumb area end -->
+  <main id="vue-wishlist">
+      <breadcrumb :title="'Wishlist'"></breadcrumb>
 
       <!-- wishlist main wrapper start -->
       <div class="wishlist-main-wrapper section-space pb-0">
@@ -47,23 +29,24 @@
                                           <th class="pro-thumbnail">Thumbnail</th>
                                           <th class="pro-title">Product</th>
                                           <th class="pro-price">Price</th>
-                                          <th class="pro-quantity">Stock Status</th>
+                                          {{-- <th class="pro-quantity">Stock Status</th> --}}
                                           <th class="pro-subtotal">Add to Cart</th>
                                           <th class="pro-remove">Remove</th>
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="{{ asset('konsumen_assets/img/product/product-5.jpg') }}" alt="Product" /></a></td>
-                                          <td class="pro-title"><a href="#">Rose bouquet white</a></td>
-                                          <td class="pro-price"><span>$295.00</span></td>
-                                          <td class="pro-quantity"><span class="text-success">In Stock</span></td>
-                                          <td class="pro-subtotal"><a href="cart.html" class="btn btn__bg">Add to
-                                                  Cart</a></td>
-                                          <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                                      <tr v-for="item in wishlists" :key="item.produk_id">
+                                          <td class="pro-thumbnail"><a href="#"><img class="img-fluid" :src="item.gambar_produk" alt="Product" /></a></td>
+                                          <td class="pro-title"><a href="#" v-text="item.nama_produk"></a></td>
+                                          <td class="pro-price">Rp. <span v-text="item.harga"></span></td>
+                                          {{-- <td class="pro-quantity"><span class="text-success">In Stock</span></td> --}}
+                                          <td class="pro-subtotal"><a href="#" @click="addToCart(item.produk_id)" class="btn btn__bg">Add to Cart</a></td>
+                                          <td class="pro-remove"><a href="#" @click="deleteItem(item.produk_id)"><i class="fa fa-trash-o"></i></a></td>
                                       </tr>
                                   </tbody>
                               </table>
+                              <br>
+                              <center><h4 v-if="!wishlists.length">Wishlist anda kosong, silahkan pilih produk favorit anda <a href="{{ route('konsumen.produk') }}">disini</a> </h4></center>
                           </div>
                       </div>
                   </div>
@@ -79,6 +62,56 @@
 @section('extra_script')
 <!-- Page level plugins -->
 <script>
+  $auth.needAuthentication();
 
+  var vue_wishlist = new Vue({
+    el: '#vue-wishlist',
+    data(){
+      return {
+        wishlists: [],
+      }
+    },
+    mounted() {
+      //do something after mounting vue instance
+    },
+    created() {
+      //do something after creating vue instance
+      this.getWishlist();
+    },
+    methods: {
+      getWishlist() {
+        axios.get('favorite-product').then((res)=>{
+          // console.log(res);
+          this.wishlists = res.data;
+        }).catch((err)=>{
+          console.log(err);
+        })
+      },
+
+      deleteItem(produk_id){
+        $swal({
+            title: "Anda yakin?",
+            text: "Data akan dihapus secara permanen!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((deleteData)=>{
+            if (deleteData) {
+              axios.delete('favorite-product').then((res)=>{
+                this.getWishlist();
+              }).catch((err)=>{
+                console.log(err);
+              })
+            }
+          });
+
+      },
+
+      addToCart(produk_id){
+
+      },
+    }
+  });
 </script>
 @endsection

@@ -64,6 +64,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             // favorite product route
             Route::get('favorite-product', 'api\v1\ProdukFavoritController@index');
             Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
+            Route::delete('favorite-product', 'api\v1\ProdukFavoritController@destroy');
 
             // cart route
             Route::get('cart', 'api\v1\CartController@index');

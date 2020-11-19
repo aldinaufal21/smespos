@@ -115,7 +115,7 @@
                                                           </div>
                                                           <div class="single-input-item">
                                                               <label for="email" class="required">Username</label>
-                                                              <input type="email" v-model="profile_detail.username" placeholder="Username" readonly/>
+                                                              <input type="text" v-model="profile_detail.username" placeholder="Username" readonly/>
                                                           </div>
                                                           <div class="single-input-item">
                                                               <button class="btn btn__bg">Save Changes</button>
@@ -202,15 +202,34 @@
     },
     created() {
       //do something after creating vue instance
+      this.getUserDetails();
+      this.getAddress();
     },
     methods: {
-      getUmkm() {
-        axios.get('umkm-konsumen').then((res)=>{
-          this.umkm = res.data;
+      getUserDetails() {
+        axios.get('consumer/profile').then((res)=>{
+          // console.log(res);
+          this.profile_detail = res.data;
         }).catch((err)=>{
           console.log(err);
         })
       },
+
+
+      getAddress() {
+        axios.get('consumer/addresses').then((res)=>{
+          console.log(res);
+          this.address = res.data;
+        }).catch((err)=>{
+          console.log(err);
+        })
+      },
+
+      getOrders(){
+
+      }
+
+
     }
   });
 </script>

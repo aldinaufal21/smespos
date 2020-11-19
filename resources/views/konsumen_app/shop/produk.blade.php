@@ -144,9 +144,9 @@
                                               <img class="sec-img" :src="produk.gambar_produk" alt="product">
                                           </a>
                                           <div class="button-group">
-                                            <a href="wishlist.html" data-toggle="tooltip" data-placement="left" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
+                                            <a href="javascript:void(0)" @click="addToWishlist(produk.produk_id)" data-toggle="tooltip" data-placement="left" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
                                             <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="left" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
-                                            <a href="javascript:void(0)" @click="addToCart" data-toggle="tooltip" data-placement="left" title="Add to Cart"><i class="lnr lnr-cart"></i></a>
+                                            <a href="javascript:void(0)" @click="addToCart(produk.produk_id)" data-toggle="tooltip" data-placement="left" title="Add to Cart"><i class="lnr lnr-cart"></i></a>
                                           </div>
                                       </figure>
                                       <div class="product-caption">
@@ -172,9 +172,9 @@
                                           <h5 class="product-name"><a href="product-details.html" v-text="produk.nama_produk"></a></h5>
                                           <p v-text="produk.deskripsi_produk"></p>
                                           <div class="button-group-list">
-                                            <a @click="addToCart" class="btn-big" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="lnr lnr-cart"></i>Add to Cart</a>
+                                            <a @click="addToCart(produk.produk_id)" class="btn-big" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="lnr lnr-cart"></i>Add to Cart</a>
                                             <a href="#" data-toggle="modal" data-target="#quick_view"><span data-toggle="tooltip" data-placement="top" title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
-                                            <a href="wishlist.html" data-toggle="tooltip" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
+                                            <a href="javascript:void(0)" @click="addToWishlist(produk.produk_id)" data-toggle="tooltip" title="Add to wishlist"><i class="lnr lnr-heart"></i></a>
                                           </div>
                                       </div>
                                   </div>
@@ -239,26 +239,50 @@
     methods: {
       getProduct() {
         axios.get('product/cabang?cabang_id='+cabang_id).then((res)=>{
-          console.log(res);
+          // console.log(res);
           this.products = res.data;
         }).catch((err)=>{
           console.log(err);
         })
       },
 
-      addToCart(){
+      addToCart(produk_id){
         // $auth.needAuthentication();
         // mini_cart_vue.item++;
         const payload = {
-
+          produk_id: produk_id,
+          quantity: 1
         }
 
-        axios.post('/cart', ).then((res)=>{
+        axios.post('/cart', payload).then((res)=>{
           console.log(res);
-          this.cart = res.data;
+          if (res.status == 201) {
+            swal({
+              icon: "success",
+              title: "Produk berhasil dimasukkan ke keranjang"
+            });
+
+            mini_cart_vue.updateCart();
+          }
         }).catch((err)=>{
           console.log(err);
         });
+      },
+
+      addToWishlist(produk_id){
+        axios.post('favorite-product', {
+          produk_id: produk_id
+        }).then((res)=>{
+          console.log(res);
+          if (res.status == 201) {
+            swal({
+              icon: "success",
+              title: "Produk berhasil dimasukkan ke wishlist"
+            });
+          }
+        }).catch((err)=>{
+          console.log(err);
+        })
       }
     }
   });

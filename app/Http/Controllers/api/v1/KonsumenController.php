@@ -27,10 +27,13 @@ class KonsumenController extends Controller
          *
          * @return -> data konsumen
          */
-        $id = $request->user()->id;
+        $user = $request->user();
+        $id = $user->id;
         $konsumen = User::find($id)->konsumen()->first();
 
-        return response()->json($konsumen, 200);
+        $response = array_merge($user->toArray(), $konsumen->toArray());
+
+        return response()->json($response, 200);
     }
 
     public function register(Request $request)
