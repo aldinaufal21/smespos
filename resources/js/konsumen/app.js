@@ -1,7 +1,8 @@
 require('./bootstrap');
 
-// app data stores
-// require('./stores');
+require('./store')
+
+window.$helper = require('./helper');
 
 // mandatory authentication configuration
 window.$auth = require('./authentication');

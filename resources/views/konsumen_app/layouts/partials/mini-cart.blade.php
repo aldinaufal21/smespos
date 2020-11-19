@@ -21,7 +21,7 @@
                                 </h3>
                                 <p>
                                     <span class="cart-quantity">@{{ item.quantity }} <strong>&times;</strong></span>
-                                    <span class="cart-price">@{{ item.harga }}</span>
+                                    <span class="cart-price">@{{ rupiahFormat(item.harga) }}</span>
                                 </p>
                             </div>
                             <button class="minicart-remove" @click="deleteItem(item.produk_id)"><i class="lnr lnr-cross"></i></button>
@@ -33,7 +33,7 @@
                     <ul>
                         <li class="total">
                             <span>total</span>
-                            <span><strong>Rp. @{{ total }}</strong></span>
+                            <span><strong>Rp @{{ rupiahFormat(total) }}</strong></span>
                         </li>
                     </ul>
                 </div>
@@ -68,7 +68,6 @@
     el: '#mini-cart-vue',
     data(){
       return{
-        item: 2,
         token: null,
         cart: [],
         total: 0
@@ -82,16 +81,16 @@
     methods: {
       getCartItem() {
         if (this.token) {
-            axios.get('/cart').then((res)=>{
-              console.log(res);
+            cartStore.getCart().then((res)=>{
+              // console.log(res);
               this.cart = res.data;
+
+              this.total = 0;
               this.cart.forEach((item, i) => {
                 this.total += item.harga * item.quantity
               });
 
               $('#cart-notification').text(this.cart.length);
-            }).catch((err)=>{
-              console.log(err);
             });
         }else {
           console.log("belum login");
@@ -104,7 +103,28 @@
 
       deleteItem(produk_id){
         // do delete item
-        this.getCartItem();
+        $swal({
+            title: "Anda yakin?",
+            text: "Data akan dihapus!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((deleteData)=>{
+            if (deleteData) {
+              cartStore.destroyCart(produk_id).then((res)=>{
+                // console.log(res);
+                if (res.status == 200) {
+                  this.getCartItem();
+                  this.updateCart();
+                }
+              });
+            }
+          });
+      },
+
+      rupiahFormat(value){
+        return $helper.rupiahFormat(value);
       },
 
     }

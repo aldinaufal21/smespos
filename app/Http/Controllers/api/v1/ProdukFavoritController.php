@@ -7,6 +7,7 @@ use App\ProdukFavorit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 
 /**
  * this API is for consumer
@@ -62,5 +63,14 @@ class ProdukFavoritController extends Controller
     private function getKonsumen($request)
     {
         return $request->user()->konsumen()->first();
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $idKonsumen = $this->getKonsumen($request)->konsumen_id;
+        $produk = ProdukFavorit::where('produk_id',$id)->where('konsumen_id', $idKonsumen)->first();
+        $produk->delete();
+
+        return response()->json(new stdClass(), 200);
     }
 }

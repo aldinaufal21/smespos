@@ -64,13 +64,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             // favorite product route
             Route::get('favorite-product', 'api\v1\ProdukFavoritController@index');
             Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
-            Route::delete('favorite-product', 'api\v1\ProdukFavoritController@destroy');
+            Route::delete('favorite-product/{produk_id}', 'api\v1\ProdukFavoritController@destroy');
 
             // cart route
-            Route::get('cart', 'api\v1\CartController@index');
-            Route::post('cart', 'api\v1\CartController@store');
-            Route::patch('cart/{cart}', 'api\v1\CartController@update');
-            Route::delete('cart/{cart}', 'api\v1\CartController@destroy');
+            Route::get('cart', 'api\v1\NewCartController@index');
+            Route::post('cart', 'api\v1\NewCartController@store');
+            Route::patch('cart/{cart}', 'api\v1\NewCartController@update');
+            Route::delete('cart/{cart}', 'api\v1\NewCartController@destroy');
 
             Route::group(['prefix' => 'new-cart'], function () {
                 Route::get('/', 'api\v1\NewCartController@index');
