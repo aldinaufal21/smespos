@@ -135,8 +135,8 @@
         <a class="collapse-item" href="{{ route('umkm.data') }}">Data UMKM</a>
         <a class="collapse-item" href="{{ route('umkm.karyawan') }}">Data Karyawan UMKM</a>
         <a class="collapse-item" href="{{ route('umkm.kategori') }}">Kategori UMKM</a>
-        <a class="collapse-item" href="#">Data Route Table Kategori</a>
-        <a class="collapse-item" href="#">Data Route Table Produk</a>
+        <a class="collapse-item" href="{{ route('route.kategori') }}">Data Route Table Kategori</a>
+        <a class="collapse-item" href="{{ route('route.produk') }}">Data Route Table Produk</a>
       </div>
     </div>
   </li>

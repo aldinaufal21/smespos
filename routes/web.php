@@ -102,6 +102,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/stok', 'StokController@stok')->name('stok');
     Route::get('/stok-opname', 'StokController@stokOpname')->name('stok.opname');
 
+    Route::get('/route-kategori', 'PengelolaController@routeKategori')->name('route.kategori');
+    Route::get('/route-produk', 'PengelolaController@routeProduk')->name('route.produk');
+
     Route::get('/dashboard-pengelola', function () {
         return view('demo');
     });
