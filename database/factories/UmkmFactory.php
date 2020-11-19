@@ -19,10 +19,6 @@ $factory->define(Umkm::class, function (Faker $faker) {
 
 $factory->afterCreating(Umkm::class, function ($umkm, $faker) {
     $umkm->save(factory(PendaftaranUmkm::class)->create([
-        'status_pendaftaran' => 'pending',
-        'no_ktp' => $faker->randomNumber(20),
-        'pengelola_id' => null,
-        'tanggal_pendaftaran' => Carbon::now(),
         'umkm_id' => $umkm->umkm_id
     ])->toArray());
 });
