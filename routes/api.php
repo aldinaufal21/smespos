@@ -193,8 +193,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
     Route::post('login', 'api\v1\AuthController@login');
 
-    Route::post('users', 'api\v1\UserController@store');
-    Route::match(['put', 'patch'], 'users', 'api\v1\UserController@update');
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'api\v1\UserController@index');
+        Route::get('/{user}', 'api\v1\UserController@show');
+        Route::post('/', 'api\v1\UserController@store');
+        Route::match(['put', 'patch'], '/{user}', 'api\v1\UserController@update');
+        Route::patch('/{user}/reset', 'api\v1\UserController@reset');
+    });
 
     Route::group(['prefix' => 'consumer'], function () {
         Route::post('register', 'api\v1\KonsumenController@register');

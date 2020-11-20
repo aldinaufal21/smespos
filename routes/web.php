@@ -25,6 +25,8 @@ Route::get('/checkout', 'KonsumenController@checkout')->name('konsumen.checkout'
 Route::group(['prefix' => 'user'], function () {
   Route::get('/', 'KonsumenController@profile')->name('konsumen.profile');
   Route::get('/wishlist', 'KonsumenController@wishlist')->name('konsumen.wishlist');
+
+  Route::get('/change_password', 'UserController@changePassword')->name('user.change_password');
 });
 
 Route::group(['prefix' => 'shop'], function () {
