@@ -72,9 +72,12 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'new_password' => 'required|string|min:6',
-            'new_password_confirmation' => 'required|string|min:6|confirmed',
+        $user = $request->user();
+        $requestData = $request->all();
+
+        $validator = Validator::make($requestData, [
+            'existing_password' => 'required|string|min:6',
+            'new_password' => 'required|string|min:6|confirmed|different:existing_password',
         ]);
 
         if ($validator->fails()) {
@@ -83,8 +86,13 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $user = $request->user()->id;
-        $user->password = Hash::make($request['new_password']);
+        if (!Hash::check($requestData['existing_password'], $user->password)) {
+            return response()->json([
+                'message' => 'Password missmatch'
+            ], 401);
+        }
+
+        $user->password = Hash::make($requestData['new_password']);
         $user->save();
 
         return response()->json($user, 200);
@@ -129,8 +137,8 @@ class AuthController extends Controller
                     'kasir' => $kasir,
                     'cabang' => $cabang
                 ];
-                if($kasir->status_kasir=='buka')
-                  $data['sesi_kasir'] = DB::table('sesi_kasirs')->where('kasir_id', $kasir->kasir_id)->orderBy('sesi_kasir_id', 'DESC')->first();
+                if ($kasir->status_kasir == 'buka')
+                    $data['sesi_kasir'] = DB::table('sesi_kasirs')->where('kasir_id', $kasir->kasir_id)->orderBy('sesi_kasir_id', 'DESC')->first();
 
                 return $data;
 

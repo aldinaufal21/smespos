@@ -14,13 +14,15 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () {
-    Route::prefix('auth')->group(function () {
-        Route::delete('reset_password', 'api\v1\AuthController@resetPassword');
-    });
 
     Route::get('/umkm-konsumen', 'api\v1\UmkmController@index');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        
+        Route::prefix('auth')->group(function () {
+            Route::patch('reset_password', 'api\v1\AuthController@resetPassword');
+        });
+        
         // authenticated account needed
         Route::get('logout', 'api\v1\AuthController@logout');
         Route::get('user/details', 'api\v1\AuthController@details');
@@ -50,8 +52,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         });
 
         Route::group(['prefix' => 'umkm-registration'], function () {
-           Route::get('/', 'api\v1\PendaftaranUmkmController@index');
-           Route::post('/', 'api\v1\PendaftaranUmkmController@store');
+            Route::get('/', 'api\v1\PendaftaranUmkmController@index');
+            Route::post('/', 'api\v1\PendaftaranUmkmController@store');
         });
 
         Route::group(['middleware' => ['role:kasir']], function () {
@@ -194,11 +196,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
     Route::post('login', 'api\v1\AuthController@login');
 
     Route::group(['prefix' => 'users'], function () {
-        Route::get('/', 'api\v1\UserController@index');
-        Route::get('/{user}', 'api\v1\UserController@show');
-        Route::post('/', 'api\v1\UserController@store');
-        Route::match(['put', 'patch'], '/{user}', 'api\v1\UserController@update');
-        Route::patch('/{user}/reset', 'api\v1\UserController@reset');
+        Route::group(['middleware' => ['auth:api', 'role:pengelola']], function () {
+            Route::get('/', 'api\v1\UserController@index');
+            Route::get('/{user}', 'api\v1\UserController@show');
+            Route::post('/', 'api\v1\UserController@store');
+            Route::match(['put', 'patch'], '/{user}', 'api\v1\UserController@update');
+            Route::patch('/{user}/reset', 'api\v1\UserController@reset');
+        });
     });
 
     Route::group(['prefix' => 'consumer'], function () {

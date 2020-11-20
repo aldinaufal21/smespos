@@ -22,15 +22,22 @@
       <form role="form" id="js-user-form" onsubmit="userFormAction(event)">
         <input type="hidden" name="_token" value="">
         <div class="form-group">
-          <label class="control-label">Password</label>
+          <label class="control-label">Password Saat Ini</label>
           <div>
-            <input type="password" class="form-control input-lg" name="password" id="js-password-user" placeholder="Password">
+            <input type="password" class="form-control input-lg" name="existing_password" id="js-password-user" placeholder="Password Saat Ini">
+          </div>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label class="control-label">Password Baru</label>
+          <div>
+            <input type="password" class="form-control input-lg" name="new_password" id="js-password-user" placeholder="Password Baru">
           </div>
         </div>
         <div class="form-group">
           <label class="control-label">Konfirmasi Password</label>
           <div>
-            <input type="password" class="form-control input-lg" name="password_confirmation" id="js-password-confirm-user" placeholder="Konfirmasi Password">
+            <input type="password" class="form-control input-lg" name="new_password_confirmation" id="js-password-confirm-user" placeholder="Konfirmasi Password">
           </div>
         </div>
         <div class="form-group">
@@ -52,7 +59,6 @@
 
   $(document).ready(() => {
     user = $auth.userCredentials(); // get user credentials
-    tableUser = $("#js-tabel-user").DataTable();
   });
 
   const userFormAction = (e) => {
@@ -61,11 +67,10 @@
     let formData = $helper.serializeObject($('#js-user-form'));
 
     let payload = {
-      id: _idUser,
       data: formData,
     }
 
-    userStore.resetPasswordUser(payload)
+    userStore.selfResetPassword(payload)
       .then(res => {
         if (res.status == 200) {
           getUsers();
