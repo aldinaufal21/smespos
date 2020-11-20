@@ -43,19 +43,16 @@ class ProdukFavoritController extends Controller
         $konsumen = $this->getKonsumen($request);
         $idProduk = $request->produk_id;
 
-        DB::beginTransaction();
-        try {
-            $data['produk_id'] = $idProduk;
-            $data['konsumen_id'] = $konsumen->konsumen_id;
-            $dataProdukFavorit = ProdukFavorit::create($data);
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
+        $existingProdukFavorit = ProdukFavorit::where('produk_id', $idProduk)->first();
+        if ($existingProdukFavorit) {
             return response()->json([
-                'message' => env('APP_ENV') != 'production' ? "Error ".$e : 'Internal Server Error',
-            ], 500);
+                'message' => 'Produk sudah termasuk ke dalam produk favorit anda'
+            ], 400);
         }
+
+        $data['produk_id'] = $idProduk;
+        $data['konsumen_id'] = $konsumen->konsumen_id;
+        $dataProdukFavorit = ProdukFavorit::create($data);
 
         return response()->json($dataProdukFavorit, 201);
     }
