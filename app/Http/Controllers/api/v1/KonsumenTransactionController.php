@@ -130,7 +130,7 @@ class KonsumenTransactionController extends Controller
 
         if (!in_array($action, $validAction)) {
             return response()->json([
-                'message' => 'Wrong Action Choice'
+                'message' => 'Pilihan Aksi Salah'
             ], 400);
         }
 
