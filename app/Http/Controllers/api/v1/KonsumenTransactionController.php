@@ -25,13 +25,15 @@ class KonsumenTransactionController extends Controller
         switch ($request->user()->role) {
             case 'konsumen':
                 $konsumenId = $this->getKonsumen($request)->konsumen_id;
+                break;
             case 'cabang':
                 $cabangId = $this->getCabang($request)->cabang_id;
+                break;
             default:
                 break;
         }
 
-        $konsumenId = $request->id_konsumen;
+        $konsumenId = $konsumenId ? $konsumenId : $request->id_konsumen;
         $transaksiId = $request->id_transaksi;
         $jenisOrder = $request->jenis_order;
         $status = $request->status;

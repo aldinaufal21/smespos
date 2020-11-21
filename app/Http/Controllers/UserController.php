@@ -25,5 +25,10 @@ class UserController extends Controller
     {
         return view('user.edit');
     }
+
+    public function changePassword()
+    {
+        return view('user.change_password');
+    }
     
 }

@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function index(Request $request)
+    {
+        $user = User::all();
+        
+        return response()->json($user, 201);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -30,7 +37,7 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
@@ -43,11 +50,40 @@ class UserController extends Controller
             ], 400);
         }
         
-        $user = $request->user()->id;
+        $user = User::find($id);
         $request['password'] = Hash::make($request['password']);
 
         $user->update($request->toArray());
 
         return response()->json($user, 200);
     }
+
+    public function reset(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|max:255|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        
+        $user = User::find($id);
+        $request['password'] = Hash::make($request['password']);
+
+        $user->update($request->toArray());
+
+        return response()->json($user, 200);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $user = User::find($id);
+        $request['password'] = Hash::make($request['password']);
+
+        return response()->json($user, 200);
+    }
+    
 }

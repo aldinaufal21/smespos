@@ -43,3 +43,6 @@ window.bankStore = require('./store/bank');
 
 // pending transactions data stores
 window.transaksiStore = require('./store/transaksi');
+
+// pending transactions data stores
+window.userStore = require('./store/user');
