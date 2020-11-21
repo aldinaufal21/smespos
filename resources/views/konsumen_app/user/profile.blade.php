@@ -77,14 +77,15 @@
                                           <div class="tab-pane fade" id="address-edit" role="tabpanel">
                                               <div class="myaccount-content">
                                                   <h3>Billing Address</h3>
-                                                  <address>
-                                                      <p><strong>Erik Jhonson</strong></p>
-                                                      <p>1355 Market St, Suite 900 <br>
-                                                          San Francisco, CA 94103</p>
-                                                          <p>Mobile: (123) 456-7890</p>
+                                                  {{-- <a href="#" class="btn btn__bg btn-success"><i class="fa fa-edit"></i>Add New Address</a> --}}
+                                                  <br><br>
+                                                  <address v-for="item in address" :key="item.alamat_pengiriman_id">
+                                                      <p><strong>Nama Konsumen</strong></p>
+                                                      <p v-text="item.alamat"></p>
+                                                      {{-- <p>Mobile: (123) 456-7890</p> --}}
+                                                      <a href="#" class="btn btn__bg"><i class="fa fa-edit"></i>Edit Address</a>
+                                                      <hr>
                                                   </address>
-                                                  <a href="#" class="btn btn__bg"><i class="fa fa-edit"></i>
-                                                      Edit Address</a>
                                               </div>
                                           </div>
                                           <!-- Single Tab Content End -->
@@ -207,14 +208,12 @@
     },
     methods: {
       getUserDetails() {
-        axios.get('consumer/profile').then((res)=>{
-          // console.log(res);
-          this.profile_detail = res.data;
-        }).catch((err)=>{
-          console.log(err);
-        })
+        profileStore.getProfile()
+                      .then((res)=>{
+                        // console.log(res);
+                        this.profile_detail = res.data;
+                      })
       },
-
 
       getAddress() {
         axios.get('consumer/addresses').then((res)=>{

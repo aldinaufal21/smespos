@@ -4,3 +4,6 @@
 
 // login data stores
 window.cartStore = require('./stores/cart');
+
+// login data stores
+window.profileStore = require('./stores/profile');
