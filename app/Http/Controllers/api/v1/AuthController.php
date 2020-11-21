@@ -43,12 +43,12 @@ class AuthController extends Controller
                 return response()->json($responseEachUser, 200);
             } else {
                 return response()->json([
-                    'message' => 'Password missmatch'
+                    'message' => 'Kata Sandi Salah'
                 ], 401);
             }
         } else {
             return response()->json([
-                'message' => 'User does not exist'
+                'message' => 'Data Pengguna Tidak Ada'
             ], 400);
         }
     }
@@ -58,7 +58,7 @@ class AuthController extends Controller
         $token = $request->user()->token();
         $token->revoke();
         return response()->json([
-            'message' => 'You have been successfully logged out!'
+            'message' => 'Anda Telah Berhasil Logout!'
         ], 200);
     }
 
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
         if (!Hash::check($requestData['existing_password'], $user->password)) {
             return response()->json([
-                'message' => 'Password missmatch'
+                'message' => 'Kata Sandi Salah'
             ], 401);
         }
 

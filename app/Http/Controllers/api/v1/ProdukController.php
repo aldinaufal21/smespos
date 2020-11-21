@@ -84,7 +84,6 @@ class ProdukController extends Controller
         return response()->json($produk, 201);
     }
 
-
     /**
      * API for UMKM
      */
@@ -117,7 +116,6 @@ class ProdukController extends Controller
         return response()->json($produk, 200);
     }
 
-
     /**
      * API for all user
      */
@@ -137,5 +135,14 @@ class ProdukController extends Controller
         $produk->delete();
 
         return response()->json(new stdClass(), 200);
+    }
+
+    public function getNewest(Request $request)
+    {
+        $limit = $request->limit;
+        
+        $produk = Produk::getLatest($limit)->get();
+        
+        return response()->json($produk, 200);
     }
 }
