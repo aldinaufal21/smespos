@@ -48,7 +48,7 @@ class AuthController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'Daat Pengguna Tidak Ada'
+                'message' => 'Data Pengguna Tidak Ada'
             ], 400);
         }
     }
