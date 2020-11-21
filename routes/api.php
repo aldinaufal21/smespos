@@ -157,6 +157,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
         Route::get('/', 'api\v1\ProdukController@index');
         Route::get('/cabang', 'api\v1\ProdukController@getProductByCabang');
         Route::get('/{product}', 'api\v1\ProdukController@show');
+        Route::get('/latest/items', 'api\v1\ProdukController@getNewest');
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {
             Route::post('/', 'api\v1\ProdukController@store');
             Route::post('/{product}', 'api\v1\ProdukController@update');
