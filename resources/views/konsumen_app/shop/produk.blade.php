@@ -371,6 +371,7 @@
         axios.get('/product/?id_kategori[]=' + categoryId).then((res) => {
           // console.log(res);
           this.products = res.data;
+          this.sortKey = null;
         }).catch((err) => {
           console.log(err);
         })
