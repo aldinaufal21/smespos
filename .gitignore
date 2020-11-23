@@ -22,6 +22,9 @@ yarn-error.log
 /public/css/admin.css
 /public/js/admin.js
 
+/public/*.js
+/public/mix-manifest.json
+
 # redis db
 *.rdb
 
