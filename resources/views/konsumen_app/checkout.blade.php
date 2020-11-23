@@ -53,7 +53,7 @@
 
                                   <div class="single-input-item">
                                       <label for="ordernote">Order Note</label>
-                                      <textarea name="ordernote" id="ordernote" cols="30" rows="3" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                      <textarea name="ordernote" id="ordernote" cols="30" rows="3" v-model="checkout_data.catatan_order" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                   </div>
 
                                   {{-- <div class="myaccount-content">
@@ -81,7 +81,7 @@
                               <!-- Order Summary Table -->
                               <div class="order-summary-table table-responsive text-center">
                                   <table class="table table-bordered">
-                                      <thead>
+                                      <thead style="background-color:#ededed;">
                                           <tr>
                                               <th><strong>Products</strong></th>
                                               <th><strong>Total</strong></th>
@@ -94,20 +94,20 @@
                                               <td>Rp @{{ rupiahFormat(item.harga * item.quantity) }}</td>
                                           </tr>
                                       </tbody>
-                                      <tfoot>
+                                      <tfoot style="background-color:#ededed;">
                                           <tr>
                                               <td>Sub Total</td>
-                                              <td>Rp @{{ rupiahFormat(subtotal) }}</td>
+                                              <td>Rp @{{ rupiahFormat(bill.subtotal) }}</td>
                                           </tr>
                                           <tr>
                                               <td>Shipping</td>
                                               <td class="d-flex justify-content-center">
-                                                  <p></p>
+                                                  Rp @{{ rupiahFormat(bill.shipping) }}
                                               </td>
                                           </tr>
                                           <tr>
                                               <td>Total Amount</td>
-                                              <td>$470</td>
+                                              <td>Rp @{{ rupiahFormat(bill.total) }}</td>
                                           </tr>
                                       </tfoot>
                                   </table>
@@ -117,17 +117,13 @@
                                   <div class="single-payment-method">
                                       <div class="payment-method-name">
                                           <div class="custom-control custom-radio">
-                                              <input type="radio" id="directbank" name="paymentmethod" value="bank" class="custom-control-input" checked />
+                                              <input type="radio" id="directbank" name="paymentmethod" value="delivery" v-model="checkout_data.jenis_order" class="custom-control-input" checked />
                                               <label class="custom-control-label" for="directbank">Delivery</label>
                                           </div>
                                       </div>
-                                      <div class="payment-method-details" data-method="bank">
+                                      <div class="payment-method-details" data-method="delivery">
                                         <select>
-                                          <option value="0">-- Pilih Provinsi --</option>
-                                        </select>
-                                        <br><br>
-                                        <select disabled>
-                                          <option value="0">-- Pilih Kota/Kabupaten --</option>
+                                          <option value="0">Kota/Kabupaten Bandung</option>
                                         </select>
                                         <br><br>
                                         <address>
@@ -142,16 +138,16 @@
                                   <div class="single-payment-method show">
                                       <div class="payment-method-name">
                                           <div class="custom-control custom-radio">
-                                              <input type="radio" id="cashon" name="paymentmethod" value="cash" class="custom-control-input" />
+                                              <input type="radio" id="cashon" name="paymentmethod" value="take_away" v-model="checkout_data.jenis_order" class="custom-control-input" />
                                               <label class="custom-control-label" for="cashon">Take Away</label>
                                           </div>
                                       </div>
-                                      <div class="payment-method-details" data-method="cash">
+                                      <div class="payment-method-details" data-method="take_away">
                                           <p>Ambil produk di toko langsung, tanpa biaya tambahan.</p>
                                       </div>
                                   </div>
                                   <div class="summary-footer-area">
-                                      <button type="submit" class="btn btn__bg">Place Order</button>
+                                      <button type="button" @click="doOrder" class="btn btn__bg">Place Order</button>
                                   </div>
                               </div>
                           </div>
@@ -195,9 +191,14 @@ var checkout_vue = new Vue({
       token: null,
       banks: [],
       items: JSON.parse(localStorage.getItem('checkout-data')).items,
-      subtotal: 0,
+      bill: {
+        subtotal: 0,
+        total: 0,
+        shipping: 12000
+      },
       address: {
         alamat: null,
+        alamat_pengiriman_id: null,
         data_provinsi: [],
         data_kota: []
       },
@@ -210,9 +211,9 @@ var checkout_vue = new Vue({
       },
       checkout_data: {
         catatan_order: '',
-        jenis_order: 'take_away',
-        alamat_pengiriman_id: null,
-        bank_id: null
+        jenis_order: 'delivery',
+        bank_id: null,
+        catatan_order: ''
       }
     }
   },
@@ -222,7 +223,7 @@ var checkout_vue = new Vue({
     this.getUserDetails();
     this.getBanks();
     this.getAddress();
-    this.calculateSubtotal();
+    this.calculateTotal();
   },
   mounted() {
     //do something after mounting vue instance
@@ -268,19 +269,55 @@ var checkout_vue = new Vue({
         }
       }
 
-      $http.get('https://api.cekresi.pigoora.com/provinsi?key=pigoorafreeservices', {}, config).then((res)=>{
-        console.log(res);
-      }).catch((err)=>{
-        console.log(err);
-      })
+      // axios.get('https://api.cekresi.pigoora.com/provinsi?key=pigoorafreeservices', {}, config).then((res)=>{
+      //   console.log(res);
+      // }).catch((err)=>{
+      //   console.log(err);
+      // })
     },
 
-    calculateSubtotal(){
-      this.subtotal = 0;
+    calculateTotal(){
+      this.bill.subtotal = 0;
 
       this.items.forEach((item, i) => {
-        this.subtotal += item.harga * item.quantity
+        this.bill.subtotal += item.harga * item.quantity
       });
+
+      this.bill.total = this.bill.subtotal + this.bill.shipping;
+    },
+
+    doOrder(){
+      let produk = [];
+      for (let item of this.items) {
+        produk.push({
+          produk_id: item.produk_id,
+          jumlah: item.quantity
+        })
+      }
+
+      const payload = {
+        konsumen_id: this.profile_detail.konsumen_id,
+        ...this.checkout_data,
+        produk: produk,
+        alamat_pengiriman_id: this.address.alamat_pengiriman_id
+      }
+
+      axios.post('/createTransaksiKonsumen', payload).then((res)=>{
+        if (res.status == 201) {
+          console.log(res);
+          console.log("success");
+
+          window.location.href = $baseURL + '/payment?id=' + res.data.transaksi_konsumen_id;
+
+          // localStorage.removeItem('checkout-data');
+        }
+      }).catch((err)=>{
+        console.log(err);
+      });
+    },
+
+    emptyCart(){
+
     },
 
     rupiahFormat(value){

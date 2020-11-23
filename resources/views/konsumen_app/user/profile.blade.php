@@ -59,12 +59,11 @@
                                                           </thead>
                                                           <tbody>
                                                               <tr v-for="(elem, i) in orders" :key="i">
-                                                                  <td>1</td>
-                                                                  <td>Aug 22, 2019</td>
-                                                                  <td>Pending</td>
-                                                                  <td>$3000</td>
-                                                                  <td><a href="cart.html" class="btn btn__bg">View</a>
-                                                                  </td>
+                                                                  <td>@{{ i+1 }}</td>
+                                                                  <td>@{{ elem.tanggal_transaksi }}</td>
+                                                                  <td>@{{ elem.status }}</td>
+                                                                  <td>@{{ elem.total_biaya }}</td>
+                                                                  <td v-html="getOrderAction(elem.status, elem.transaksi_konsumen_id)"></td>
                                                               </tr>
                                                           </tbody>
                                                       </table>
@@ -77,7 +76,7 @@
                                           <div class="tab-pane fade" id="address-edit" role="tabpanel">
                                               <div class="myaccount-content">
                                                   <h3>Billing Address</h3>
-                                                  {{-- <a href="#" class="btn btn__bg btn-success"><i class="fa fa-edit"></i>Add New Address</a> --}}
+                                                  <a href="#" class="btn btn__bg btn-success" v-if="!address.length"><i class="fa fa-edit"></i>Add New Address</a>
                                                   <br><br>
                                                   <address v-for="item in address" :key="item.alamat_pengiriman_id">
                                                       <p><strong>Nama Konsumen</strong></p>
@@ -205,6 +204,7 @@
       //do something after creating vue instance
       this.getUserDetails();
       this.getAddress();
+      this.getOrders();
     },
     methods: {
       getUserDetails() {
@@ -225,7 +225,20 @@
       },
 
       getOrders(){
+        axios.get('getTransaksiKonsumen').then((res)=>{
+          console.log(res);
+          this.orders = res.data;
+        }).catch((err)=>{
+          console.log(err);
+        })
+      },
 
+      getOrderAction(status, transaksi_id){
+        if (status == 'belum_bayar') {
+          return `<a href="${ $baseURL + '/payment?id' + transaksi_id }" class="btn btn__bg">View</a>`;
+        }else {
+          return '';
+        }
       }
 
 

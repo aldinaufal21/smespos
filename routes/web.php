@@ -21,6 +21,7 @@ Route::get('/', 'KonsumenController@index')->name('konsumen.home');
 Route::get('/login', 'KonsumenController@login')->name('konsumen.login');
 Route::get('/register', 'KonsumenController@register')->name('konsumen.register');
 Route::get('/checkout', 'KonsumenController@checkout')->name('konsumen.checkout');
+Route::get('/payment', 'KonsumenController@pembayaran')->name('konsumen.pembayaran');
 
 Route::group(['prefix' => 'user'], function () {
   Route::get('/', 'KonsumenController@profile')->name('konsumen.profile');
