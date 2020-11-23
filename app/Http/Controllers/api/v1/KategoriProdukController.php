@@ -17,9 +17,10 @@ class KategoriProdukController extends Controller
     public function index(Request $request)
     {
         $umkmId = $request->id_umkm;
+        $cabangId = $request->id_cabang;
         $namaKategori = $request->nama_kategori;
 
-        $kategoriProduk = KategoriProduk::getKategoriByUmkm($umkmId, $namaKategori);
+        $kategoriProduk = KategoriProduk::getKategoriByUmkm($umkmId, $namaKategori, $cabangId);
 
         return response()->json($kategoriProduk, 200);
     }

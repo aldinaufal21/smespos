@@ -222,7 +222,7 @@
 
 
 	/*------- nice select active start -------*/
-	$('select').niceSelect();
+	$('.nice-select').niceSelect();
 	/*------- nice select active end -------*/
 
 	/*-------- Off Canvas Open close start--------*/
