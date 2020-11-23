@@ -40,7 +40,7 @@
 
                 <div class="minicart-button">
                     <a href="{{ route('konsumen.cart') }}"><i class="fa fa-shopping-cart"></i> view cart</a>
-                    <a href="{{ route('konsumen.checkout') }}"><i class="fa fa-share"></i> checkout</a>
+                    <a href="javascript:void(0)" @click="checkout"><i class="fa fa-share"></i> checkout</a>
                 </div>
             </div>
 
@@ -99,6 +99,14 @@
 
       updateCart(){
         this.getCartItem();
+      },
+
+      checkout(){
+        const payload = {
+          items: this.cart,
+        }
+        cartStore.storeCheckoutData(payload);
+        window.location.href = $baseURL + '/checkout';
       },
 
       deleteItem(produk_id){

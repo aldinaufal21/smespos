@@ -63,9 +63,9 @@ class KonsumenTransactionController extends Controller
             'produk.*.produk_id' => 'required',
             'produk.*.jumlah' => 'required',
             'jenis_order' => 'required',
-            'catatan_order' => 'string',
-            'alamat_pengiriman_id' => 'required',
-            'bank_id' => 'required',
+            // 'catatan_order' => 'string',
+            // 'alamat_pengiriman_id' => 'required',
+            // 'bank_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -88,18 +88,21 @@ class KonsumenTransactionController extends Controller
 
             $requestData['total_biaya'] = $totalBiaya;
 
-            $buktiTransfer = $request->bukti_transfer;
-            $urlFoto = $request->bukti_transfer != null ?
-                $this->storeBuktiPembayaran($buktiTransfer) : null;
-            $requestData['bukti_transfer'] = $urlFoto;
+            // $buktiTransfer = $request->bukti_transfer;
+            // $urlFoto = $request->bukti_transfer != null ?
+            //     $this->storeBuktiPembayaran($buktiTransfer) : null;
+            // $requestData['bukti_transfer'] = $urlFoto;
+            //
+            // if ($urlFoto) {
+            //     $requestData['status'] = 'menunggu_verifikasi';
+            // }
 
-            if ($urlFoto) {
-                $requestData['status'] = 'menunggu_verifikasi';
-            }
+            $requestData['status'] = 'belum_bayar';
 
             if ($requestData['jenis_order'] == 'take_away') {
                 unset($requestData['ekspedisi']);
                 unset($requestData['ongkir']);
+                unset($requestData['alamat_pengiriman_id']);
             }
 
             $order = TransaksiKonsumen::create($requestData);

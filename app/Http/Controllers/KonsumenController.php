@@ -41,4 +41,8 @@ class KonsumenController extends Controller
         return view('konsumen_app.checkout');
     }
 
+    public function pembayaran(){
+        return view('konsumen_app.pembayaran');
+    }
+
 }

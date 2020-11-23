@@ -34,3 +34,8 @@ exports.destroyCart = (produk_id) => {
                 console.log(err);
               });
 }
+
+exports.storeCheckoutData = (data) => {
+    data = JSON.stringify(data);
+    localStorage.setItem('checkout-data', data);
+}

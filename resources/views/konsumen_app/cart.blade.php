@@ -46,7 +46,7 @@
                                               </div>
                                               {{-- <div class="pro-qty"><input type="text" :value="item.quantity" @change="updateQuantity($event, item.produk_id)" @keyup="updateQuantity($event, item.produk_id)"></div> --}}
                                           </td>
-                                          <td class="pro-subtotal"><span v-text="rupiahFormat( item.harga * item.quantity )"></span></td>
+                                          <td class="pro-subtotal">Rp <span v-text="rupiahFormat( item.harga * item.quantity )"></span></td>
                                           <td class="pro-remove"><a href="#" @click="deleteItem(item.produk_id)"><i class="fa fa-trash-o"></i></a></td>
                                       </tr>
                                   </tbody>
@@ -72,12 +72,12 @@
                                           </tr> --}}
                                           <tr class="total">
                                               <td>Total</td>
-                                              <td class="total-amount" v-text="rupiahFormat(total)"></td>
+                                              <td class="total-amount">Rp <span v-text="rupiahFormat(total)"></span></td>
                                           </tr>
                                       </table>
                                   </div>
                               </div>
-                              <a href="checkout.html" class="btn btn__bg d-block">Proceed To Checkout</a>
+                              <a href="javascript:void(0)" @click="checkout" class="btn btn__bg d-block">Proceed To Checkout</a>
                           </div>
                       </div>
                   </div>
@@ -169,7 +169,14 @@
 
           this.calculateSubtotal();
         });
+      },
 
+      checkout(){
+        const payload = {
+          items: this.cart,
+        }
+        cartStore.storeCheckoutData(payload);
+        window.location.href = $baseURL + '/checkout';
       },
 
       rupiahFormat(value){
