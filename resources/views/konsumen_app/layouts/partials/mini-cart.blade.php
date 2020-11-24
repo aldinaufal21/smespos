@@ -11,8 +11,8 @@
                     <ul>
                         <li class="minicart-item" v-for="item in cart" :key="item.produk_id">
                             <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="{{ asset('konsumen_assets/img/cart/cart-1.jpg') }}" alt="product">
+                                <a href="#">
+                                    <img :src="item.gambar_produk" alt="product">
                                 </a>
                             </div>
                             <div class="minicart-content">

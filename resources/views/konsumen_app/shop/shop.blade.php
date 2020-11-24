@@ -76,7 +76,7 @@
                                       </figure>
                                       <div class="product-caption">
                                           <p class="product-name">
-                                              <a href="product-details.html" v-text="elem.umkm.nama_umkm"></a>
+                                              <a href="javascript:void(0)" @click="pilihCabang(index)" v-text="elem.umkm.nama_umkm"></a>
                                           </p>
                                       </div>
                                   </div>
@@ -91,7 +91,7 @@
                                           </a>
                                       </figure>
                                       <div class="product-content-list">
-                                          <h5 class="product-name"><a href="product-details.html" v-text="elem.umkm.nama_umkm"></a></h5>
+                                          <h5 class="product-name"><a href="javascript:void(0)" @click="pilihCabang(index)" v-text="elem.umkm.nama_umkm"></a></h5>
                                           <p v-text="elem.umkm.deskripsi"></p>
                                           <div class="button-group-list">
                                               <a href="#" data-toggle="modal" data-target="#umkm_detail"><span data-toggle="tooltip"  title="Quick View"><i class="lnr lnr-magnifier"></i></span></a>
