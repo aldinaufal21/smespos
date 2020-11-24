@@ -10,7 +10,7 @@
                     <div class="col-lg-5 col-md-6 col-sm-8">
                         <div class="footer-widget-item mb-30">
                             <div class="footer-widget-title">
-                                <h5>My account</h5>
+                                <h5>Contact Us</h5>
                             </div>
                             <ul class="footer-widget-body accout-widget">
                                 <li class="address">
@@ -40,11 +40,9 @@
                                 <h5>information</h5>
                             </div>
                             <ul class="footer-widget-body">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">About Us</a></li>
+                                <li><a href="{{ route('konsumen.home') }}">Home</a></li>
+                                <li><a href="{{ route('konsumen.shop') }}">Shop</a></li>
                                 <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Exchanges</a></li>
-                                <li><a href="#">Shipping</a></li>
                             </ul>
                         </div>
                     </div>
@@ -57,11 +55,12 @@
                                 <h5>Quick Links</h5>
                             </div>
                             <ul class="footer-widget-body">
-                                <li><a href="#">Store Location</a></li>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Orders Tracking</a></li>
-                                <li><a href="#">Size Guide</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                {{-- <li><a href="#">Store Location</a></li> --}}
+                                <li><a href="{{ route('konsumen.profile') }}">My Account</a></li>
+                                <li><a href="{{ route('konsumen.wishlist') }}">Wishlist</a></li>
+                                <li><a href="{{ route('konsumen.cart') }}">Cart</a></li>
+                                <li><a href="{{ route('konsumen.login') }}">Login</a></li>
+                                <li><a href="{{ route('konsumen.register') }}">Register</a></li>
                             </ul>
                         </div>
                     </div>
@@ -78,7 +77,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6 order-2 order-md-1">
                     <div class="copyright-text">
-                        <p>Pos ©2020 </p>
+                        <p>SMEsPos ©2020 </p>
                     </div>
                 </div>
                 <div class="col-md-6 order-1 order-md-2">

@@ -5,7 +5,90 @@
 @section('extra_head')
 <!-- Custom styles for this page -->
 <style media="screen">
+  .my-nice-select {
+    height: 36px;
+    line-height: 34px;
+    width: 200px;
+    padding: 0 10px;
+  }
 
+  .my-nice-select {
+    -webkit-tap-highlight-color: transparent;
+    background-color: #fff;
+    border-radius: 5px;
+    border: solid 1px #e8e8e8;
+    box-sizing: border-box;
+    clear: both;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: normal;
+    height: 42px;
+    line-height: 40px;
+    outline: none;
+    padding-left: 18px;
+    padding-right: 30px;
+    position: relative;
+    text-align: left !important;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    width: auto;
+  }
+
+  .my-nice-select:hover {
+    border-color: #dbdbdb;
+  }
+
+  .my-nice-select:active,
+  .my-nice-select.open,
+  .my-nice-select:focus {
+    border-color: #999;
+  }
+
+  .my-nice-select:after {
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    content: '';
+    display: block;
+    height: 5px;
+    margin-top: -4px;
+    pointer-events: none;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    -webkit-transform-origin: 66% 66%;
+    -ms-transform-origin: 66% 66%;
+    transform-origin: 66% 66%;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    width: 5px;
+  }
+
+  .my-nice-select.open:after {
+    -webkit-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+
+  .my-nice-select.disabled {
+    border-color: #ededed;
+    color: #999;
+    pointer-events: none;
+  }
+
+  .my-nice-select.disabled:after {
+    border-color: #cccccc;
+  }
 </style>
 @endsection
 
@@ -20,64 +103,8 @@
     <div class="shop-main-wrapper section-space pb-0">
       <div class="container">
         <div class="row">
-          <!-- sidebar area start -->
-          <div class="col-lg-3 order-2 order-lg-1">
-            <aside class="sidebar-wrapper">
-              <!-- single sidebar start -->
-              <div class="sidebar-single">
-                <h3 class="sidebar-title">categories</h3>
-                <div class="sidebar-body">
-                  <ul class="shop-categories">
-                    <li><a href="#">Jasmine <span>10</span></a></li>
-                    <li><a href="#">Rose <span>5</span></a></li>
-                    <li><a href="#">Orchid <span>8</span></a></li>
-                    <li><a href="#">Blossom <span>4</span></a></li>
-                    <li><a href="#">Hyacinth <span>5</span></a></li>
-                    <li><a href="#">Bouquet <span>2</span></a></li>
-                  </ul>
-                </div>
-              </div>
-              <!-- single sidebar end -->
-
-              <!-- single sidebar start -->
-              <div class="sidebar-single">
-                <h3 class="sidebar-title">size</h3>
-                <div class="sidebar-body">
-                  <ul class="checkbox-container categories-list">
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck111">
-                        <label class="custom-control-label" for="customCheck111">S (4)</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck222">
-                        <label class="custom-control-label" for="customCheck222">M (5)</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck333">
-                        <label class="custom-control-label" for="customCheck333">L (7)</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck444">
-                        <label class="custom-control-label" for="customCheck444">XL (3)</label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- single sidebar end -->
-            </aside>
-          </div>
-          <!-- sidebar area end -->
-
           <!-- shop main wrapper start -->
-          <div class="col-lg-9 order-1 order-lg-2">
+          <div class="col-lg-12 order-1 order-lg-2">
             <div class="shop-product-wrapper">
               <!-- shop product top wrap start -->
               <div class="shop-top-bar">
@@ -97,14 +124,9 @@
                     <div class="top-bar-right">
                       <div class="product-short">
                         <p>Sort By : </p>
-                        <select class="nice-select" name="sortby">
-                          <option value="trending">Relevance</option>
-                          <option value="sales">Name (A - Z)</option>
-                          <option value="sales">Name (Z - A)</option>
-                          <option value="rating">Price (Low &gt; High)</option>
-                          <option value="date">Rating (Lowest)</option>
-                          <option value="price-asc">Model (A - Z)</option>
-                          <option value="price-asc">Model (Z - A)</option>
+                        <select class="my-nice-select" id="reset-this" v-model="sortKey">
+                          <option value="name-asc">Name (A - Z)</option>
+                          <option value="name-desc">Name (Z - A)</option>
                         </select>
                       </div>
                     </div>
@@ -239,6 +261,7 @@
         umkm: [],
         cabangs: [],
         umkmDetail: null,
+        sortKey: null,
       }
     },
     mounted() {
@@ -272,6 +295,47 @@
           console.log(err);
         })
       },
+
+      sortUmkm() {
+        switch (this.sortKey) {
+          case 'name-asc':
+            this.sortName('asc');
+            break;
+          case 'name-desc':
+            this.sortName('desc');
+            break;
+        }
+      },
+
+      sortName(sortType) {
+        if (sortType == 'asc') {
+          this.umkm.sort(function(a, b) {
+            if (a.umkm.nama_umkm < b.umkm.nama_umkm) {
+              return -1;
+            }
+            if (a.umkm.nama_umkm > b.umkm.nama_umkm) {
+              return 1;
+            }
+            return 0;
+          });
+        } else {
+          this.umkm.sort(function(a, b) {
+            if (a.umkm.nama_umkm < b.umkm.nama_umkm) {
+              return 1;
+            }
+            if (a.umkm.nama_umkm > b.umkm.nama_umkm) {
+              return -1;
+            }
+            return 0;
+          });
+        }
+      },
+    },
+
+    watch: {
+      sortKey: function(newVal, oldVal) {
+        this.sortUmkm();
+      }
     }
   });
 </script>

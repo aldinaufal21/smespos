@@ -11,8 +11,8 @@
                     <ul>
                         <li class="minicart-item" v-for="item in cart" :key="item.produk_id">
                             <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="{{ asset('konsumen_assets/img/cart/cart-1.jpg') }}" alt="product">
+                                <a href="#">
+                                    <img :src="item.gambar_produk" alt="product">
                                 </a>
                             </div>
                             <div class="minicart-content">
@@ -77,6 +77,7 @@
       //do something after mounting vue instance
       this.token = localStorage.getItem('token');
       this.getCartItem();
+      this.countWishlist();
     },
     methods: {
       getCartItem() {
@@ -129,6 +130,16 @@
               });
             }
           });
+      },
+
+      countWishlist(){
+        axios.get('favorite-product').then((res)=>{
+          // console.log(res);
+
+          $('#wishlist-notification').text(res.data.length);
+        }).catch((err)=>{
+          console.log(err);
+        })
       },
 
       rupiahFormat(value){
