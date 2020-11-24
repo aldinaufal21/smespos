@@ -1,6 +1,6 @@
 @extends('konsumen_app.layouts.app')
 
-@section('title','Checkout')
+@section('title','Pembayaran')
 
 @section('extra_head')
 <!-- Custom styles for this page -->

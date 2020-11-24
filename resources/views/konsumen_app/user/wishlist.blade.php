@@ -83,6 +83,7 @@
         axios.get('favorite-product').then((res)=>{
           // console.log(res);
           this.wishlists = res.data;
+          mini_cart_vue.countWishlist();
         }).catch((err)=>{
           console.log(err);
         })

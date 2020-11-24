@@ -51,10 +51,12 @@
                                       </tr>
                                   </tbody>
                               </table>
+                              <br>
+                              <center><h4 v-if="!cart.length">Keranajng anda kosong, silahkan pilih produk <a href="{{ route('konsumen.produk') }}">disini</a> </h4></center>
                           </div>
                       </div>
                   </div>
-                  <div class="row">
+                  <div class="row" v-if="cart.length">
                       <div class="col-lg-5 ml-auto">
                           <!-- Cart Calculation Area -->
                           <div class="cart-calculator-wrapper">
@@ -62,14 +64,6 @@
                                   <h3>Cart Totals</h3>
                                   <div class="table-responsive">
                                       <table class="table">
-                                          {{-- <tr>
-                                              <td>Sub Total</td>
-                                              <td>$230</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Shipping</td>
-                                              <td>$70</td>
-                                          </tr> --}}
                                           <tr class="total">
                                               <td>Total</td>
                                               <td class="total-amount">Rp <span v-text="rupiahFormat(total)"></span></td>

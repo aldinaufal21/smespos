@@ -20,64 +20,10 @@
       <div class="shop-main-wrapper section-space pb-0">
           <div class="container">
               <div class="row">
-                  <!-- sidebar area start -->
-                  <div class="col-lg-3 order-2 order-lg-1">
-                      <aside class="sidebar-wrapper">
-                          <!-- single sidebar start -->
-                          <div class="sidebar-single">
-                              <h3 class="sidebar-title">categories</h3>
-                              <div class="sidebar-body">
-                                  <ul class="shop-categories">
-                                      <li><a href="#">Jasmine <span>10</span></a></li>
-                                      <li><a href="#">Rose <span>5</span></a></li>
-                                      <li><a href="#">Orchid <span>8</span></a></li>
-                                      <li><a href="#">Blossom <span>4</span></a></li>
-                                      <li><a href="#">Hyacinth <span>5</span></a></li>
-                                      <li><a href="#">Bouquet <span>2</span></a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                          <!-- single sidebar end -->
 
-                          <!-- single sidebar start -->
-                          <div class="sidebar-single">
-                              <h3 class="sidebar-title">size</h3>
-                              <div class="sidebar-body">
-                                  <ul class="checkbox-container categories-list">
-                                      <li>
-                                          <div class="custom-control custom-checkbox">
-                                              <input type="checkbox" class="custom-control-input" id="customCheck111">
-                                              <label class="custom-control-label" for="customCheck111">S (4)</label>
-                                          </div>
-                                      </li>
-                                      <li>
-                                          <div class="custom-control custom-checkbox">
-                                              <input type="checkbox" class="custom-control-input" id="customCheck222">
-                                              <label class="custom-control-label" for="customCheck222">M (5)</label>
-                                          </div>
-                                      </li>
-                                      <li>
-                                          <div class="custom-control custom-checkbox">
-                                              <input type="checkbox" class="custom-control-input" id="customCheck333">
-                                              <label class="custom-control-label" for="customCheck333">L (7)</label>
-                                          </div>
-                                      </li>
-                                      <li>
-                                          <div class="custom-control custom-checkbox">
-                                              <input type="checkbox" class="custom-control-input" id="customCheck444">
-                                              <label class="custom-control-label" for="customCheck444">XL (3)</label>
-                                          </div>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                          <!-- single sidebar end -->
-                      </aside>
-                  </div>
-                  <!-- sidebar area end -->
 
                   <!-- shop main wrapper start -->
-                  <div class="col-lg-9 order-1 order-lg-2">
+                  <div class="col-lg-12 order-1 order-lg-2">
                       <div class="shop-product-wrapper">
                           <!-- shop product top wrap start -->
                           <div class="shop-top-bar">
@@ -88,13 +34,13 @@
                                               <a class="active" href="#" data-target="grid-view" data-toggle="tooltip" title="Grid View"><i class="fa fa-th"></i></a>
                                               <a href="#" data-target="list-view" data-toggle="tooltip" title="List View"><i class="fa fa-list"></i></a>
                                           </div>
-                                          <div class="product-amount">
+                                          {{-- <div class="product-amount">
                                               <p>Showing 1–5 of 8 results</p>
-                                          </div>
+                                          </div> --}}
                                       </div>
                                   </div>
                                   <div class="col-lg-5 col-md-6 order-1 order-md-2">
-                                      <div class="top-bar-right">
+                                      {{-- <div class="top-bar-right">
                                           <div class="product-short">
                                               <p>Sort By : </p>
                                               <select class="nice-select" name="sortby">
@@ -107,7 +53,7 @@
                                                   <option value="price-asc">Model (Z - A)</option>
                                               </select>
                                           </div>
-                                      </div>
+                                      </div> --}}
                                   </div>
                               </div>
                           </div>

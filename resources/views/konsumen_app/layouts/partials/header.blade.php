@@ -25,11 +25,11 @@
                                 <!-- main menu navbar start -->
                                 <nav class="desktop-menu">
                                     <ul>
-                                        <li><a href="{{ route('konsumen.home') }}">Home</a></li>
-                                        <li><a href="{{ route('konsumen.shop') }}">shop</a>
+                                        <li class="{{ (Request::segment(1)=='')?'active':'' }}"><a href="{{ route('konsumen.home') }}">Home</a></li>
+                                        <li class="{{ (Request::segment(1)=='shop')?'active':'' }}"><a href="{{ route('konsumen.shop') }}">shop</a>
                                         </li>
                                         {{-- <li><a href={{ route('konsumen.blog') }}>Blog</a></li> --}}
-                                        <li><a href="contact-us.html">Contact us</a></li>
+                                        <li class="{{ (Request::segment(1)=='contact-us')?'active':'' }}"><a href="contact-us.html">Contact us</a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->

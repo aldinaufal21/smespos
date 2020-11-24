@@ -40,19 +40,17 @@ class ProdukFavoritController extends Controller
             ], 400);
         }
 
+        $dataProdukFavorit = new stdClass();
+
         $konsumen = $this->getKonsumen($request);
         $idProduk = $request->produk_id;
 
         $existingProdukFavorit = ProdukFavorit::where('produk_id', $idProduk)->first();
-        if ($existingProdukFavorit) {
-            return response()->json([
-                'message' => 'Produk sudah termasuk ke dalam produk favorit anda'
-            ], 400);
+        if (!$existingProdukFavorit) {
+          $data['produk_id'] = $idProduk;
+          $data['konsumen_id'] = $konsumen->konsumen_id;
+          $dataProdukFavorit = ProdukFavorit::create($data);
         }
-
-        $data['produk_id'] = $idProduk;
-        $data['konsumen_id'] = $konsumen->konsumen_id;
-        $dataProdukFavorit = ProdukFavorit::create($data);
 
         return response()->json($dataProdukFavorit, 201);
     }
