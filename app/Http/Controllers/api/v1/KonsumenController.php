@@ -94,7 +94,6 @@ class KonsumenController extends Controller
             'nama_konsumen' => 'required|string|max:255',
             'alamat_konsumen' => 'required|string|max:255',
             'nomor_hp' => 'required|string|max:14|min:10',
-            'gambar' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -103,7 +102,8 @@ class KonsumenController extends Controller
             ], 400);
         }
 
-        $id = $request->user()->id;
+        $user = $request->user();
+        $id = $user->id;
         $konsumen = User::find($id)->konsumen()->first();
         $requestData = $request->all();
 
@@ -114,6 +114,8 @@ class KonsumenController extends Controller
 
         $konsumen->update($requestData);
 
-        return response()->json($konsumen, 200);
+        $response = array_merge($user->toArray(), $konsumen->toArray());
+
+        return response()->json($response, 200);
     }
 }
