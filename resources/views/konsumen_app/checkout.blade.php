@@ -194,7 +194,7 @@ var checkout_vue = new Vue({
       token: null,
       banks: [],
       items: _checkout_data.items,
-      cabang_id: _checkout_data.cabang_id,
+      cabang_id: _checkout_data.items[0].cabang_id,
       bill: {
         subtotal: 0,
         total: 0,

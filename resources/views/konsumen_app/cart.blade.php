@@ -168,7 +168,6 @@
       checkout(){
         const payload = {
           items: this.cart,
-          cabang_id: 1 // will changed later
         }
         cartStore.storeCheckoutData(payload);
         window.location.href = $baseURL + '/checkout';
