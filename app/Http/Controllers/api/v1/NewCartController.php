@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Keranjang;
+use App\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -29,6 +30,8 @@ class NewCartController extends Controller
 
         $idKonsumen = $this->getKonsumen($request)->konsumen_id;
         $idProduk = $request->produk_id;
+        $idCabang = $request->cabang_id ? $request->cabang_id : $this->__fillCabang($idProduk);
+
         $existingKeranjang = Keranjang::getKeranjangByQuery($idKonsumen, $idProduk);
 
         if ($validator->fails()) {
@@ -45,6 +48,7 @@ class NewCartController extends Controller
         }
 
         $requestData['konsumen_id'] = $idKonsumen;
+        $requestData['cabang_id'] = $idCabang;
         $keranjang = Keranjang::create($requestData);
 
         return response()->json($keranjang, 201);
@@ -81,8 +85,26 @@ class NewCartController extends Controller
         return response()->json(new stdClass(), 200);
     }
 
+    public function clearCart(Request $request)
+    {
+        $idKonsumen = $this->getKonsumen($request)->konsumen_id;
+        $keranjang = Keranjang::where('konsumen_id', $idKonsumen);
+        
+        $keranjang->delete();
+
+        return response()->json(new stdClass(), 200);
+    }
+
     private function getKonsumen($request)
     {
         return $request->user()->konsumen()->first();
+    }
+
+    private function __fillCabang($produkId)
+    {
+        $umkm = Produk::find($produkId)
+            ->kategori()->first()
+            ->umkm()->first();
+        return $umkm->cabang()->first()->cabang_id;
     }
 }

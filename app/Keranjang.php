@@ -18,6 +18,7 @@ class Keranjang extends Model
         'produk_id',
         'konsumen_id',
         'quantity',
+        'cabang_id',
     ];
 
     public static function getKeranjangByQuery($konsumenId = null, $produkId = null)
