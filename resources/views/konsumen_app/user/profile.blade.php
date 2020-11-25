@@ -239,7 +239,7 @@
 
       getOrderAction(status, transaksi_id) {
         if (status == 'belum_bayar') {
-          return `<a href="${ $baseURL + '/payment?id' + transaksi_id }" class="btn btn__bg">View</a>`;
+          return `<a href="${ $baseURL + '/payment?id=' + transaksi_id }" class="btn btn__bg">View</a>`;
         } else {
           return '';
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Bank;
+use App\Cabang;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,10 +13,18 @@ class BankController extends Controller
 {
 
     public function index(Request $request)
-    {   
-        $umkmId = $request->id_umkm;
+    {
+        $umkmId = NULL;
+
+        if ($request->id_umkm) {
+          $umkmId = $request->id_umkm;
+        }elseif ($request->cabang_id) {
+          $cabang = Cabang::getCabangById($request->cabang_id);
+          $umkmId = $cabang->umkm_id;
+        }
+
         $bank = Bank::getBankByUmkm($umkmId);
-        
+
         return response()->json($bank, 200);
     }
 
@@ -71,7 +80,7 @@ class BankController extends Controller
 
         return response()->json($bank, 200);
     }
- 
+
     public function show(Request $request, $id)
     {
         $bank = Bank::find($id);
@@ -89,7 +98,7 @@ class BankController extends Controller
                 'message' => 'Forbidden'
             ], 403);
         }
-        
+
         $bank->delete();
 
         return response()->json(new stdClass(), 200);

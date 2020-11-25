@@ -343,7 +343,8 @@
         // mini_cart_vue.item++;
         const payload = {
           produk_id: produk_id,
-          quantity: 1
+          quantity: 1,
+          cabang_id: cabang_id
         }
 
         cartStore.addCart(payload).then((res) => {

@@ -85,6 +85,6 @@ class TransaksiKonsumen extends Model
 
     public function transaksiKonsumenDetail()
     {
-        return $this->hasMany('App\Models\TransaksiKonsumenDetail');
+        return $this->hasMany('App\TransaksiKonsumenDetail');
     }
 }

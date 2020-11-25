@@ -18,11 +18,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
     Route::get('/umkm-konsumen', 'api\v1\UmkmController@index');
 
     Route::group(['middleware' => 'auth:api'], function () {
-        
+
         Route::prefix('auth')->group(function () {
             Route::patch('reset_password', 'api\v1\AuthController@resetPassword');
         });
-        
+
         // authenticated account needed
         Route::get('logout', 'api\v1\AuthController@logout');
         Route::get('user/details', 'api\v1\AuthController@details');
@@ -83,10 +83,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
             // order route
             Route::post('createTransaksiKonsumen', 'api\v1\KonsumenTransactionController@store');
+            Route::post('makePayment', 'api\v1\KonsumenTransactionController@payment');
         });
 
         Route::group(['middleware' => ['role:konsumen,cabang']], function () {
             Route::get('getTransaksiKonsumen', 'api\v1\KonsumenTransactionController@index');
+            Route::get('detailTransaksi/{transaksi_id}', 'api\v1\KonsumenTransactionController@detail');
         });
 
         Route::group(['middleware' => ['role:cabang']], function () {
