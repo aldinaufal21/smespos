@@ -79,6 +79,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
                 Route::post('/', 'api\v1\NewCartController@store');
                 Route::patch('/{cart}', 'api\v1\NewCartController@update');
                 Route::delete('/{cart}', 'api\v1\NewCartController@destroy');
+                Route::delete('/all/clear', 'api\v1\NewCartController@clearCart');
             });
 
             // order route
