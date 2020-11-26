@@ -68,13 +68,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('favorite-product', 'api\v1\ProdukFavoritController@store');
             Route::delete('favorite-product/{produk_id}', 'api\v1\ProdukFavoritController@destroy');
 
-            // cart route
-            Route::get('cart', 'api\v1\NewCartController@index');
-            Route::post('cart', 'api\v1\NewCartController@store');
-            Route::patch('cart/{cart}', 'api\v1\NewCartController@update');
-            Route::delete('cart/{cart}', 'api\v1\NewCartController@destroy');
-
-            Route::group(['prefix' => 'new-cart'], function () {
+            Route::group(['prefix' => 'cart'], function () {
                 Route::get('/', 'api\v1\NewCartController@index');
                 Route::post('/', 'api\v1\NewCartController@store');
                 Route::patch('/{cart}', 'api\v1\NewCartController@update');
@@ -183,6 +177,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
     Route::group(['prefix' => 'bank'], function () {
         // product categories route
         Route::get('/', 'api\v1\BankController@index');
+        Route::get('/cabang/{cabang_id}', 'api\v1\BankController@cabang');
         Route::get('/{bank}', 'api\v1\BankController@show');
 
         Route::group(['middleware' => ['auth:api', 'role:umkm']], function () {

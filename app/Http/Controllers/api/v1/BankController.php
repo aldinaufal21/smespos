@@ -14,14 +14,18 @@ class BankController extends Controller
 
     public function index(Request $request)
     {
-        $umkmId = NULL;
+        $umkmId = $request->id_umkm;
 
-        if ($request->id_umkm) {
-          $umkmId = $request->id_umkm;
-        }elseif ($request->cabang_id) {
-          $cabang = Cabang::getCabangById($request->cabang_id);
-          $umkmId = $cabang->umkm_id;
-        }
+        $bank = Bank::getBankByUmkm($umkmId);
+
+        return response()->json($bank, 200);
+    }
+
+    public function cabang(Request $request, $cabang_id)
+    {
+
+        $cabang = Cabang::getCabangById($cabang_id);
+        $umkmId = $cabang->umkm_id;
 
         $bank = Bank::getBankByUmkm($umkmId);
 

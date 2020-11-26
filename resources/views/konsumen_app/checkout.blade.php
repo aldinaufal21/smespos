@@ -291,6 +291,8 @@ var checkout_vue = new Vue({
     },
 
     doOrder(){
+      $.LoadingOverlay("show");
+
       let produk = [];
       for (let item of this.items) {
         produk.push({
@@ -312,13 +314,15 @@ var checkout_vue = new Vue({
         if (res.status == 201) {
           // console.log(res);
           // console.log("success");
+          localStorage.removeItem('checkout-data');
+          axios.delete('cart/all/clear', payload);
 
           window.location.href = $baseURL + '/payment?id=' + res.data.transaksi_konsumen_id;
-
-          localStorage.removeItem('checkout-data');
         }
       }).catch((err)=>{
         console.log(err);
+      }).finally(()=>{
+        $.LoadingOverlay("hide");
       });
     },
 

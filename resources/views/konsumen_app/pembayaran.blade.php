@@ -24,7 +24,7 @@
                           <div class="card">
                               <h3 data-toggle="collapse" data-target="#couponaccordion">Petunjuk pembayaran</h3>
                               <div id="couponaccordion" class="collapse show" data-parent="#checkOutAccordion">
-                                  <div class="card-body">
+                                  <div class="card-body" v-if="banks.length">
                                       <h4>Pilih salah satu pembayaran dibawah, dan upload bukti pembayaran and pada form dibawah</h4>
                                       <br>
                                       <div class="row">
@@ -37,6 +37,9 @@
                                           </center>
                                         </div>
                                       </div>
+                                  </div>
+                                  <div class="card-body" v-if="!banks.length">
+                                    <h4>Maaf toko ini belum menyediakan pembayaran.</h4>
                                   </div>
                               </div>
                           </div>
@@ -62,7 +65,7 @@
                                         <div class="col-md-6">
                                           <div class="single-input-item">
                                               <label for="bank-pengirim" class="required">Pembayaran yg dipilih</label>
-                                              <select class="form-control" v-model="selected_bank">
+                                              <select class="form-control" v-model="selected_bank" required>
                                                 <option value="" selected disabled>--Pilih--</option>
                                                 <option :value="item.bank_id" v-for="item in banks" :key="item.bank_id">@{{ item.nama_bank }}</option>
                                               </select>
@@ -125,21 +128,30 @@ var pembayaran_vue = new Vue({
     getUserDetails() {
       profileStore.getProfile()
                     .then((res)=>{
-                      console.log(res);
+                      // console.log(res);
                       this.profile_detail = res.data;
                     })
     },
 
     getBanks(){
-      axios.get('bank', {cabang_id: this.transaction_data.cabang_id}).then((res) => {
-        console.log(res);
+      $('#checkOutAccordion').LoadingOverlay("show");
+
+      const payload = {
+        cabang_id: this.transaction_data.cabang_id
+      }
+
+      axios.get('bank/cabang/' + this.transaction_data.cabang_id).then((res) => {
+        // console.log(res);
         this.banks = res.data;
       }).catch((err)=>{
         console.log(err);
-      })
+      }).finally(()=>{
+        $('#checkOutAccordion').LoadingOverlay("hide");
+      });
     },
 
     submit(event){
+        $.LoadingOverlay("show");
         event.preventDefault();
 
         let formData = new FormData();
@@ -147,10 +159,8 @@ var pembayaran_vue = new Vue({
         formData.append('transaksi_konsumen_id', this.transaction_data.transaksi_konsumen_id);
         formData.append('bank_id', this.selected_bank);
 
-        console.log(formData);
-
         axios.post('makePayment', formData).then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status == 200) {
             swal({
               icon: "success",
@@ -169,7 +179,9 @@ var pembayaran_vue = new Vue({
             location.reload();
           });
 
-        })
+        }).finally(()=>{
+          $.LoadingOverlay("hide");
+        });
 
     },
 
@@ -185,7 +197,7 @@ var pembayaran_vue = new Vue({
 
         if (transaksi_id) {
           axios.get('/detailTransaksi/' + transaksi_id).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (_.isEmpty(res.data)) {
               window.location.href = $baseURL + '/';
             }

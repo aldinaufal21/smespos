@@ -52,7 +52,7 @@
                                   </tbody>
                               </table>
                               <br>
-                              <center><h4 v-if="!cart.length">Keranajng anda kosong, silahkan pilih produk <a href="{{ route('konsumen.produk') }}">disini</a> </h4></center>
+                              <center><h4 v-if="!cart.length">Keranajng anda kosong, silahkan pilih produk <a href="{{ route('konsumen.shop') }}">disini</a> </h4></center>
                           </div>
                       </div>
                   </div>
@@ -104,15 +104,11 @@
     },
     methods: {
       getCartItem() {
-        if (this.token) {
-            cartStore.getCart().then((res)=>{
-              // console.log(res);
-              this.cart = res.data;
-              this.calculateSubtotal();
-            });
-        }else {
-          console.log("belum login");
-        }
+        cartStore.getCart().then((res)=>{
+          // console.log(res);
+          this.cart = res.data;
+          this.calculateSubtotal();
+        });
       },
 
       deleteItem(produk_id){
@@ -126,12 +122,15 @@
           })
           .then((deleteData)=>{
             if (deleteData) {
+              $.LoadingOverlay("show");
               cartStore.destroyCart(produk_id).then((res)=>{
                 // console.log(res);
                 if (res.status == 200) {
                   this.getCartItem();
                   mini_cart_vue.updateCart();
                 }
+              }).finally(()=>{
+                $.LoadingOverlay("hide");
               });
             }
           });
@@ -166,6 +165,7 @@
       },
 
       checkout(){
+        $.LoadingOverlay("show");
         const payload = {
           items: this.cart,
         }

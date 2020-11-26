@@ -86,6 +86,7 @@
     },
     methods: {
       submitRegis(event) {
+        $.LoadingOverlay("show");
         event.preventDefault();
 
         axios.post('/consumer/register', this.regis_data).then((res)=>{
@@ -94,17 +95,29 @@
               username: res.data.username,
               password: this.regis_data.password
             }).then((result)=>{
-              if (result.token) {
+              if (result.data.token) {
                 localStorage.setItem('token', result.data.token);
                 window.location.href = $baseURL + '/';
               }
             }).catch((e)=>{
               console.log(e);
-            })
+              swal({
+                icon: "error",
+                title: "Terjadi kesalahan, harap coba beberapa saat lagi."
+              })
+            }).finally(()=>{
+              $.LoadingOverlay("hide");
+            });
           }
         }).catch((err)=>{
           console.log(err);
-        })
+          swal({
+            icon: "error",
+            title: "Terjadi kesalahan, harap coba beberapa saat lagi."
+          })
+        }).finally(()=>{
+          $.LoadingOverlay("hide");
+        });
       }
     }
 })
