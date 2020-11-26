@@ -29,7 +29,7 @@
                                         <li class="{{ (Request::segment(1)=='shop')?'active':'' }}"><a href="{{ route('konsumen.shop') }}">shop</a>
                                         </li>
                                         {{-- <li><a href={{ route('konsumen.blog') }}>Blog</a></li> --}}
-                                        <li class="{{ (Request::segment(1)=='contact-us')?'active':'' }}"><a href="contact-us.html">Contact us</a></li>
+                                        <li class="{{ (Request::segment(1)=='contact-us')?'active':'' }}"><a href="{{ route('konsumen.contact') }}">Contact us</a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->

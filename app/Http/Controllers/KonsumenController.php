@@ -45,4 +45,8 @@ class KonsumenController extends Controller
         return view('konsumen_app.pembayaran');
     }
 
+    public function contact(){
+        return view('konsumen_app.contact_us');
+    }
+
 }
