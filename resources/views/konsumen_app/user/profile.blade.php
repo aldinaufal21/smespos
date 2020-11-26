@@ -62,7 +62,7 @@
                                 <td>@{{ i+1 }}</td>
                                 <td>@{{ elem.tanggal_transaksi }}</td>
                                 <td>@{{ elem.status }}</td>
-                                <td>@{{ elem.total_biaya }}</td>
+                                <td>Rp @{{ rupiahFormat(elem.total_biaya) }}</td>
                                 <td v-html="getOrderAction(elem.status, elem.transaksi_konsumen_id)"></td>
                               </tr>
                             </tbody>
@@ -221,7 +221,7 @@
 
       getAddress() {
         axios.get('consumer/addresses').then((res) => {
-          console.log(res);
+          // console.log(res);
           this.address = res.data;
         }).catch((err) => {
           console.log(err);
@@ -230,7 +230,7 @@
 
       getOrders() {
         axios.get('getTransaksiKonsumen').then((res) => {
-          console.log(res);
+          // console.log(res);
           this.orders = res.data;
         }).catch((err) => {
           console.log(err);
@@ -239,7 +239,7 @@
 
       getOrderAction(status, transaksi_id) {
         if (status == 'belum_bayar') {
-          return `<a href="${ $baseURL + '/payment?id' + transaksi_id }" class="btn btn__bg">View</a>`;
+          return `<a href="${ $baseURL + '/payment?id=' + transaksi_id }" class="btn btn__bg">View</a>`;
         } else {
           return '';
         }
@@ -250,6 +250,7 @@
       },
 
       changeProfileActionForm(e) {
+        $.LoadingOverlay("show");
         e.preventDefault();
 
         let payload = {
@@ -262,12 +263,15 @@
 
         profileStore.updateProfile(payload)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             this.profile_detail = res.data;
+          }).finally(()=>{
+            $.LoadingOverlay("hide");
           });
       },
 
       changePasswordActionForm(e) {
+        $.LoadingOverlay("show");
         e.preventDefault();
 
         let payload = {
@@ -279,8 +283,14 @@
             this.password_changes.existing_password = '';
             this.password_changes.new_password = '';
             this.password_changes.new_password_confirmation = '';
+          }).finally(()=>{
+            $.LoadingOverlay("hide");
           });
-      }
+      },
+
+      rupiahFormat(value){
+        return $helper.rupiahFormat(value);
+      },
 
     }
   });

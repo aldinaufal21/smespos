@@ -81,12 +81,17 @@ class KonsumenTransactionController extends Controller
         try {
             $totalBiaya = 0;
 
-            foreach ($requestData['produk'] as $produk) {
+            foreach ($requestData['produk'] as $key => $produk) {
                 $hargaProduk = Produk::find($produk['produk_id'])->harga;
+                $requestData['produk'][$key]['harga'] = $hargaProduk;
                 $totalBiaya += $hargaProduk * $produk['jumlah'];
             }
 
             $requestData['total_biaya'] = $totalBiaya;
+
+            if ($requestData['ongkir']) {
+                $requestData['total_biaya']+= $requestData['ongkir'];
+            }
 
             // $buktiTransfer = $request->bukti_transfer;
             // $urlFoto = $request->bukti_transfer != null ?
@@ -152,6 +157,41 @@ class KonsumenTransactionController extends Controller
 
         $transaksi->status = $action;
         $transaksi->update();
+
+        return response()->json($transaksi, 200);
+    }
+
+    public function payment(Request $request)
+    {
+        $requestData = $request->all();
+
+        $validator = Validator::make($requestData, [
+            'transaksi_konsumen_id' => 'required',
+            'bukti_transfer' => 'required',
+            'bank_id' => 'required',
+        ]);
+
+        $transaksi = TransaksiKonsumen::find($requestData['transaksi_konsumen_id']);
+
+        $buktiTransfer = $request->bukti_transfer;
+        $urlFoto = $request->bukti_transfer != null ?
+            $this->storeBuktiPembayaran($buktiTransfer) : null;
+
+        $transaksi->bukti_transfer = $urlFoto;
+        $transaksi->bank_id = $requestData['bank_id'];
+
+        if ($urlFoto) {
+            $transaksi->status = 'menunggu_verifikasi';
+        }
+
+        $transaksi->update();
+
+        return response()->json($transaksi, 200);
+    }
+
+    public function detail(Request $request, $idTransaction)
+    {
+        $transaksi = TransaksiKonsumen::find($idTransaction);
 
         return response()->json($transaksi, 200);
     }

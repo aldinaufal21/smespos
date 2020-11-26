@@ -7,3 +7,5 @@
 <script src="{{ asset('konsumen_assets/js/vendor.js')}}" defer></script>
 <!-- Active Js -->
 <script src="{{ asset('konsumen_assets/js/active.js')}}" defer></script>
+
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js" defer></script>

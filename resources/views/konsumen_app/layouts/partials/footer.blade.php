@@ -42,7 +42,7 @@
                             <ul class="footer-widget-body">
                                 <li><a href="{{ route('konsumen.home') }}">Home</a></li>
                                 <li><a href="{{ route('konsumen.shop') }}">Shop</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="{{ route('konsumen.contact') }}">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>

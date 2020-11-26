@@ -117,15 +117,15 @@
                                   <div class="single-payment-method">
                                       <div class="payment-method-name">
                                           <div class="custom-control custom-radio">
-                                              <input type="radio" id="directbank" name="paymentmethod" value="delivery" v-model="checkout_data.jenis_order" class="custom-control-input" checked />
+                                              <input type="radio" id="directbank" name="paymentmethod" value="delivery" @click="bill.shipping = 12000" v-model="checkout_data.jenis_order" class="custom-control-input" checked />
                                               <label class="custom-control-label" for="directbank">Delivery</label>
                                           </div>
                                       </div>
                                       <div class="payment-method-details" data-method="delivery">
-                                        <select>
+                                        <select class="form-control">
                                           <option value="0">Kota/Kabupaten Bandung</option>
                                         </select>
-                                        <br><br>
+                                        <br>
                                         <address>
                                             <p><strong>Detail Alamat: </strong></p>
                                             <p v-text="address.alamat"></p>
@@ -138,7 +138,7 @@
                                   <div class="single-payment-method show">
                                       <div class="payment-method-name">
                                           <div class="custom-control custom-radio">
-                                              <input type="radio" id="cashon" name="paymentmethod" value="take_away" v-model="checkout_data.jenis_order" class="custom-control-input" />
+                                              <input type="radio" id="cashon" name="paymentmethod" value="take_away" @click="bill.shipping = 0" v-model="checkout_data.jenis_order" class="custom-control-input" />
                                               <label class="custom-control-label" for="cashon">Take Away</label>
                                           </div>
                                       </div>
@@ -180,8 +180,11 @@
 <!-- Page level plugins -->
 <script>
 $auth.needAuthentication();
-if (!localStorage.getItem('checkout-data')) {
+var _checkout_data = localStorage.getItem('checkout-data');
+if (!_checkout_data) {
     window.location.href = $baseURL + '/';
+}else {
+  _checkout_data = JSON.parse(_checkout_data);
 }
 
 var checkout_vue = new Vue({
@@ -190,7 +193,8 @@ var checkout_vue = new Vue({
     return{
       token: null,
       banks: [],
-      items: JSON.parse(localStorage.getItem('checkout-data')).items,
+      items: _checkout_data.items,
+      cabang_id: _checkout_data.items[0].cabang_id,
       bill: {
         subtotal: 0,
         total: 0,
@@ -287,6 +291,8 @@ var checkout_vue = new Vue({
     },
 
     doOrder(){
+      $.LoadingOverlay("show");
+
       let produk = [];
       for (let item of this.items) {
         produk.push({
@@ -299,20 +305,24 @@ var checkout_vue = new Vue({
         konsumen_id: this.profile_detail.konsumen_id,
         ...this.checkout_data,
         produk: produk,
-        alamat_pengiriman_id: this.address.alamat_pengiriman_id
+        alamat_pengiriman_id: this.address.alamat_pengiriman_id,
+        cabang_id: this.cabang_id,
+        ongkir: this.bill.shipping
       }
 
       axios.post('/createTransaksiKonsumen', payload).then((res)=>{
         if (res.status == 201) {
-          console.log(res);
-          console.log("success");
+          // console.log(res);
+          // console.log("success");
+          localStorage.removeItem('checkout-data');
+          axios.delete('cart/all/clear', payload);
 
           window.location.href = $baseURL + '/payment?id=' + res.data.transaksi_konsumen_id;
-
-          // localStorage.removeItem('checkout-data');
         }
       }).catch((err)=>{
         console.log(err);
+      }).finally(()=>{
+        $.LoadingOverlay("hide");
       });
     },
 

@@ -69,6 +69,7 @@
     },
     methods: {
       submitLogin(event) {
+        $.LoadingOverlay("show");
         event.preventDefault();
 
         axios.post('/login', this.login_data).then((res)=>{
@@ -79,7 +80,9 @@
           }
         }).catch((err)=>{
           console.log(err);
-        })
+        }).finally(()=>{
+          $.LoadingOverlay("hide");
+        });
       }
     }
   })

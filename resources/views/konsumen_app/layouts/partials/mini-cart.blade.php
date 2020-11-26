@@ -2,7 +2,7 @@
 <div class="offcanvas-minicart-wrapper" id="mini-cart-vue">
     <div class="minicart-inner">
         <div class="offcanvas-overlay"></div>
-        <div class="minicart-inner-content">
+        <div class="minicart-inner-content" id="mini-cart-content">
             <div class="minicart-close">
                 <i class="lnr lnr-cross"></i>
             </div>
@@ -93,8 +93,6 @@
 
               $('#cart-notification').text(this.cart.length);
             });
-        }else {
-          console.log("belum login");
         }
       },
 
@@ -103,6 +101,7 @@
       },
 
       checkout(){
+        $.LoadingOverlay("show");
         const payload = {
           items: this.cart,
         }
@@ -122,11 +121,14 @@
           .then((deleteData)=>{
             if (deleteData) {
               cartStore.destroyCart(produk_id).then((res)=>{
+                $('#mini-cart-content').LoadingOverlay("show");
                 // console.log(res);
                 if (res.status == 200) {
                   this.getCartItem();
                   this.updateCart();
                 }
+              }).finally(()=>{
+                $('#mini-cart-content').LoadingOverlay("hide");
               });
             }
           });

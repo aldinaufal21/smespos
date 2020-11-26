@@ -121,7 +121,7 @@
               <!-- single sidebar end -->
 
               <!-- single sidebar start -->
-              <div class="sidebar-single">
+              {{-- <div class="sidebar-single">
                 <h3 class="sidebar-title">price</h3>
                 <div class="sidebar-body">
                   <div class="price-range-wrap">
@@ -137,41 +137,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- single sidebar end -->
-
-              <!-- single sidebar start -->
-              <div class="sidebar-single">
-                <h3 class="sidebar-title">size</h3>
-                <div class="sidebar-body">
-                  <ul class="checkbox-container categories-list">
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck111">
-                        <label class="custom-control-label" for="customCheck111">S (4)</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck222">
-                        <label class="custom-control-label" for="customCheck222">M (5)</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck333">
-                        <label class="custom-control-label" for="customCheck333">L (7)</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck444">
-                        <label class="custom-control-label" for="customCheck444">XL (3)</label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              </div> --}}
               <!-- single sidebar end -->
             </aside>
           </div>
@@ -402,17 +368,22 @@
         })
       },
 
-      addToCart(produk_id, quantity = 1) {
+      addToCart(produk_id, _quantity = 1) {
         // $auth.needAuthentication();
         // mini_cart_vue.item++;
+        $.LoadingOverlay("show");
+
         const payload = {
           produk_id: produk_id,
-          quantity: quantity
+          quantity: _quantity,
+          cabang_id: cabang_id
         }
 
         cartStore.addCart(payload).then((res) => {
           mini_cart_vue.updateCart();
-        })
+        }).finally(()=>{
+          $.LoadingOverlay("hide");
+        });
       },
 
       addToWishlist(produk_id) {

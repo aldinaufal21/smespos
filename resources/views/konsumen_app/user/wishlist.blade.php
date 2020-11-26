@@ -46,7 +46,7 @@
                                   </tbody>
                               </table>
                               <br>
-                              <center><h4 v-if="!wishlists.length">Wishlist anda kosong, silahkan pilih produk favorit anda <a href="{{ route('konsumen.produk') }}">disini</a> </h4></center>
+                              <center><h4 v-if="!wishlists.length">Wishlist anda kosong, silahkan pilih produk favorit anda <a href="{{ route('konsumen.shop') }}">disini</a> </h4></center>
                           </div>
                       </div>
                   </div>
@@ -99,17 +99,22 @@
           })
           .then((deleteData)=>{
             if (deleteData) {
+              $.LoadingOverlay("show");
               axios.delete(`favorite-product/${produk_id}`).then((res)=>{
                 this.getWishlist();
               }).catch((err)=>{
                 console.log(err);
-              })
+              }).finally(()=>{
+                $.LoadingOverlay("hide");
+              });
             }
           });
 
       },
 
       addToCart(produk_id){
+        $.LoadingOverlay("show");
+
         const payload = {
           produk_id: produk_id,
           quantity: 1
@@ -118,7 +123,9 @@
         cartStore.addCart(payload).then((res)=>{
           // console.log(res);
           mini_cart_vue.updateCart();
-        })
+        }).finally(()=>{
+          $.LoadingOverlay("hide");
+        });
       },
 
       rupiahFormat(value){
