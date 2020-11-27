@@ -24,6 +24,11 @@ class Umkm extends Model
         'user_id', 
         'tanggal_bergabung', 
     ];
+    
+    public function scopeApproved($query)
+    {
+        return $query->where('status_pendaftaran', 'approved')->join('pendaftaran_umkms', 'pendaftaran_umkms.umkm_id', '=', 'umkms.umkm_id');
+    }
 
     public function user()
     {

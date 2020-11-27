@@ -33,7 +33,7 @@ class UmkmController extends Controller
             ], 200);
         }
 
-        $umkm = Umkm::all();
+        $umkm = Umkm::approved()->get();
 
         foreach ($umkm as $u) {
             $cabang = $u->cabang()->get();
