@@ -126,7 +126,7 @@
                                         <br>
                                         <address>
                                             {{-- <p v-text="address.alamat"></p> --}}
-                                            <textarea name="name" v-model="address.alamat" rows="4" cols="70"></textarea><br>
+                                            <textarea name="name" v-model="address.alamat" rows="4" cols="70" placeholder="Detail alamat pengiriman"></textarea><br>
                                         </address>
                                         <br>
                                         {{-- <a href="#" v-if="address.alamat" class="btn btn-warning"><i class="fa fa-edit"></i>Edit Address</a> --}}
@@ -248,15 +248,19 @@ var checkout_vue = new Vue({
         this.banks = res.data;
       }).catch((err)=>{
         console.log(err);
+        $helper.errorModal(err);
       });
     },
 
     getAddress() {
       axios.get('consumer/addresses').then((res)=>{
         console.log(res);
-        this.address = res.data[0];
+        if (res.data.length) {
+          this.address = res.data[0];
+        }
       }).catch((err)=>{
         console.log(err);
+        $helper.errorModal(err);
       })
     },
 
@@ -320,6 +324,7 @@ var checkout_vue = new Vue({
         }
       }).catch((err)=>{
         console.log(err);
+        $helper.errorModal(err);
       }).finally(()=>{
         $.LoadingOverlay("hide");
       });

@@ -2,6 +2,7 @@ exports.getProfile = () => {
   return axios.get('consumer/profile')
     .catch((err) => {
       console.log(err);
+      $helper.errorModal(err);
     })
 }
 
@@ -16,7 +17,7 @@ exports.updateProfile = ({ data }) => {
       return res;
     })
     .catch((err) => {
-      $ui.errorModal(err);
+      $helper.errorModal(err);
     })
 }
 
@@ -31,7 +32,7 @@ exports.updatePassword = ({ data }) => {
       return res;
     })
     .catch((err) => {
-      $ui.errorModal(err);
+      $helper.errorModal(err);
     })
 }
 

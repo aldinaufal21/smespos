@@ -225,6 +225,7 @@
           }
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 

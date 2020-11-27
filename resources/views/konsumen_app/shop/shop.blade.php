@@ -293,6 +293,7 @@
           $('#quick_view').modal('show');
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 

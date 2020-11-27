@@ -400,6 +400,7 @@
           }
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 
@@ -410,6 +411,7 @@
           this.sortKey = null;
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 
@@ -484,6 +486,7 @@
           $('#quick_view').modal('show');
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 

@@ -2,6 +2,7 @@ exports.getCart = () => {
   return axios.get('/cart')
               .catch((err)=>{
                 console.log(err);
+                $helper.errorModal(err);
               });
 }
 
@@ -15,6 +16,7 @@ exports.addCart = (payload) => {
           }
         }).catch((err)=>{
           console.log(err);
+          $helper.errorModal(err);
         });
 }
 
@@ -25,6 +27,7 @@ exports.updateCart = ({ data, id }) => {
     })
     .catch((err) => {
       console.log(err);
+      $helper.errorModal(err);
     })
 }
 
@@ -32,6 +35,7 @@ exports.destroyCart = (produk_id) => {
   return axios.delete(`/cart/${produk_id}`)
               .catch((err)=>{
                 console.log(err);
+                $helper.errorModal(err);
               });
 }
 

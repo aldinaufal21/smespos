@@ -80,6 +80,7 @@
           }
         }).catch((err)=>{
           console.log(err);
+          $helper.errorModal(err);
         }).finally(()=>{
           $.LoadingOverlay("hide");
         });

@@ -223,6 +223,7 @@
           this.address = res.data;
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 
@@ -232,6 +233,7 @@
           this.orders = res.data;
         }).catch((err) => {
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 
@@ -300,6 +302,7 @@
           });
         }).catch((err)=>{
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 
@@ -325,6 +328,7 @@
             });
           }).catch((err)=>{
             console.log(err);
+            $helper.errorModal(err);
           })
         });
       },

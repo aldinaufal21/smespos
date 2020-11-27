@@ -111,10 +111,7 @@
           }
         }).catch((err)=>{
           console.log(err);
-          swal({
-            icon: "error",
-            title: "Terjadi kesalahan, harap coba beberapa saat lagi."
-          })
+          $helper.errorModal(err);
         }).finally(()=>{
           $.LoadingOverlay("hide");
         });

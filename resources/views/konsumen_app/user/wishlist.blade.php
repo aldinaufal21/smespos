@@ -86,6 +86,7 @@
           mini_cart_vue.countWishlist();
         }).catch((err)=>{
           console.log(err);
+          $helper.errorModal(err);
         })
       },
 
@@ -104,6 +105,7 @@
                 this.getWishlist();
               }).catch((err)=>{
                 console.log(err);
+                $helper.errorModal(err);
               }).finally(()=>{
                 $.LoadingOverlay("hide");
               });
