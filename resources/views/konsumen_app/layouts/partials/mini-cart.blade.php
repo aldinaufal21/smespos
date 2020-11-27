@@ -135,13 +135,15 @@
       },
 
       countWishlist(){
-        axios.get('favorite-product').then((res)=>{
-          // console.log(res);
+        if (this.token) {
+          axios.get('favorite-product').then((res)=>{
+            // console.log(res);
 
-          $('#wishlist-notification').text(res.data.length);
-        }).catch((err)=>{
-          console.log(err);
-        })
+            $('#wishlist-notification').text(res.data.length);
+          }).catch((err)=>{
+            console.log(err);
+          })
+        }
       },
 
       rupiahFormat(value){
