@@ -76,13 +76,11 @@
                     <div class="tab-pane fade" id="address-edit" role="tabpanel">
                       <div class="myaccount-content">
                         <h3>Billing Address</h3>
-                        <a href="#" class="btn btn__bg btn-success" v-if="!address.length"><i class="fa fa-edit"></i>Add New Address</a>
-                        <br><br>
+                        <a href="#" class="btn btn__bg btn-success" v-if="!address.length" @click="addNewAddress"><i class="fa fa-edit"></i>Add New Address</a>
                         <address v-for="item in address" :key="item.alamat_pengiriman_id">
-                          <p><strong>Nama Konsumen</strong></p>
-                          <p v-text="item.alamat"></p>
-                          {{-- <p>Mobile: (123) 456-7890</p> --}}
-                          <a href="#" class="btn btn__bg"><i class="fa fa-edit"></i>Edit Address</a>
+                          {{-- <p v-text="item.alamat"></p> --}}
+                          <textarea name="name" v-model="item.alamat" rows="4" cols="70"></textarea><br>
+                          <a href="#" class="btn btn__bg" @click="editAlamat(item)"><i class="fa fa-edit"></i>Edit Address</a>
                           <hr>
                         </address>
                       </div>
@@ -286,6 +284,49 @@
           }).finally(()=>{
             $.LoadingOverlay("hide");
           });
+      },
+
+      editAlamat(addres){
+        const payload = {
+            alamat: addres.alamat,
+        };
+
+        axios.patch('consumer/addresses/' + addres.alamat_pengiriman_id, payload).then((res)=>{
+          console.log(res);
+          this.getAddress();
+          swal({
+            icon: "success",
+            title: "Berhasil mengubah alamat."
+          });
+        }).catch((err)=>{
+          console.log(err);
+        })
+      },
+
+      addNewAddress(){
+        swal({
+          content: {
+            element: "input",
+            attributes: {
+              placeholder: "Masukan alamt baru",
+              type: "text",
+            },
+          },
+        }).then((alamat)=>{
+          const payload = {
+              alamat: alamat,
+          };
+
+          axios.post('consumer/addresses', payload).then((res)=>{
+            this.getAddress();
+            swal({
+              icon: "success",
+              title: "Berhasil menambahkan alamat baru."
+            });
+          }).catch((err)=>{
+            console.log(err);
+          })
+        });
       },
 
       rupiahFormat(value){
