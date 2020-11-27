@@ -28,33 +28,31 @@
                       <div class="checkout-billing-details-wrap">
                           <h2>Billing Details</h2>
                           <div class="billing-form-wrap">
-                              <form action="#">
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="single-input-item">
-                                          <label for="fullname" class="required">Name</label>
-                                          <input type="text" id="fullname" placeholder="Full name" readonly required v-model="profile_detail.nama_konsumen"/>
-                                      </div>
+                              <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="single-input-item">
+                                        <label for="fullname" class="required">Name</label>
+                                        <input type="text" id="fullname" placeholder="Full name" readonly required v-model="profile_detail.nama_konsumen"/>
                                     </div>
-
-                                    <div class="col-md-6">
-                                      <div class="single-input-item">
-                                          <label class="required">Username</label>
-                                          <input type="text" readonly v-model="profile_detail.username"/>
-                                      </div>
-                                    </div>
-                                </div>
-
-                                  <div class="single-input-item">
-                                      <label for="com-name">Nomor Telpon</label>
-                                      <input type="text" id="com-name" placeholder="Nomor Telpon" v-model="profile_detail.nomor_hp"/>
                                   </div>
 
-                                  <div class="single-input-item">
-                                      <label for="ordernote">Order Note</label>
-                                      <textarea name="ordernote" id="ordernote" cols="30" rows="3" v-model="checkout_data.catatan_order" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                  <div class="col-md-6">
+                                    <div class="single-input-item">
+                                        <label class="required">Username</label>
+                                        <input type="text" readonly v-model="profile_detail.username"/>
+                                    </div>
                                   </div>
+                              </div>
+
+                              <div class="single-input-item">
+                                  <label for="com-name">Nomor Telpon</label>
+                                  <input type="text" id="com-name" placeholder="Nomor Telpon" v-model="profile_detail.nomor_hp" required/>
+                              </div>
+
+                              <div class="single-input-item">
+                                  <label for="ordernote">Order Note</label>
+                                  <textarea name="ordernote" id="ordernote" cols="30" rows="3" v-model="checkout_data.catatan_order" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                              </div>
 
                                   {{-- <div class="myaccount-content">
                                       <h3>Billing Address</h3>
@@ -68,13 +66,13 @@
                                           <hr>
                                       </address>
                                   </div> --}}
-                              </form>
                           </div>
                       </div>
                   </div>
 
                   <!-- Order Summary Details -->
                   <div class="col-lg-6">
+                    <form @submit="doOrder($event)">
                       <div class="order-summary-details">
                           <h2>Your Order Summary</h2>
                           <div class="order-summary-content">
@@ -127,12 +125,11 @@
                                         </select>
                                         <br>
                                         <address>
-                                            <p><strong>Detail Alamat: </strong></p>
-                                            <p v-text="address.alamat"></p>
-                                            <p>Mobile: (123) 456-7890</p>
+                                            {{-- <p v-text="address.alamat"></p> --}}
+                                            <textarea name="name" v-model="address.alamat" rows="4" cols="70"></textarea><br>
                                         </address>
                                         <br>
-                                        <a href="#" class="btn btn-warning"><i class="fa fa-edit"></i>Edit Address</a>
+                                        {{-- <a href="#" v-if="address.alamat" class="btn btn-warning"><i class="fa fa-edit"></i>Edit Address</a> --}}
                                       </div>
                                   </div>
                                   <div class="single-payment-method show">
@@ -147,11 +144,12 @@
                                       </div>
                                   </div>
                                   <div class="summary-footer-area">
-                                      <button type="button" @click="doOrder" class="btn btn__bg">Place Order</button>
+                                      <button type="submit" class="btn btn__bg">Place Order</button>
                                   </div>
                               </div>
                           </div>
                       </div>
+                    </form>
                   </div>
               </div>
           </div>
@@ -290,7 +288,8 @@ var checkout_vue = new Vue({
       this.bill.total = this.bill.subtotal + this.bill.shipping;
     },
 
-    doOrder(){
+    doOrder(event){
+      event.preventDefault();
       $.LoadingOverlay("show");
 
       let produk = [];
