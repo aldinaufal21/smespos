@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'role' => 'umkm',
         ]);
 
-        factory(App\User::class, 5)->create([
+        factory(App\User::class, 3)->create([
             'role' => 'pengelola',
         ]);
     }

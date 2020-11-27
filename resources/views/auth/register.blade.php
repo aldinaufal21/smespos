@@ -10,6 +10,11 @@
     border-radius: 0.5rem !important;
     padding: 0.9rem 0.4rem !important;
   }
+  .bg-register-image {
+    background: url(https://images.unsplash.com/photo-1602665742701-389671bc40c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80);
+    background-position: center;
+    background-size: cover;
+  }
 </style>
 @endsection
 

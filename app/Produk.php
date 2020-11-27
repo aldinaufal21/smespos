@@ -15,9 +15,10 @@ class Produk extends Model
         'nama_produk',
         'gambar_produk',
         'deskripsi_produk',
-        'stok',
         'kategori_produk_id',
         'tanggal_input',
+        'harga',
+        'code',
     ];
 
     public static function getProductByQuery(
