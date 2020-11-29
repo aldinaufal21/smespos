@@ -21,7 +21,7 @@
     <div class="card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
         <button class="btn btn-primary" onclick="createBank()">
-          <i class="fas fa-download fa-sm text-white-50"></i> Tambah Bank
+          <i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambah Bank
         </button>
       </div>
       <div class="table-responsive">

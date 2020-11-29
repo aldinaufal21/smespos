@@ -36,12 +36,12 @@
   </li>
   <li class="nav-item nav-kasir {{ (Request::segment(2)=='transaksi')?'active':'' }}">
     <a class="nav-link" href="{{ route('kasir.transaksi') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-credit-card"></i>
       <span>Kelola Transaksi</span></a>
   </li>
   <li class="nav-item nav-kasir {{ (Request::segment(2)=='transaksi-pending')?'active':'' }}">
     <a class="nav-link" href="{{ route('kasir.pending') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-credit-card-alt"></i>
       <span>Transaksi Pending</span></a>
   </li>
   <!-- Kasir end -->
@@ -50,7 +50,7 @@
   <!-- UMKM/Cabang start -->
   <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-book"></i>
       <span>Kelola Inventori Produk / Kartu Stok</span>
     </a>
     <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -62,42 +62,42 @@
   </li>
   <li class="nav-item nav-pemilik nav-umkm">
     <a class="nav-link" href="{{ route('cabang.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-university"></i>
       <span>Kelola Cabang</span></a>
   </li>
   <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link" href="{{ route('report.sales') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-list-alt"></i>
       <span>Laporan Penjualan</span></a>
   </li>
   <li class="nav-item nav-cabang nav-pemilik nav-umkm {{ (Request::segment(1)=='karyawan')?'active':'' }}">
     <a class="nav-link" href="{{ route('karyawan.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-users"></i>
       <span>Kelola Karyawan</span></a>
   </li>
   <li class="nav-item nav-pemilik nav-umkm">
     <a class="nav-link" href="{{ route('kategori.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-tag"></i>
       <span>Kelola Kategori Produk</span></a>
   </li>
   <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link" href="{{ route('produk.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-archive"></i>
       <span>Kelola Produk</span></a>
   </li>
   <li class="nav-item nav-umkm">
     <a class="nav-link" href="{{ route('bank.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-credit-card"></i>
       <span>Kelola Bank</span></a>
   </li>
   <li class="nav-item nav-cabang">
     <a class="nav-link" href="{{ route('kasir-cabang.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-desktop"></i>
       <span>Kelola Kasir</span></a>
   </li>
   <li class="nav-item nav-cabang">
     <a class="nav-link" href="{{ route('transaksi.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-credit-card"></i>
       <span>Transaksi Konsumen</span></a>
   </li>
   <!-- <li class="nav-item nav-cabang nav-pemilik nav-umkm">
@@ -117,17 +117,17 @@
   <!-- Pengelola start -->
   <li class="nav-item nav-pengelola">
     <a class="nav-link" href="{{ route('umkm.index') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-address-card"></i>
       <span>Pendaftaran UMKM</span></a>
   </li>
   <li class="nav-item nav-pengelola">
     <a class="nav-link" href="{{ route('umkm.transaksi') }}">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-credit-card"></i>
       <span>List Transaksi UMKM</span></a>
   </li>
   <li class="nav-item nav-pengelola">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-database"></i>
       <span>List Data Master</span>
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

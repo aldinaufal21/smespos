@@ -23,7 +23,7 @@
     <div class="card-body">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
         <button class="btn btn-primary" id="js-btn-tambah-produk" onclick="openCreateForm()">
-          <i class="fas fa-download fa-sm text-white-50"></i> Tambah Produk
+          <i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambah Produk
         </button>
       </div>
       <div class="table-responsive">
