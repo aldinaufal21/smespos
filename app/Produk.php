@@ -21,24 +21,26 @@ class Produk extends Model
         'code',
     ];
 
-    public static function getProductByQuery(
+    public static function getProductByQueryUmkm(
         $namaProduk = null,
         $kategoriProduk = null,
         $idKategori = null,
         $IdUmkm = null,
         $produkId = null
     ) {
+        $getUmkmId = $IdUmkm ? '= ' . $IdUmkm : 'IS NOT NULL';
 
-        $sql = '
+        $sql = "
             SELECT 
-                p.*,
+                p.* ,
                 COALESCE ((
                     CASE 
                         WHEN so.tanggal_stok_opname IS NULL THEN (
                             SELECT
                                 SUM(stok) AS stok
                             FROM stoks s 
-                            GROUP BY produk_id, cabang_id
+                            JOIN cabangs c2 ON c2.cabang_id = s.cabang_id 
+                            GROUP BY produk_id, c2.umkm_id 
                             HAVING s.produk_id = p.produk_id 
                         )
                         WHEN so.tanggal_stok_opname IS NOT NULL 
@@ -46,7 +48,8 @@ class Produk extends Model
                             SELECT
                                 SUM(jumlah) AS stok
                             FROM stok_opnames so 
-                            GROUP BY produk_id, cabang_id, so.tanggal_stok_opname 
+                            JOIN cabangs c2 ON c2.cabang_id = so.cabang_id 
+                            GROUP BY produk_id, c2.umkm_id, so.tanggal_stok_opname 
                             HAVING so.produk_id = p.produk_id
                             ORDER BY so.tanggal_stok_opname DESC
                             LIMIT 1
@@ -57,13 +60,18 @@ class Produk extends Model
                                 SUM(jumlah) + s2.stok AS stok
                             FROM stok_opnames so
                             JOIN stoks s2 ON s2.produk_id = so.produk_id 
+                            JOIN cabangs c2 ON c2.cabang_id = so.cabang_id 
+                            AND c2.cabang_id = s2.cabang_id 
                             WHERE s2.tanggal_input > so.tanggal_stok_opname 
-                            GROUP BY so.produk_id, so.cabang_id 
-                            HAVING so.produk_id = p.produk_id 
+                            GROUP BY so.produk_id, c2.umkm_id 
+                            HAVING so.produk_id = p.produk_id
                         )
                     END 
-                ) - tr.jumlah, 0) AS stok
-            FROM  produks p
+                ) - COALESCE(tr.jumlah, 0), 0) AS stok
+            FROM produks p
+            JOIN kategori_produks kp ON kp.kategori_produk_id = p.kategori_produk_id 
+            JOIN umkms u2 ON u2.umkm_id = kp.umkm_id 
+            LEFT JOIN cabangs c ON c.umkm_id = u2.umkm_id 
             LEFT JOIN (
                 SELECT
                     so2.cabang_id,
@@ -72,7 +80,7 @@ class Produk extends Model
                     so2.jumlah 
                 FROM stok_opnames so2 
                 ORDER BY so2.tanggal_stok_opname DESC
-            ) so ON so.produk_id = p.produk_id 
+            ) so ON so.produk_id = p.produk_id AND so.cabang_id = c.cabang_id 
             LEFT JOIN (
                 SELECT
                     s2.stok,
@@ -81,7 +89,7 @@ class Produk extends Model
                     MAX(s2.tanggal_input) AS tanggal_input 
                 FROM stoks s2 
                 ORDER BY s2.tanggal_input DESC
-            ) s ON s.produk_id = p.produk_id
+            ) s ON s.produk_id = p.produk_id AND so.cabang_id = c.cabang_id 
             LEFT JOIN (
                 SELECT 
                     SUM(y.jumlah) AS jumlah,
@@ -92,9 +100,10 @@ class Produk extends Model
                             SELECT 
                                 tkd.produk_id, 
                                 SUM(tkd.jumlah)      AS jumlah, 
-                                tk.tanggal_transaksi AS tanggal_transaksi 
+                                tk.tanggal_transaksi AS tanggal_transaksi
                             FROM transaksi_kasir_details tkd 
                             JOIN transaksi_kasirs tk ON tk.transaksi_kasir_id = tkd.transaksi_kasir_id 
+                            JOIN kasirs k2 ON k2.kasir_id = tk.kasir_id 
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                         ) 
                         UNION 
@@ -102,16 +111,17 @@ class Produk extends Model
                             SELECT 
                                 tkd.produk_id, 
                                 SUM(tkd.jumlah)      AS jumlah, 
-                                tk.tanggal_transaksi AS tanggal_transaksi 
+                                tk.tanggal_transaksi AS tanggal_transaksi
                             FROM transaksi_konsumen_details tkd 
                             JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id 
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                         )
                     ) y
                 GROUP BY produk_id
-            ) tr ON tr.produk_id = p.produk_id 
-            GROUP BY p.produk_id 
-        ';
+            ) tr ON tr.produk_id = p.produk_id
+            where `u2`.`umkm_id` $getUmkmId
+            GROUP BY p.produk_id, u2.umkm_id 
+        ";
 
         $produk = DB::table('produks')
             ->join('kategori_produks', 'kategori_produks.kategori_produk_id', '=', 'produks.kategori_produk_id')
@@ -153,10 +163,12 @@ class Produk extends Model
         $namaProduk = null,
         $kategoriProduk = null,
         $idKategori = null,
-        $produkId = null,
-        $idCabang = null
+        $idCabang = null,
+        $produkId = null
     ) {
-        $sql = '
+        $getCabangId = $idCabang ? '= ' . $idCabang : 'IS NOT NULL';
+
+        $sql = "
             SELECT 
                 p.*,
                 COALESCE ((
@@ -247,21 +259,21 @@ class Produk extends Model
                     ) y
                 GROUP BY produk_id
             ) tr ON tr.produk_id = p.produk_id AND tr.cabang_id = c.cabang_id 
-            WHERE c.cabang_id = ?
+            WHERE c.cabang_id $getCabangId
             GROUP BY p.produk_id, c.cabang_id 
-        ';
+        ";
 
         $produk = DB::table('produks')
             ->join('kategori_produks', 'kategori_produks.kategori_produk_id', '=', 'produks.kategori_produk_id')
             ->join('umkms', 'umkms.umkm_id', '=', 'kategori_produks.umkm_id')
+            ->join('cabangs', 'cabangs.umkm_id', '=', 'umkms.umkm_id')
             ->leftJoin(DB::raw('(' . $sql . ') as ps'), 'ps.produk_id', '=', 'produks.produk_id')
             ->select(
                 'produks.*',
                 'kategori_produks.nama_kategori',
                 'umkms.*',
                 'ps.stok'
-            )
-            ->setBindings([$idCabang]);
+            );
 
 
         if ($namaProduk) {
@@ -279,6 +291,10 @@ class Produk extends Model
 
         if ($produkId) {
             $produk->where('produks.produk_id', $produkId);
+        }
+
+        if ($idCabang) {
+            $produk->where('cabangs.cabang_id', $idCabang);
         }
 
         return $produk->get();
@@ -299,7 +315,7 @@ class Produk extends Model
 
     public static function getProductDetailById($id)
     {
-        return self::getProductByQuery(null, null, null, null, $id)->first();
+        return self::getProductByQueryUmkm(null, null, null, null, $id)->first();
     }
 
     public function kategori()

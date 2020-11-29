@@ -30,16 +30,15 @@ class ProdukController extends Controller
         $idKategori = $request->id_kategori;
         $idUmkm = $request->id_umkm;
 
-        $produk = Produk::getProductByQuery($namaProduk, $kategoriProduk, $idKategori, $idUmkm);
+        $produk = Produk::getProductByQueryUmkm($namaProduk, $kategoriProduk, $idKategori, $idUmkm);
 
         return response()->json($produk, 200);
     }
 
     public function getProductByCabang(Request $request){
-        $cabang = Cabang::getCabangById($request->id_cabang);
-        $id_umkm = $cabang->umkm_id;
+        $cabangId = $request->id_cabang;
 
-        $produk = Produk::getProductByQuery(null, null, null, $id_umkm);
+        $produk = Produk::getProductByQueryCabang(null, null, null, $cabangId);
         return response()->json($produk, 200);
     }
 

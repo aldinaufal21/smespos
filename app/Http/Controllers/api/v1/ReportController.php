@@ -30,7 +30,7 @@ class ReportController extends Controller
         $startMonth = $request->mulai_bulan ? $request->mulai_bulan : $umkm->tanggal_bergabung;
         $endMonth = $request->sampai_bulan ? $request->sampai_bulan : Carbon::now();
 
-        $products = Produk::getProductByQuery(null, null, null, $idUmkm)->map(function ($p) {
+        $products = Produk::getProductByQueryUmkm(null, null, null, $idUmkm)->map(function ($p) {
             return collect($p)
                 ->only(['produk_id', 'nama_produk', 'nama_kategori', 'harga'])
                 ->all();
@@ -88,7 +88,7 @@ class ReportController extends Controller
         $startMonth = $request->mulai_bulan ? $request->mulai_bulan : $umkm->tanggal_bergabung;
         $endMonth = $request->sampai_bulan ? $request->sampai_bulan : Carbon::now();
 
-        $products = Produk::getProductByQuery(null, null, null, $idUmkm)->map(function ($p) {
+        $products = Produk::getProductByQueryUmkm(null, null, null, $idUmkm)->map(function ($p) {
             return collect($p)
                 ->only(['produk_id', 'nama_produk', 'nama_kategori', 'harga'])
                 ->all();
