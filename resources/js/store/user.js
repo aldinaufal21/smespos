@@ -32,9 +32,23 @@ exports.resetPasswordUser = ({ data, id }) => {
     })
 }
 
-
 exports.selfResetPassword = ({ data }) => {
   return axios.patch(`/auth/reset_password`, data)
+    .then((res) => {
+      $swal({
+        icon: 'success',
+        title: 'Data Update',
+        text: 'Data berhasil di-update!',
+      })
+      return res;
+    })
+    .catch((err) => {
+      $ui.errorModal(err);
+    })
+}
+
+exports.selfAccountSetting = ({ data }) => {
+  return axios.patch(`/auth/setting`, data)
     .then((res) => {
       $swal({
         icon: 'success',

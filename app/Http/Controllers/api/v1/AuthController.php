@@ -98,6 +98,41 @@ class AuthController extends Controller
         return response()->json($user, 200);
     }
 
+    public function setting(Request $request)
+    {
+        $user = $request->user();
+        $requestData = array_filter($request->all());
+
+        $validator = Validator::make($requestData, [
+            'existing_password' => 'required|string',
+            'username' => 'max:255|unique:users',
+        ]);
+
+        $validator->sometimes('new_password', 'min:6|confirmed|different:existing_password', function ($input) {
+            return (strlen($input->new_password) > 0);
+        });
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
+        if (!Hash::check($requestData['existing_password'], $user->password)) {
+            return response()->json([
+                'message' => 'Kata Sandi Salah'
+            ], 401);
+        }
+
+        if ($request->new_password) {
+            $requestData['password'] = Hash::make($requestData['new_password']);
+        }
+
+        $user->update($requestData);
+
+        return response()->json($user, 200);
+    }
+
     private function responseEachUser($user): array
     {
         $role = $user->role;

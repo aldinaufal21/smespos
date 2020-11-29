@@ -44,3 +44,18 @@ exports.approveUmkm = (id) => {
 exports.detailUmkm = (id) => {
   return axios.get(`/umkm/profile/${id}`)
 }
+
+exports.updateUmkm = ({ data }) => {
+  return axios.post('/umkm/profile/edit/', data)
+    .then((res) => {
+      $swal({
+        icon: 'success',
+        title: 'Ubah Data',
+        text: 'Data berhasil di-ubah!',
+      })
+      return res;
+    })
+    .catch((err) => {
+      $ui.errorModal(err);
+    })
+}

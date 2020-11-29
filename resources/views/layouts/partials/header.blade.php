@@ -156,9 +156,13 @@
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="{{ route('user.change_password') }}">
+        <a class="dropdown-item nav-umkm" href="{{ route('umkm.profil') }}">
           <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
-          Atur Ulang Password
+          Profil UMKM
+        </a>
+        <a class="dropdown-item" href="{{ route('user.account_settings') }}">
+          <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+          Pengaturan Akun
         </a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

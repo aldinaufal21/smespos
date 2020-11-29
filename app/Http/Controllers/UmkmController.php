@@ -36,4 +36,9 @@ class UmkmController extends Controller
     {
         return view('umkm.kategori');
     }
+
+    public function profil()
+    {
+        return view('umkm.profil');
+    }
 }

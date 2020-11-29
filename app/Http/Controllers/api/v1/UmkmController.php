@@ -113,11 +113,13 @@ class UmkmController extends Controller
         /**
          * @return response -> data konsumen
          */
-        $validator = Validator::make($request->all(), [
-            'nama_umkm' => 'required|string|max:255',
+        $requestData = $request->all();
+        $user = $request->user();
+        $validator = Validator::make($requestData, [
+            // 'nama_umkm' => 'required|string|max:255',
+            'confirmation' => 'required|string',
             'alamat_umkm' => 'required|string|max:255',
             'deskripsi' => 'required|string|max:255',
-            'gambar' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -126,14 +128,21 @@ class UmkmController extends Controller
             ], 400);
         }
 
-        $id = $request->user()->id;
-        $umkm = User::find($id)->umkm()->first();
-        $requestData = $request->all();
+        if (!Hash::check($requestData['confirmation'], $user->password)) {
+            return response()->json([
+                'message' => 'Kata Sandi Salah'
+            ], 401);
+        }
+        
+        $umkm = $user->umkm()->first();
 
         $userAvatar = $request->gambar;
         $avatarUrl = $request->gambar != null ?
             $this->storeUmkmImage($userAvatar) : null;
-        $requestData['gambar'] = $avatarUrl;
+
+        if ($avatarUrl) {
+            $requestData['gambar'] = $avatarUrl;
+        }
 
         $umkm->update($requestData);
 

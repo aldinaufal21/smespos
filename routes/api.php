@@ -21,6 +21,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
 
         Route::prefix('auth')->group(function () {
             Route::patch('reset_password', 'api\v1\AuthController@resetPassword');
+            Route::patch('setting', 'api\v1\AuthController@setting');
         });
 
         // authenticated account needed

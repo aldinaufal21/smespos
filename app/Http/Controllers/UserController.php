@@ -30,5 +30,10 @@ class UserController extends Controller
     {
         return view('user.change_password');
     }
+
+    public function accountSettings()
+    {
+        return view('user.account_settings');
+    }
     
 }

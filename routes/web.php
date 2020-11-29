@@ -30,6 +30,7 @@ Route::group(['prefix' => 'user'], function () {
   Route::get('/wishlist', 'KonsumenController@wishlist')->name('konsumen.wishlist');
 
   Route::get('/change_password', 'UserController@changePassword')->name('user.change_password');
+  Route::get('/settings', 'UserController@accountSettings')->name('user.account_settings');
 });
 
 Route::group(['prefix' => 'shop'], function () {
@@ -91,6 +92,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/transaksi', 'UmkmController@transaksiUmkm')->name('umkm.transaksi');
         Route::get('/karyawan', 'UmkmController@dataKaryawanUmkm')->name('umkm.karyawan');
         Route::get('/kategori', 'UmkmController@dataKategoriUmkm')->name('umkm.kategori');
+        Route::get('/profil', 'UmkmController@profil')->name('umkm.profil');
     });
 
     Route::group(['prefix' => 'kasir'], function () {
