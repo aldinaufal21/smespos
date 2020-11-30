@@ -140,12 +140,12 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('nyoba_query', function () {
     DB::enableQueryLog();
-    \App\Produk::getProductByQueryCabang(null, null, null, 3, 121);
+    \App\Report::umkmMonthlyProfit(1, '2020-11-01', '2020-11-30');
     return dd(DB::getQueryLog());
 });
 
 Route::get('hasil_query', function () {
-    return dd(\App\Produk::getProductByQueryCabang(null, null, null, 3, 121));
+    return dd(\App\Report::umkmMonthlyProfit(1, '2020-11-01', '2020-11-30'));
 });
 
 // Route::get('/{any?}', 'KonsumenAppController@index')->where('any', '(.*)');

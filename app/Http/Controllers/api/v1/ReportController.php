@@ -83,12 +83,11 @@ class ReportController extends Controller
     {
         $idCabang = $request->cabang_id;
         $umkm = Cabang::find($idCabang)->umkm()->first();
-        $idUmkm = $umkm->umkm_id;
 
         $startMonth = $request->mulai_bulan ? $request->mulai_bulan : $umkm->tanggal_bergabung;
         $endMonth = $request->sampai_bulan ? $request->sampai_bulan : Carbon::now();
 
-        $products = Produk::getProductByQueryUmkm(null, null, null, $idUmkm)->map(function ($p) {
+        $products = Produk::getProductByQueryCabang(null, null, null, $idCabang)->map(function ($p) {
             return collect($p)
                 ->only(['produk_id', 'nama_produk', 'nama_kategori', 'harga'])
                 ->all();

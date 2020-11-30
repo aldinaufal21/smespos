@@ -200,7 +200,11 @@
       arr.push(item.produk.nama_produk);
 
       item.report.forEach(reportItem => {
-        arr.push(reportItem.data.jumlah);
+        if (reportItem.data) {
+          arr.push(reportItem.data.jumlah);
+        } else {
+          arr.push(0);
+        }
       });
       body.push(arr);
     });
