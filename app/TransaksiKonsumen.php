@@ -30,6 +30,7 @@ class TransaksiKonsumen extends Model
 
     public static function getTransaksiByQuery(
         $cabangId = null,
+        $umkmId = null,
         $transaksiId = null,
         $jenisOrder = null,
         $status = null,
@@ -40,6 +41,7 @@ class TransaksiKonsumen extends Model
         $transaksi = DB::table('transaksi_konsumens')
             ->join('konsumens', 'konsumens.konsumen_id', '=', 'transaksi_konsumens.konsumen_id')
             ->join('alamat_pengiriman', 'alamat_pengiriman.alamat_pengiriman_id', '=', 'transaksi_konsumens.alamat_pengiriman_id')
+            ->join('cabangs', 'cabangs.cabang_id', '=', 'transaksi_konsumens.cabang_id')
             ->select(
                 'transaksi_konsumens.*',
                 'konsumens.nama_konsumen',
@@ -47,7 +49,11 @@ class TransaksiKonsumen extends Model
             );;
 
         if ($cabangId) {
-            $transaksi->where('cabang_id', $cabangId);
+            $transaksi->where('cabangs.cabang_id', $cabangId);
+        }
+
+        if ($umkmId) {
+            $transaksi->where('umkm_id', $umkmId);
         }
 
         if ($transaksiId) {

@@ -20,6 +20,7 @@ class KonsumenTransactionController extends Controller
     public function index(Request $request)
     {
         $cabangId = null;
+        $umkmId = null;
         $konsumenId = null;
 
         switch ($request->user()->role) {
@@ -28,6 +29,9 @@ class KonsumenTransactionController extends Controller
                 break;
             case 'cabang':
                 $cabangId = $this->getCabang($request)->cabang_id;
+                break;
+            case 'umkm':
+                $umkmId = $this->getUmkm($request)->umkm_id;
                 break;
             default:
                 break;
@@ -42,6 +46,7 @@ class KonsumenTransactionController extends Controller
 
         $transaksi = TransaksiKonsumen::getTransaksiByQuery(
             $cabangId,
+            $umkmId,
             $transaksiId,
             $jenisOrder,
             $status,
@@ -134,7 +139,7 @@ class KonsumenTransactionController extends Controller
         $transaksi = TransaksiKonsumen::find($idTransaction);
 
         $action = $request->aksi;
-        $validAction = ['diantar', 'siap diambil', 'selesai', 'dibatalkan'];
+        $validAction = ['menunggu_verifikasi', 'terverifikasi', 'diantar', 'siap diambil', 'selesai', 'dibatalkan'];
 
         if (!in_array($action, $validAction)) {
             return response()->json([
@@ -204,5 +209,10 @@ class KonsumenTransactionController extends Controller
     private function getCabang($request)
     {
         return $request->user()->cabang()->first();
+    }
+
+    private function getUmkm($request)
+    {
+        return $request->user()->umkm()->first();
     }
 }

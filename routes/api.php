@@ -82,12 +82,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('makePayment', 'api\v1\KonsumenTransactionController@payment');
         });
 
-        Route::group(['middleware' => ['role:konsumen,cabang']], function () {
+        Route::group(['middleware' => ['role:konsumen,cabang,umkm']], function () {
             Route::get('getTransaksiKonsumen', 'api\v1\KonsumenTransactionController@index');
             Route::get('detailTransaksi/{transaksi_id}', 'api\v1\KonsumenTransactionController@detail');
         });
 
-        Route::group(['middleware' => ['role:cabang']], function () {
+        Route::group(['middleware' => ['role:cabang,umkm']], function () {
             Route::match(['put', 'patch'], 'setTransaksiAction/{idTransaction}', 'api\v1\KonsumenTransactionController@statusAction');
         });
 

@@ -95,7 +95,7 @@
       <i class="fas fa-fw fa-desktop"></i>
       <span>Kelola Kasir</span></a>
   </li>
-  <li class="nav-item nav-cabang">
+  <li class="nav-item nav-cabang nav-umkm">
     <a class="nav-link" href="{{ route('transaksi.index') }}">
       <i class="fas fa-fw fa-credit-card"></i>
       <span>Transaksi Konsumen</span></a>

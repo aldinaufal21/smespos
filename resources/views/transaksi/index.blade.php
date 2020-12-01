@@ -215,7 +215,19 @@
     const __buttonConfirm = (status, idTransaksi) => {
       if (status == 'selesai' || status == 'dibatalkan') {
         return `Transaksi ${status}`;
-      } else {
+      }
+
+      if (_user.user.role == 'umkm') {
+        if (status == 'menunggu_verifikasi') {
+          return `<button type="button" class="btn btn-sm btn-primary"
+            onclick="aksiVerifikasi(${idTransaksi})">
+            Verifikasi</button>`;
+        } else if (status == 'belum_bayar') {
+          return 'Menunggu Bukti Pembayaran';
+        } else {
+          return 'Transaksi Sudah Terverifikasi';
+        }
+      } else if (_user.user.role == 'cabang') {
         return `<button type="button" class="btn btn-sm btn-primary"
           onclick="modalKonfirmasi(${idTransaksi})">
           Konfirmasi</button>`;
@@ -246,11 +258,14 @@
         case 'menunggu_verifikasi':
           label = 'badge-info'
           break;
-        case 'diantar':
+        case 'terverifikasi':
           label = 'badge-primary'
           break;
+        case 'diantar':
+          label = 'badge-warning'
+          break;
         case 'siap diambil':
-          label = 'badge-primary'
+          label = 'badge-warning'
           break;
         case 'selesai':
           label = 'badge-success'
@@ -355,6 +370,35 @@
       });
   }
 
+  const aksiVerifikasi = (idTransaksi) => {
+    let payload = {
+      data: {
+        aksi: 'terverifikasi'
+      },
+      id: idTransaksi,
+    }
+
+    $swal({
+        title: "Anda yakin?",
+        text: `Transaksi dengan ID ${idTransaksi} akan diverifikasi!`,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willConfirm) => {
+        if (willConfirm) {
+          transaksiStore.setStatusAction(payload)
+            .then(res => {
+              if (res.status == 200) {
+                getTransaksi();
+              }
+            });
+        } else {
+          $swal("Transaksi Batal Diverifikasi!");
+        }
+      });
+  }
+
   const _populateStatusDropdown = (statuses, currentStatus) => {
     let $dropdown = $('#js-status-pesanan');
     $dropdown.empty();
@@ -383,6 +427,7 @@
     /**
      * 'belum_bayar',
      * 'menunggu_verifikasi',
+     * 'terverifikasi',
      * 'diantar',
      * 'siap diambil',
      * 'selesai',
@@ -391,14 +436,12 @@
     switch (jenis) {
       case 'take_away':
         return [
-          'belum_bayar',
           'siap diambil',
           'selesai',
           'dibatalkan',
         ];
       case 'delivery':
         return [
-          'belum_bayar',
           'diantar',
           'selesai',
           'dibatalkan',
