@@ -223,14 +223,21 @@
             onclick="aksiVerifikasi(${idTransaksi})">
             Verifikasi</button>`;
         } else if (status == 'belum_bayar') {
-          return 'Menunggu Bukti Pembayaran';
+          return 'Menunggu Pembayaran';
         } else {
           return 'Transaksi Sudah Terverifikasi';
         }
       } else if (_user.user.role == 'cabang') {
-        return `<button type="button" class="btn btn-sm btn-primary"
-          onclick="modalKonfirmasi(${idTransaksi})">
-          Konfirmasi</button>`;
+        const statusesMakesDisabled = ['belum_bayar','menunggu_verifikasi'];
+        let buttonStatus = statusesMakesDisabled.includes(status) ? 'disabled' : '';
+        return `<button 
+            type="button" 
+            class="btn btn-sm btn-primary"
+            onclick="modalKonfirmasi(${idTransaksi})"
+            ${buttonStatus}
+          >
+            Konfirmasi
+          </button>`;
       }
     }
 
