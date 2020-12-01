@@ -26,7 +26,7 @@ class ReportController extends Controller
         $idUmkm = $request->umkm_id;
         $umkm = Umkm::find($idUmkm);
 
-        $startMonth = $request->mulai_bulan ? $request->mulai_bulan : $umkm->tanggal_bergabung;
+        $startMonth = $request->dari_bulan ? $request->dari_bulan : $umkm->tanggal_bergabung;
         $endMonth = $request->sampai_bulan ? $request->sampai_bulan : Carbon::now();
 
         $months = $this->getMonthBetween($startMonth, $endMonth);

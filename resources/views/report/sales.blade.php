@@ -21,7 +21,7 @@
       <input type="hidden" id="js-dari_bulan" name="dari_bulan" value="">
       <input type="hidden" id="js-sampai_bulan" name="sampai_bulan" value="">
 
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" id="js-button-download" disabled>
         <i class="fas fa-download fa-sm text-white-50"></i> Cetak Laporan
       </button>
     </form>
@@ -31,19 +31,20 @@
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Laporan Per</h6>
+          <h6 class="m-0 font-weight-bold text-primary">Periode Laporan</h6>
         </div>
         <!-- Card Body -->
         <div class="card-body">
           <form role="form" id="js-filter-form" onsubmit="filterReport(event)">
             <div class="input-group mb-3">
-              <input type="text" name="mulai_bulan" class="form-control js-month-datepicker" placeholder="Dari Bulan" aria-label="Dari Bulan" aria-describedby="calendar-addon">
-              <div class="input-group-append">
-                <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
-              </div>
-            </div>
-            <div class="input-group mb-3">
-              <input type="text" name="sampai_bulan" class="form-control js-month-datepicker" placeholder="Sampai Bulan" aria-label="Dari Bulan" aria-describedby="calendar-addon">
+              <input 
+                type="text"
+                name="periode" 
+                class="form-control js-month-datepicker" 
+                placeholder="Periode" 
+                aria-label="Periode" 
+                aria-describedby="calendar-addon" 
+                readonly>
               <div class="input-group-append">
                 <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
               </div>
@@ -94,6 +95,9 @@
 
 <script>
   let reportTable = null;
+  let umkmCabang = null;
+  let downloadButton = null;
+
   $(document).ready(() => {
     $('#js-role').val(_user.user.role);
 
@@ -106,7 +110,7 @@
         break;
 
       case 'cabang':
-        shouldStartDate = _user.created_at;
+        shouldStartDate = _user.user.created_at;
         $('#js-id_umkm').val(_user.cabang.umkm_id);
         $('#js-id_cabang').val(_user.cabang.cabang_id);
         break;
@@ -119,22 +123,15 @@
       format: "yyyy-mm",
       viewMode: "months",
       minViewMode: "months",
-      startDate: shouldStartDate,
+      startDate: $helper.yearMonthDateFormat(shouldStartDate),
       endDate: new Date(),
     });
 
     initDataTable();
-    getReportData(null, null);
+    detectFilterChanges();
 
-    /**
-     * component on change events
-     */
-
-    // select value on change
-    // $('#js-cabang-choice').on('change', function() {
-    //   idCabang = this.value;
-    //   getReportData();
-    // });
+    downloadButton = $('#js-button-download');
+    downloadButton.prop('disabled', true);
   });
 
   const initDataTable = (columns = null, rows = null) => {
@@ -222,14 +219,47 @@
 
     let formData = $helper.serializeObject($('#js-filter-form'));
 
-    let startMonth = formData.mulai_bulan != "" ? formData.mulai_bulan : null;
-    let endMonth = formData.sampai_bulan != "" ? formData.sampai_bulan : null;
+    if (formData.periode == "" || formData.periode == null) {
+
+      let err = {
+        response: {
+          status: 401,
+          data: {
+            message: "Pilih periode!"
+          }
+        }
+      };
+
+      $ui.errorModal(err);
+      return;
+    }
+
+    let startMonth = formData.periode;
+    let endMonth = formData.periode;
 
     $('#js-dari_bulan').val(startMonth);
     $('#js-sampai_bulan').val(endMonth);
 
     getReportData(startMonth, endMonth);
+  }
 
+  const detectFilterChanges = () => {
+    $('.js-month-datepicker').change((e) => {
+      let periode = $('.js-month-datepicker').val();
+
+      $('#js-dari_bulan').val(periode);
+      $('#js-sampai_bulan').val(periode);
+      downloadButton.prop('disabled', false);
+    })
+  }
+
+  const __pullUmkmCabang = async (umkmId) => {
+    let umkm = await umkmStore.detailUmkm(umkmId);
+    umkmCabang = umkm.data;
+  }
+
+  const __getUmkmCabang = () => {
+    return umkmCabang;
   }
 </script>
 @endsection
