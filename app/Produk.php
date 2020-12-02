@@ -32,64 +32,14 @@ class Produk extends Model
 
         $sql = "
             SELECT 
-                p.* ,
-                COALESCE ((
-                    CASE 
-                        WHEN so.tanggal_stok_opname IS NULL THEN (
-                            SELECT
-                                SUM(stok) AS stok
-                            FROM stoks s 
-                            JOIN cabangs c2 ON c2.cabang_id = s.cabang_id 
-                            GROUP BY produk_id, c2.umkm_id 
-                            HAVING s.produk_id = p.produk_id 
-                        )
-                        WHEN so.tanggal_stok_opname IS NOT NULL 
-                            AND so.tanggal_stok_opname > s.tanggal_input THEN (
-                            SELECT
-                                SUM(jumlah) AS stok
-                            FROM stok_opnames so 
-                            JOIN cabangs c2 ON c2.cabang_id = so.cabang_id 
-                            GROUP BY produk_id, c2.umkm_id, so.tanggal_stok_opname 
-                            HAVING so.produk_id = p.produk_id
-                            ORDER BY so.tanggal_stok_opname DESC
-                            LIMIT 1
-                        )
-                        WHEN so.tanggal_stok_opname IS NOT NULL 
-                            AND s.tanggal_input > so.tanggal_stok_opname THEN (
-                            SELECT
-                                SUM(jumlah) + s2.stok AS stok
-                            FROM stok_opnames so
-                            JOIN stoks s2 ON s2.produk_id = so.produk_id 
-                            JOIN cabangs c2 ON c2.cabang_id = so.cabang_id 
-                            AND c2.cabang_id = s2.cabang_id 
-                            WHERE s2.tanggal_input > so.tanggal_stok_opname 
-                            GROUP BY so.produk_id, c2.umkm_id 
-                            HAVING so.produk_id = p.produk_id
-                        )
-                    END 
-                ) - COALESCE(tr.jumlah, 0), 0) AS stok
+                p.*,
+                COALESCE(
+                    (SUM(DISTINCT data_stok_cabang.source) - COALESCE(tr.jumlah, 0)), 0
+                ) AS stok
             FROM produks p
             JOIN kategori_produks kp ON kp.kategori_produk_id = p.kategori_produk_id 
             JOIN umkms u2 ON u2.umkm_id = kp.umkm_id 
-            LEFT JOIN cabangs c ON c.umkm_id = u2.umkm_id 
-            LEFT JOIN (
-                SELECT
-                    so2.cabang_id,
-                    so2.produk_id,
-                    MAX(so2.tanggal_stok_opname) AS tanggal_stok_opname,
-                    so2.jumlah 
-                FROM stok_opnames so2 
-                ORDER BY so2.tanggal_stok_opname DESC
-            ) so ON so.produk_id = p.produk_id AND so.cabang_id = c.cabang_id 
-            LEFT JOIN (
-                SELECT
-                    s2.stok,
-                    s2.produk_id,
-                    s2.cabang_id,
-                    MAX(s2.tanggal_input) AS tanggal_input 
-                FROM stoks s2 
-                ORDER BY s2.tanggal_input DESC
-            ) s ON s.produk_id = p.produk_id AND so.cabang_id = c.cabang_id 
+            LEFT JOIN cabangs c ON c.umkm_id = u2.umkm_id
             LEFT JOIN (
                 SELECT 
                     SUM(y.jumlah) AS jumlah,
@@ -119,8 +69,76 @@ class Produk extends Model
                     ) y
                 GROUP BY produk_id
             ) tr ON tr.produk_id = p.produk_id
-            where `u2`.`umkm_id` $getUmkmId
-            GROUP BY p.produk_id, u2.umkm_id 
+            LEFT JOIN (
+                SELECT 
+                    p.produk_id,
+                    u2.umkm_id,
+                    c.cabang_id, 
+                    COALESCE ((
+                        CASE 
+                            WHEN so.tanggal_stok_opname IS NULL THEN (
+                                SELECT
+                                    SUM(stok) AS stok
+                                FROM stoks s 
+                                GROUP BY produk_id, cabang_id
+                                HAVING s.produk_id = p.produk_id 
+                                AND s.cabang_id = c.cabang_id 
+                            )
+                            WHEN so.tanggal_stok_opname IS NOT NULL 
+                                AND so.tanggal_stok_opname > s.tanggal_input THEN (
+                                SELECT
+                                    SUM(jumlah) AS stok
+                                FROM stok_opnames so 
+                                GROUP BY produk_id, cabang_id, so.tanggal_stok_opname 
+                                HAVING so.produk_id = p.produk_id 
+                                AND so.cabang_id = c.cabang_id 
+                                ORDER BY so.tanggal_stok_opname DESC
+                                LIMIT 1
+                            )
+                            WHEN so.tanggal_stok_opname IS NOT NULL 
+                                AND s.tanggal_input > so.tanggal_stok_opname THEN (
+                                SELECT
+                                    SUM(jumlah) + s2.stok AS stok
+                                FROM stok_opnames so
+                                JOIN stoks s2 ON s2.produk_id = so.produk_id 
+                                WHERE s2.tanggal_input > so.tanggal_stok_opname 
+                                GROUP BY so.produk_id, so.cabang_id 
+                                HAVING so.produk_id = p.produk_id  
+                                AND so.cabang_id = c.cabang_id 
+                            )
+                        END 
+                    ), 0) AS source
+                FROM produks p
+                JOIN kategori_produks kp ON kp.kategori_produk_id = p.kategori_produk_id 
+                JOIN umkms u2 ON u2.umkm_id = kp.umkm_id 
+                LEFT JOIN cabangs c ON c.umkm_id = u2.umkm_id 
+                LEFT JOIN (
+                    SELECT
+                        so2.cabang_id,
+                        so2.produk_id,
+                        MAX(so2.tanggal_stok_opname) AS tanggal_stok_opname,
+                        so2.jumlah 
+                    FROM stok_opnames so2 
+                    GROUP BY produk_id 
+                    ORDER BY so2.tanggal_stok_opname DESC
+                ) so ON so.produk_id = p.produk_id AND so.cabang_id = c.cabang_id 
+                LEFT JOIN (
+                    SELECT
+                        s2.stok,
+                        s2.produk_id,
+                        s2.cabang_id,
+                        MAX(s2.tanggal_input) AS tanggal_input 
+                    FROM stoks s2 
+                    GROUP BY produk_id 
+                    ORDER BY s2.tanggal_input DESC
+                ) s ON s.produk_id = p.produk_id AND so.cabang_id = c.cabang_id 
+                where c.cabang_id IN (
+                    SELECT cabang_id FROM cabangs WHERE umkm_id = u2.umkm_id
+                )
+                GROUP BY p.produk_id, c.cabang_id
+            ) data_stok_cabang ON data_stok_cabang.umkm_id = u2.umkm_id AND data_stok_cabang.produk_id = p.produk_id
+            WHERE u2.umkm_id $getUmkmId
+            GROUP BY data_stok_cabang.produk_id, data_stok_cabang.umkm_id
         ";
 
         $produk = DB::table('produks')
@@ -257,7 +275,7 @@ class Produk extends Model
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id, tk.cabang_id 
                         )
                     ) y
-                GROUP BY produk_id
+                GROUP BY produk_id, cabang_id 
             ) tr ON tr.produk_id = p.produk_id AND tr.cabang_id = c.cabang_id 
             WHERE c.cabang_id $getCabangId
             GROUP BY p.produk_id, c.cabang_id 
