@@ -33,6 +33,65 @@
     color:  #1aa245;
   }
 
+  /* // Small devices (landscape phones, 576px and up) */
+  @media (min-width: 576px) {  }
+
+  /* // Medium devices (tablets, 768px and up) */
+  @media (min-width: 768px) {
+    .card-title{
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .card-text{
+      font-size: 0.9rem;
+    }
+
+    .card-body{
+        padding: 7px;
+    }
+
+    .card-body button{
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .keranjang-card ul li h5{
+      font-size: 1rem;
+    }
+
+    .keranjang-card ul li .row div{
+      padding-right: .25rem;
+      padding-left: .25rem;
+    }
+
+    .keranjang-card ul li center{
+      font-size: .75rem;
+    }
+
+    #transaksi-kasir-content{
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    #resume-section{
+      padding-right: .5rem;
+      padding-left: .5rem;
+    }
+
+    .product-card{
+      padding-right: .3rem;
+      padding-left: .3rem;
+    }
+  }
+
+  /* // Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    .modal-dialog .modal-lg .center-modal{
+      top: 10%;
+    }
+  }
+
 </style>
 @endsection
 
@@ -68,18 +127,18 @@
                     style="margin-right: 5px"></button>
             <br><br>
           </div>
-            <div class="col-md-4" v-for="product in filteredProducts" :key="product.produk_id">
-              <div class="card" style="margin-bottom:20px;">
-                <img :src="`https://loremflickr.com/320/240/snack?lock=${product.produk_id}`" class="card-img-top" alt="...">
-                <div class="card-body center">
-                  <center>
-                  <h6 class="card-title" v-text="product.nama_produk"></h6>
-                  <h4 class="card-text">Rp <b v-text="rupiahFormat(product.harga)"></b></h4>
-                  <button type="button" class="btn btn-success" @click="addToCart(product)">+ Tambah Keranjang</button>
-                  <center>
-                </div>
+          <div class="col-md-4 product-card" v-for="product in filteredProducts" :key="product.produk_id">
+            <div class="card" style="margin-bottom:20px;">
+              <img :src="`https://loremflickr.com/320/240/snack?lock=${product.produk_id}`" class="card-img-top" alt="...">
+              <div class="card-body center">
+                <center>
+                <h6 class="card-title" v-text="product.nama_produk"></h6>
+                <h4 class="card-text">Rp <b v-text="rupiahFormat(product.harga)"></b></h4>
+                <button type="button" class="btn btn-success" @click="addToCart(product)">+ Tambah Keranjang</button>
+                <center>
               </div>
             </div>
+          </div>
         </div>
       </div>
       <!-- Product list section end -->
@@ -88,7 +147,7 @@
           <div class="card-header py-3">
             <center><h3 class="m-0 font-weight-bold text-primary">Total Barang</h3></center>
           </div>
-          <div class="card-body">
+          <div class="card-body keranjang-card">
             <ul class="list-group list-group-flush">
               <p v-if="!cart.length">Keranjang Kosong</p>
               <li class="list-group-item" v-for="elem in cart" :key="elem.produk_id">
@@ -129,7 +188,7 @@
 
     <!-- Modal Pembayaran start -->
     <div class="modal fade" id="modal-pembayaran" style="background-color:rgba(0, 0, 0, 0.7);" tabindex="-1" role="dialog" aria-labelledby="kasirModal" aria-hidden="true">
-      <div class="modal-dialog modal-lg center-modal" style="top:10%" role="document">
+      <div class="modal-dialog modal-lg center-modal" role="document">
         <div class="modal-content">
           <div class="modal-header" style="background-color:#1cc88a;">
             <h4 class="modal-title" style="color:#fff"><b>Pembayaran</b></h4>
@@ -196,10 +255,12 @@
 
 <script>
   $auth.needRole(['kasir']);
-  console.log($baseURL);
+  // console.log($baseURL);
   let user = $auth.userCredentials();
 
   checkStatusKasir();
+
+  $('#accordionSidebar').addClass('toggled');
 
   var vue_kasir = new Vue({
     el: '#transaksi-kasir-content',
@@ -518,14 +579,33 @@
                 payload,
               )
                 .then((response) => {
-                  $.LoadingOverlay("hide");
-                  this.resetKasir();
-                  $('#modal-pembayaran').modal('hide');
 
-                  swal({
-                    icon: "success",
-                    title: "Transaksi selesai"
-                  });
+                  axios.get('/printReceipt/'+response.data.transaksi_kasir_id).then((res)=>{
+                      window.location.href = res.data;
+
+                      if (this.continue) {
+                        window.location.href = $baseURL + '/kasir/transaksi';
+                      }else {
+                        this.resetKasir();
+                      }
+
+                      swal({
+                        icon: "success",
+                        title: "Transaksi selesai"
+                      });
+                  }).catch((error)=>{
+                    console.log(error);
+                    // alert(error);
+                    // $helper.showAxiosError(error);
+                    swal({
+                      icon: "warning",
+                      title: "Transaksi berhasil dibuat, tapi gagal melakukan print struk"
+                    });
+                  }).finally(()=>{
+                    $.LoadingOverlay("hide");
+                    $('#modal-pembayaran').modal('hide');
+                  })
+
                 })
                 .catch((err) => {
                   console.log(err);
