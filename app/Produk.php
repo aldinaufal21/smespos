@@ -97,14 +97,22 @@ class Produk extends Model
                             )
                             WHEN so.tanggal_stok_opname IS NOT NULL 
                                 AND s.tanggal_input > so.tanggal_stok_opname THEN (
-                                SELECT
-                                    SUM(jumlah) + s2.stok AS stok
-                                FROM stok_opnames so
-                                JOIN stoks s2 ON s2.produk_id = so.produk_id 
-                                WHERE s2.tanggal_input > so.tanggal_stok_opname 
-                                GROUP BY so.produk_id, so.cabang_id 
-                                HAVING so.produk_id = p.produk_id  
-                                AND so.cabang_id = c.cabang_id 
+                                SELECT 
+                                    SUM(stok) AS stok
+                                FROM (
+                                    (
+                                        SELECT s.produk_id, s.cabang_id, s.stok AS stok, s.tanggal_input AS tanggal
+                                        FROM stoks s
+                                    )
+                                    UNION
+                                    (
+                                        SELECT so.produk_id, so.cabang_id, so.jumlah AS stok, so.tanggal_stok_opname AS tanggal
+                                        FROM stok_opnames so
+                                    )
+                                ) stok_plus
+                                WHERE stok_plus.produk_id = p.produk_id 
+                                AND stok_plus.cabang_id = c.cabang_id 
+                                AND stok_plus.tanggal >= so.tanggal_stok_opname 
                             )
                         END 
                     ), 0) AS source
@@ -212,14 +220,22 @@ class Produk extends Model
                         )
                         WHEN so.tanggal_stok_opname IS NOT NULL 
                             AND s.tanggal_input > so.tanggal_stok_opname THEN (
-                            SELECT
-                                SUM(jumlah) + s2.stok AS stok
-                            FROM stok_opnames so
-                            JOIN stoks s2 ON s2.produk_id = so.produk_id 
-                            WHERE s2.tanggal_input > so.tanggal_stok_opname 
-                            GROUP BY so.produk_id, so.cabang_id 
-                            HAVING so.produk_id = p.produk_id  
-                            AND so.cabang_id = c.cabang_id 
+                            SELECT 
+                                SUM(stok) AS stok
+                            FROM (
+                                (
+                                    SELECT s.produk_id, s.cabang_id, s.stok AS stok, s.tanggal_input AS tanggal
+                                    FROM stoks s
+                                )
+                                UNION
+                                (
+                                    SELECT so.produk_id, so.cabang_id, so.jumlah AS stok, so.tanggal_stok_opname AS tanggal
+                                    FROM stok_opnames so
+                                )
+                            ) stok_plus
+                            WHERE stok_plus.produk_id = p.produk_id 
+                            AND stok_plus.cabang_id = c.cabang_id 
+                            AND stok_plus.tanggal >= so.tanggal_stok_opname 
                         )
                     END 
                 ) - COALESCE(tr.jumlah, 0), 0) AS stok
