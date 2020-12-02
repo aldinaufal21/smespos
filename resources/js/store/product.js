@@ -36,8 +36,22 @@ exports.destroyProduct = (id) => {
   return axios.delete(`/product/${id}`)
 }
 
-exports.UmkmsProduct = (idUmkm) => {
-  return axios.get(`/product?id_umkm=${idUmkm}`)
+exports.UmkmsProduct = (umkmId = null, cabangId = null) => {
+  let condition = '';
+
+  if (cabangId || umkmId) {
+    condition += '?';
+  }
+
+  if (cabangId) {
+    condition += `id_cabang=${cabangId}&`;
+  }
+
+  if (umkmId) {
+    condition += `id_umkm=${umkmId}&`;
+  }
+  
+  return axios.get(`/product/${condition}`)
 }
 
 exports.productDetail = (id) => {

@@ -441,9 +441,15 @@
   }
 
   const getProducts = () => {
-    let ownerId = getOwnerId();
+    let idUmkm = null, idCabang = null;
+    
+    if (_user.user.role == 'umkm') {
+      idUmkm = _user.umkm.umkm_id;
+    } else if (_user.user.role == 'cabang') {
+      idCabang = _user.cabang.cabang_id;
+    }
 
-    productStore.UmkmsProduct(ownerId).then((res) => {
+    productStore.UmkmsProduct(idUmkm, idCabang).then((res) => {
       productData = res.data;
       populateTable(productData);
     });
