@@ -64,6 +64,7 @@ class Produk extends Model
                                 tk.tanggal_transaksi AS tanggal_transaksi
                             FROM transaksi_konsumen_details tkd 
                             JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id 
+                            WHERE tk.status != 'dibatalkan'
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                         )
                     ) y
@@ -288,6 +289,7 @@ class Produk extends Model
                                 tk.cabang_id
                             FROM transaksi_konsumen_details tkd 
                             JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id 
+                            WHERE tk.status != 'dibatalkan'
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id, tk.cabang_id 
                         )
                     ) y
