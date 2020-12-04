@@ -247,7 +247,7 @@
         format: "yyyy-mm",
         viewMode: "months",
         minViewMode: "months",
-        startDate: shouldStartDate,
+        startDate: $helper.yearMonthDateFormat(shouldStartDate),
         endDate: new Date(),
       });
 
@@ -286,6 +286,7 @@
     reportStore.monthlyUmkm(umkmId, startMonth, endMonth)
       .then((res) => {
         showReports(res.data);
+        $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
       });
   }
 
@@ -309,7 +310,11 @@
       arr.push(item.produk.nama_produk);
 
       item.report.forEach(reportItem => {
-        arr.push(reportItem.data.jumlah);
+        if (reportItem.data) {
+          arr.push(reportItem.data.jumlah);
+        } else {
+          arr.push(0);
+        }
       });
       body.push(arr);
     });
@@ -326,6 +331,7 @@
     e.preventDefault();
 
     let formData = $helper.serializeObject($('#js-filter-form'));
+    $ui.toggleButtonLoading($('#js-filter-form'));
 
     let startMonth = formData.mulai_bulan != "" ? formData.mulai_bulan : null;
     let endMonth = formData.sampai_bulan != "" ? formData.sampai_bulan : null;

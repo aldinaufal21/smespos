@@ -162,6 +162,7 @@
         reportStore.monthlyUmkm($_user.umkm.umkm_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
+            $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
           });
         break;
 
@@ -169,6 +170,7 @@
         reportStore.monthlyCabang($_user.cabang.cabang_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
+            $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
           });
         break;
 
@@ -218,10 +220,10 @@
     e.preventDefault();
 
     let formData = $helper.serializeObject($('#js-filter-form'));
+    console.log('HAI');
     $ui.toggleButtonLoading($('#js-filter-form'));
 
     if (formData.periode == "" || formData.periode == null) {
-
       let err = {
         response: {
           status: 401,
@@ -242,7 +244,6 @@
     $('#js-sampai_bulan').val(endMonth);
 
     getReportData(startMonth, endMonth);
-    $ui.toggleButtonLoading($('#js-filter-form'), false);
   }
 
   const detectFilterChanges = () => {
