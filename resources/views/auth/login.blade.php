@@ -28,7 +28,7 @@
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                 </div>
-                <form class="user" onsubmit="doLogin(event)">
+                <form class="user" id="js-login-form" onsubmit="doLogin(event)">
                   <div class="form-group">
                     <input type="text" class="form-control form-control-user" name="username" id="js-username" placeholder="Your Username">
                   </div>
@@ -69,6 +69,7 @@
     const payload = {
       data: data
     };
+    $ui.toggleButtonLoading($('#js-login-form'));
 
     loginStore.doLogin(payload);
   }

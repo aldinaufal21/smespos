@@ -303,6 +303,7 @@
     }
 
     let formEdit = $('#js-produk-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-produk-form'));
 
     if (formEdit) {
       payload.id = _idProduk;
@@ -311,6 +312,7 @@
           if (res.status == 200) {
             getProducts();
             $helper.resetForm($('#js-produk-form'));
+            $ui.toggleButtonLoading($('#js-produk-form'), false);
           }
         })
     } else {
@@ -319,6 +321,7 @@
           if (res.status == 201) {
             getProducts();
             $helper.resetForm($('#js-produk-form'));
+            $ui.toggleButtonLoading($('#js-produk-form'), false);
           }
         })
     }

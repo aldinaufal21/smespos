@@ -199,6 +199,7 @@
     }
 
     let formEdit = $('#js-kasir-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-kasir-form'));
 
     if (formEdit) {
       payload.id = _idKasir;
@@ -207,6 +208,7 @@
           if (res.status == 200) {
             getCashier();
             $helper.resetForm($('#js-kasir-form'));
+            $ui.toggleButtonLoading($('#js-kasir-form'), false);
           }
         })
     } else {
@@ -215,6 +217,7 @@
           if (res.status == 201) {
             getCashier();
             $helper.resetForm($('#js-kasir-form'));
+            $ui.toggleButtonLoading($('#js-kasir-form'), false);
           }
         })
     }

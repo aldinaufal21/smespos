@@ -218,6 +218,7 @@
     e.preventDefault();
 
     let formData = $helper.serializeObject($('#js-filter-form'));
+    $ui.toggleButtonLoading($('#js-filter-form'));
 
     if (formData.periode == "" || formData.periode == null) {
 
@@ -241,6 +242,7 @@
     $('#js-sampai_bulan').val(endMonth);
 
     getReportData(startMonth, endMonth);
+    $ui.toggleButtonLoading($('#js-filter-form'), false);
   }
 
   const detectFilterChanges = () => {

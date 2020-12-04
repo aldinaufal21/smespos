@@ -92,6 +92,7 @@
     e.preventDefault();
 
     var formData = new FormData($('#js-umkm-form')[0]);
+    $ui.toggleButtonLoading($('#js-umkm-form'));
 
     let payload = {
       data: formData,
@@ -101,6 +102,7 @@
       .then((res) => {
         $('#js-confirmation').val("");
         setCurrentData();
+        $ui.toggleButtonLoading($('#js-umkm-form'), false);
       });
   }
 </script>

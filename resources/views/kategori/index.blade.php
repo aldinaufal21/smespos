@@ -141,6 +141,7 @@
     }
 
     let formEdit = $('#js-kategori-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-kategori-form'));
 
     if (formEdit) {
       payload.id = _idKategori;
@@ -149,6 +150,7 @@
           if (res.status == 200) {
             getCategories();
             $helper.resetForm($('#js-kategori-form'));
+            $ui.toggleButtonLoading($('#js-kategori-form'), false);
           }
         })
     } else {
@@ -157,6 +159,7 @@
           if (res.status == 201) {
             getCategories();
             $helper.resetForm($('#js-kategori-form'));
+            $ui.toggleButtonLoading($('#js-kategori-form'), false);
           }
         })
     }
