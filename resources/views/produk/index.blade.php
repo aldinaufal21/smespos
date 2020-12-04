@@ -356,6 +356,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               productStore.destroyProduct(idProduk)
                 .then(res => {
                   $swal("Produk Berhasil Dihapus!", {

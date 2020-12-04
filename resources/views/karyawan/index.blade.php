@@ -262,6 +262,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               employeeStore.destroyEmployee(idKaryawan)
                 .then(res => {
                   $swal("Karyawan Berhasil Dihapus!", {

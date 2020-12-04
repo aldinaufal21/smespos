@@ -405,6 +405,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               if (this.continue) {
                 window.location.href = $baseURL + '/kasir/transaksi'; // reset url
               }
@@ -446,6 +447,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               this.addToPendingCart();
               this.cart = [];
               if (this.continue) {

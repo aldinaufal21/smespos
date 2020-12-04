@@ -200,6 +200,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               categoryStore.destroyCategory(idKategori)
                 .then(res => {
                   $swal("Kategori Berhasil Dihapus!", {

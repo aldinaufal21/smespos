@@ -293,6 +293,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               umkmStore.approveUmkm(umkmId)
                 .then(res => {
                   $swal("UMKM Disetujui!", {

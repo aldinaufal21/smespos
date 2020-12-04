@@ -249,6 +249,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               cashierStore.destroyCashier(idKasir)
                 .then(res => {
                   $swal("Kasir Berhasil Dihapus!", {

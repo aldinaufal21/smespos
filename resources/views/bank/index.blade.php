@@ -220,6 +220,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               bankStore.destroyBank(idBank)
                 .then(res => {
                   $swal("Bank Berhasil Dihapus!", {

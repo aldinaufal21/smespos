@@ -299,6 +299,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               branchStore.destroyBranch(idCabang)
                 .then(res => {
                   $swal("Cabang Berhasil Dihapus!", {
