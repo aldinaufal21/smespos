@@ -220,7 +220,6 @@
     e.preventDefault();
 
     let formData = $helper.serializeObject($('#js-filter-form'));
-    console.log('HAI');
     $ui.toggleButtonLoading($('#js-filter-form'));
 
     if (formData.periode == "" || formData.periode == null) {
