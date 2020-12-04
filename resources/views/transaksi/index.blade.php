@@ -217,7 +217,7 @@
         return `Transaksi ${status}`;
       }
 
-      if (_user.user.role == 'umkm') {
+      if ($_user.user.role == 'umkm') {
         if (status == 'menunggu_verifikasi') {
           return `<button type="button" class="btn btn-sm btn-primary"
             onclick="aksiVerifikasi(${idTransaksi})">
@@ -227,7 +227,7 @@
         } else {
           return 'Transaksi Sudah Terverifikasi';
         }
-      } else if (_user.user.role == 'cabang') {
+      } else if ($_user.user.role == 'cabang') {
         const statusesMakesDisabled = ['belum_bayar','menunggu_verifikasi'];
         let buttonStatus = statusesMakesDisabled.includes(status) ? 'disabled' : '';
         return `<button 
