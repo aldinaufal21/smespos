@@ -129,7 +129,7 @@
           </div>
           <div class="col-md-4 product-card" v-for="product in filteredProducts" :key="product.produk_id">
             <div class="card" style="margin-bottom:20px;">
-              <img :src="`https://loremflickr.com/320/240/snack?lock=${product.produk_id}`" class="card-img-top" alt="...">
+              <img :src="product.gambar_produk" class="card-img-top" alt="..." style="height:120px;">
               <div class="card-body center">
                 <center>
                 <h6 class="card-title" v-text="product.nama_produk"></h6>

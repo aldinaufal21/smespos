@@ -99,6 +99,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/', 'TransaksiKasirController@index')->name('kasir');
         Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');
         Route::get('/transaksi-pending', 'TransaksiKasirController@pendingTransaction')->name('kasir.pending');
+        Route::get('/transaksi-harian', 'TransaksiKasirController@dailyTransaction')->name('kasir.daily');
     });
 
     Route::group(['prefix' => 'report'], function () {

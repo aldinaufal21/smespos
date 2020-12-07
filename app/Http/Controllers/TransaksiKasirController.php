@@ -32,4 +32,9 @@ class TransaksiKasirController extends Controller
         return view('kasir.pending_transaction');
     }
 
+    public function dailyTransaction()
+    {
+        return view('kasir.daily_transaction');
+    }
+
 }

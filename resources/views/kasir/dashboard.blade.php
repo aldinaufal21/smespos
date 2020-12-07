@@ -65,8 +65,10 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Transaksi</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">23</div>
+                <a href="{{ route('kasir.daily') }}" style="text-decoration: none;">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Transaksi Hari ini</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800" v-text="dailyTransactions.length"></div>
+                </a>
               </div>
               <div class="col-auto">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -77,13 +79,13 @@
       </div>
 
       <!-- Earnings (Monthly) Card Example -->
-      <div class="col-xl-4 col-md-12 mb-4">
+      {{-- <div class="col-xl-4 col-md-12 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Income</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp 215,000</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -91,7 +93,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- Earnings (Monthly) Card Example -->
       <div class="col-xl-4 col-md-12 mb-4">
@@ -99,7 +101,7 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <a href="/kasir/transaksi-pending" style="text-decoration: none;">
+                <a href="{{ route('kasir.pending') }}" style="text-decoration: none;">
                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Transaksi Pending</div>
                   <div class="h5 mb-0 font-weight-bold text-gray-800" v-text="pendingTransaction.length"></div>
                 </a>
@@ -129,7 +131,8 @@
     data(){
       return {
         userData: user,
-        pendingTransaction: []
+        pendingTransaction: [],
+        dailyTransactions: []
       }
     },
 
@@ -137,6 +140,7 @@
       //do something after mounting vue instance
       console.log(this.userData);
       this.pendingTransaction = pendingTransaction.getAll();
+      this.getDailyTransactions();
     },
 
     methods: {
@@ -157,6 +161,7 @@
       tutupKasir(){
         $swal({
           title: 'Apakah yakin ingin menutup kasir?',
+          text: 'Pastikan jumlah transaksi pada sistem sesuai.',
           buttons: true,
           dangerMode: true,
         }).then((answer)=>{
@@ -167,6 +172,16 @@
               sesi_kasir_id: this.userData.sesi_kasir.sesi_kasir_id
             })
           }
+        });
+      },
+
+      getDailyTransactions(){
+        axios.get('kasir/daily-reports/?kasir_id=' + this.userData.kasir.kasir_id).then((res)=>{
+          console.log(res);
+          this.dailyTransactions = res.data;
+        }).catch((err)=>{
+          console.log(err);
+          $ui.errorModal(err);
         });
       },
     }
