@@ -159,6 +159,7 @@
     }
 
     let formEdit = $('#js-bank-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-bank-form'));
 
     if (formEdit) {
       payload.id = _idBank;
@@ -167,6 +168,7 @@
           if (res.status == 200) {
             getBanks();
             $helper.resetForm($('#js-bank-form'));
+            $ui.toggleButtonLoading($('#js-bank-form'), false);
           }
         })
     } else {
@@ -175,6 +177,7 @@
           if (res.status == 201) {
             getBanks();
             $helper.resetForm($('#js-bank-form'));
+            $ui.toggleButtonLoading($('#js-bank-form'), false);
           }
         })
     }
@@ -217,6 +220,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               bankStore.destroyBank(idBank)
                 .then(res => {
                   $swal("Bank Berhasil Dihapus!", {

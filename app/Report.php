@@ -57,6 +57,7 @@ class Report extends Model
                                 tk.tanggal_transaksi AS tanggal_transaksi
                             FROM transaksi_konsumen_details tkd 
                             JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id 
+                            WHERE tk.status != 'dibatalkan'
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                         )
                     ) y
@@ -137,6 +138,7 @@ class Report extends Model
                             FROM transaksi_konsumen_details tkd 
                             JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id  
                             WHERE tk.cabang_id = $cabangId
+                            AND tk.status != 'dibatalkan'
                             GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                         )
                     ) y
@@ -211,6 +213,7 @@ class Report extends Model
                             tk.tanggal_transaksi AS tanggal_transaksi
                         FROM transaksi_konsumen_details tkd 
                         JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id 
+                        WHERE tk.status != 'dibatalkan'
                         GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                     )
                 ) y
@@ -290,6 +293,7 @@ class Report extends Model
                         FROM transaksi_konsumen_details tkd 
                         JOIN transaksi_konsumens tk  ON tk.transaksi_konsumen_id = tkd.transaksi_konsumen_id  
                         WHERE tk.cabang_id = $cabangId
+                        AND tk.status != 'dibatalkan'
                         GROUP BY DATE(tk.tanggal_transaksi), tkd.produk_id
                     )
                 ) y

@@ -73,6 +73,7 @@
     e.preventDefault();
 
     let formData = $helper.serializeObject($('#js-user-form'));
+    $ui.toggleButtonLoading($('#js-user-form'));
 
     let payload = {
       data: formData,
@@ -82,6 +83,7 @@
       .then(res => {
         if (res.status == 200) {
           $helper.resetForm($('#js-user-form'));
+          $ui.toggleButtonLoading($('#js-user-form'), false);
         }
       })
   }

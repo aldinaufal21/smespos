@@ -246,6 +246,7 @@
     }
 
     let formEdit = $('#js-cabang-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-cabang-form'));
 
     if (formEdit) {
       payload.id = _idCabang;
@@ -254,6 +255,7 @@
           if (res.status == 200) {
             getBranch();
             $helper.resetForm($('#js-cabang-form'));
+            $ui.toggleButtonLoading($('#js-cabang-form'), false);
           }
         })
     } else {
@@ -262,6 +264,7 @@
           if (res.status == 201) {
             getBranch();
             $helper.resetForm($('#js-cabang-form'));
+            $ui.toggleButtonLoading($('#js-cabang-form'), false);
           }
         })
     }
@@ -296,6 +299,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               branchStore.destroyBranch(idCabang)
                 .then(res => {
                   $swal("Cabang Berhasil Dihapus!", {

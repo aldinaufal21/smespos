@@ -211,6 +211,7 @@
     }
 
     let formEdit = $('#js-karyawan-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-karyawan-form'));
 
     if (formEdit) {
       payload.id = _idKaryawan;
@@ -219,6 +220,7 @@
           if (res.status == 200) {
             getEmployee();
             $helper.resetForm($('#js-karyawan-form'));
+            $ui.toggleButtonLoading($('#js-karyawan-form'), false);
           }
         })
     } else {
@@ -227,6 +229,7 @@
           if (res.status == 201) {
             getEmployee();
             $helper.resetForm($('#js-karyawan-form'));
+            $ui.toggleButtonLoading($('#js-karyawan-form'), false);
           }
         })
     }
@@ -259,6 +262,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               employeeStore.destroyEmployee(idKaryawan)
                 .then(res => {
                   $swal("Karyawan Berhasil Dihapus!", {

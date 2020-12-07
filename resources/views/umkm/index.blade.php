@@ -267,12 +267,14 @@
     }
 
     let formEdit = $('#js-umkm-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-umkm-form'));
 
     umkmStore.addUmkm(payload)
       .then(res => {
         if (res.status == 201) {
           getApprovedUmkm();
-            $helper.resetForm($('#js-umkm-form'));
+          $helper.resetForm($('#js-umkm-form'));
+          $ui.toggleButtonLoading($('#js-umkm-form'), false);
         }
       })
   }
@@ -291,6 +293,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               umkmStore.approveUmkm(umkmId)
                 .then(res => {
                   $swal("UMKM Disetujui!", {

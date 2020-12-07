@@ -1,3 +1,5 @@
+let $__buttonText = "";
+
 exports.errorModal = (err = null) => {
 
   if (err == null) {
@@ -49,4 +51,33 @@ exports.errorModal = (err = null) => {
       text: errorData,
     });
   }
+  
+  $ui.toggleButtonLoading(null, false);
+}
+
+exports.toggleButtonLoading = (form = null, loadingStatus = true, defaultButtonText = null) => {
+  if (form == null) {
+    let formSubmitButton = $('form').find('button[type="submit"]');
+    formSubmitButton.prop('disabled', false);
+    formSubmitButton.text($__buttonText);
+    return;
+  }
+
+  let submitButton = form.find('button[type="submit"]');
+  let html = `
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Memproses...
+  `;
+
+  $__buttonText = submitButton.text();
+  let setButtonText = defaultButtonText ? defaultButtonText : $__buttonText;
+
+  if (loadingStatus) {
+    submitButton.prop('disabled', true);
+    submitButton.html(html);
+  } else {
+    submitButton.prop('disabled', false);
+    submitButton.text(setButtonText);
+  }
+  return;
 }

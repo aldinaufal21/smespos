@@ -262,6 +262,7 @@
     }
 
     let formEdit = $('#js-stok-opname-produk-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-stok-opname-produk-form'));
 
     if (formEdit) {
       payload.id = _idStokOpname;
@@ -273,6 +274,7 @@
           if (res.status == 200) {
             showProdukStockOpname(data.produk_id);
             $helper.resetForm($('#js-stok-opname-produk-form'));
+            $ui.toggleButtonLoading($('#js-stok-opname-produk-form'), false);
           }
         })
     } else {
@@ -282,6 +284,7 @@
           if (res.status == 201) {
             showProdukStockOpname(data.produk_id);
             $helper.resetForm($('#js-stok-opname-produk-form'));
+            $ui.toggleButtonLoading($('#js-stok-opname-produk-form'), false);
           }
         })
     }

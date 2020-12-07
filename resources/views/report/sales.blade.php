@@ -99,20 +99,20 @@
   let downloadButton = null;
 
   $(document).ready(() => {
-    $('#js-role').val(_user.user.role);
+    $('#js-role').val($_user.user.role);
 
     let shouldStartDate = null;
 
-    switch (_user.user.role) {
+    switch ($_user.user.role) {
       case 'umkm':
-        shouldStartDate = _user.umkm.tanggal_bergabung;
-        $('#js-id_umkm').val(_user.umkm.umkm_id);
+        shouldStartDate = $_user.umkm.tanggal_bergabung;
+        $('#js-id_umkm').val($_user.umkm.umkm_id);
         break;
 
       case 'cabang':
-        shouldStartDate = _user.user.created_at;
-        $('#js-id_umkm').val(_user.cabang.umkm_id);
-        $('#js-id_cabang').val(_user.cabang.cabang_id);
+        shouldStartDate = $_user.user.created_at;
+        $('#js-id_umkm').val($_user.cabang.umkm_id);
+        $('#js-id_cabang').val($_user.cabang.cabang_id);
         break;
 
       default:
@@ -155,20 +155,22 @@
   }
 
   const getReportData = (startMonth = null, endMonth = null) => {
-    let role = _user.user.role;
+    let role = $_user.user.role;
 
     switch (role) {
       case 'umkm':
-        reportStore.monthlyUmkm(_user.umkm.umkm_id, startMonth, endMonth)
+        reportStore.monthlyUmkm($_user.umkm.umkm_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
+            $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
           });
         break;
 
       case 'cabang':
-        reportStore.monthlyCabang(_user.cabang.cabang_id, startMonth, endMonth)
+        reportStore.monthlyCabang($_user.cabang.cabang_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
+            $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
           });
         break;
 
@@ -218,9 +220,9 @@
     e.preventDefault();
 
     let formData = $helper.serializeObject($('#js-filter-form'));
+    $ui.toggleButtonLoading($('#js-filter-form'));
 
     if (formData.periode == "" || formData.periode == null) {
-
       let err = {
         response: {
           status: 401,

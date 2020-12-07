@@ -73,9 +73,10 @@
   <script>
     $auth.needAuthentication();
 
-    let _user = $auth.userCredentials();
+    let $_user = $auth.userCredentials();
+
     $('.nav-cabang, .nav-pemilik, .nav-pengelola, .nav-umkm, .nav-kasir').hide();
-    switch (_user.user.role) {
+    switch ($_user.user.role) {
       case 'kasir':
         $('.nav-kasir').show();
         break;
@@ -93,7 +94,7 @@
         break;
     }
 
-    $('#js-usersname-display').text(_user.user.username);
+    $('#js-usersname-display').text($_user.user.username);
 
     const logoutOperation = () => {
       // localStorage.clear();

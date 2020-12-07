@@ -118,6 +118,7 @@
       })
       .then((willDelete) => {
         if (willDelete) {
+          $swal("Mohon tunggu...");
           pendingTransaction.remove(id);
           getPendingTransactions();
         }

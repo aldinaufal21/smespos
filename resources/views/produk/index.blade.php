@@ -303,6 +303,7 @@
     }
 
     let formEdit = $('#js-produk-form').attr('data-edit');
+    $ui.toggleButtonLoading($('#js-produk-form'));
 
     if (formEdit) {
       payload.id = _idProduk;
@@ -311,6 +312,7 @@
           if (res.status == 200) {
             getProducts();
             $helper.resetForm($('#js-produk-form'));
+            $ui.toggleButtonLoading($('#js-produk-form'), false);
           }
         })
     } else {
@@ -319,6 +321,7 @@
           if (res.status == 201) {
             getProducts();
             $helper.resetForm($('#js-produk-form'));
+            $ui.toggleButtonLoading($('#js-produk-form'), false);
           }
         })
     }
@@ -353,6 +356,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+              $swal("Mohon tunggu...");
               productStore.destroyProduct(idProduk)
                 .then(res => {
                   $swal("Produk Berhasil Dihapus!", {
@@ -443,10 +447,10 @@
   const getProducts = () => {
     let idUmkm = null, idCabang = null;
     
-    if (_user.user.role == 'umkm') {
-      idUmkm = _user.umkm.umkm_id;
-    } else if (_user.user.role == 'cabang') {
-      idCabang = _user.cabang.cabang_id;
+    if ($_user.user.role == 'umkm') {
+      idUmkm = $_user.umkm.umkm_id;
+    } else if ($_user.user.role == 'cabang') {
+      idCabang = $_user.cabang.cabang_id;
     }
 
     productStore.UmkmsProduct(idUmkm, idCabang).then((res) => {

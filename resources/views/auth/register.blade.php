@@ -84,21 +84,6 @@
 
 @section('extra_script')
 <script>
-  const doLogin = (e) => {
-    e.preventDefault();
-
-    let data = {
-      username: $('#js-username').val(),
-      password: $('#js-password').val(),
-    };
-
-    const payload = {
-      data: data
-    };
-
-    loginStore.doLogin(payload);
-  }
-  
   const umkmRegis = (e) => {
     e.preventDefault();
 
@@ -108,7 +93,7 @@
       data: formData,
     }
 
-    console.log(payload.data);
+    $ui.toggleButtonLoading($('#js-umkm-regis-form'));
 
     registrationStore.umkm(payload);
   }
