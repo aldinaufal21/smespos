@@ -5,7 +5,23 @@
 @section('extra_head')
 <!-- Custom styles for this page -->
 <style media="screen">
-
+  .slider-blur {
+    display: block;
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+    z-index: 1;
+  }
+  .hero-slider-content {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-slider-content > h1, .hero-slider-content > h2 {
+    color: #f5f5f3;
+  }
 </style>
 @endsection
 
@@ -18,7 +34,8 @@
               <!-- single slider item start -->
               <div class="hero-single-slide " v-for="i in 5">
                   <div class="hero-slider-item_3 bg-img" :data-bg="`konsumen_assets/img/banner/banner${i}.jpg`">
-                      <div class="container">
+                      <div class="slider-blur"></div>
+                      <div class="container ">
                           <div class="row">
                               <div class="col-md-12">
                                   <div class="hero-slider-content slide-1">
