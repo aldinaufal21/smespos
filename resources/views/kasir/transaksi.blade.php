@@ -405,12 +405,17 @@
           })
           .then((willDelete) => {
             if (willDelete) {
-              $swal("Mohon tunggu...");
+              // $swal("Mohon tunggu...");
               if (this.continue) {
                 window.location.href = $baseURL + '/kasir/transaksi'; // reset url
               }
 
               this.cart = [];
+              
+              swal({
+                icon: "success",
+                title: "Berhasil"
+              });
             }
           });
       },
@@ -447,9 +452,10 @@
           })
           .then((willDelete) => {
             if (willDelete) {
-              $swal("Mohon tunggu...");
+              // $swal("Mohon tunggu...");
               this.addToPendingCart();
-              this.cart = [];
+              // this.cart = [];
+              this.resetKasir();
               if (this.continue) {
                 // reset url
                 window.location.href = $baseURL + '/kasir/transaksi';
@@ -474,6 +480,11 @@
         };
 
         pendingTransaction.store(payload);
+
+        swal({
+          icon: "success",
+          title: "Berhasil"
+        });
       },
 
       changeTab(id_kategori){

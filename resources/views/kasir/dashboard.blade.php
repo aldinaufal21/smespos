@@ -30,7 +30,7 @@
           <p>Hi <b v-text="userData.kasir.nama_kasir"></b>,</p>
           <div class="row">
             <div class="col-md-6">
-              <img width="100%" class="rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+              <img width="250px" class="rounded-circle" src="https://images.unsplash.com/photo-1602665742701-389671bc40c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
             </div>
             <div class="col-md-6">
               <p>Nama Toko: <b v-text="userData.cabang.nama_cabang"></b></p>
@@ -52,6 +52,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-6">
+        <button id="install-button" class="d-none d-sm-inline-block btn btn-lg btn-info shadow-sm" type="button"> <i class="fa fa-plus"></i> Install Aplikasi</button>
       </div>
     </div>
     <br>
@@ -126,6 +129,10 @@
   console.log($baseURL);
   var user = $auth.userCredentials();
 
+  document.addEventListener("DOMContentLoaded", function(event) {
+    registerSW();
+  });
+
   var vue_dashboard_kasir = new Vue({
     el: '#kasir-dashboard-content',
     data(){
@@ -186,6 +193,43 @@
       },
     }
   });
+
+  function registerSW() {
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+               .register('sw.js')
+               .then(function() { console.log('Service Worker Registered'); });
+    }
+
+    let deferredPrompt;
+    const addBtn = $('#install-button');
+    addBtn.hide();
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+        addBtn.show();
+
+        addBtn.on('click', (e) => {
+          // hide our user interface that shows our A2HS button
+          addBtn.hide();
+          // Show the prompt
+          deferredPrompt.prompt();
+          // Wait for the user to respond to the prompt
+          deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+        });
+      });
+  }
 
 </script>
 @endsection
