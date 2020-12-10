@@ -18,7 +18,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Dashboard Kasir</h1>
       <br>
-      {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
+      <button type="button" class="d-none d-sm-inline-block btn btn-lg btn-info shadow-sm" id="tes"> <i class="fa fa-plus-circle"></i> Add to home screen</button>
     </div>
 
     <div class="row">
@@ -52,9 +52,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <button id="install-button" class="d-none d-sm-inline-block btn btn-lg btn-info shadow-sm" type="button"> <i class="fa fa-plus"></i> Install Aplikasi</button>
       </div>
     </div>
     <br>
@@ -126,7 +123,7 @@
 
 <script>
   $auth.needRole(['kasir']);
-  console.log($baseURL);
+  // console.log($baseURL);
   var user = $auth.userCredentials();
 
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -145,7 +142,7 @@
 
     mounted() {
       //do something after mounting vue instance
-      console.log(this.userData);
+      // console.log(this.userData);
       this.pendingTransaction = pendingTransaction.getAll();
       this.getDailyTransactions();
     },
@@ -184,7 +181,7 @@
 
       getDailyTransactions(){
         axios.get('kasir/daily-reports/?kasir_id=' + this.userData.kasir.kasir_id).then((res)=>{
-          console.log(res);
+          // console.log(res);
           this.dailyTransactions = res.data;
         }).catch((err)=>{
           console.log(err);
@@ -197,13 +194,13 @@
   function registerSW() {
     if('serviceWorker' in navigator) {
       navigator.serviceWorker
-               .register('sw.js')
+               .register($baseURL + '/../sw.js')
                .then(function() { console.log('Service Worker Registered'); });
     }
 
     let deferredPrompt;
-    const addBtn = $('#install-button');
-    addBtn.hide();
+    const addBtn = document.querySelector('#tes');
+    addBtn.style.setProperty("display", "none", "important");
 
     window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -211,11 +208,12 @@
         // Stash the event so it can be triggered later.
         deferredPrompt = e;
         // Update UI to notify the user they can add to home screen
-        addBtn.show();
+        addBtn.style.setProperty("display", "block", "important");
 
-        addBtn.on('click', (e) => {
+        addBtn.addEventListener('click', (e) => {
           // hide our user interface that shows our A2HS button
-          addBtn.hide();
+
+          addBtn.style.setProperty("display", "none", "important");
           // Show the prompt
           deferredPrompt.prompt();
           // Wait for the user to respond to the prompt
