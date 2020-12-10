@@ -144,10 +144,59 @@ class KasirTransactionController extends Controller
       return response()->json("Tutup kasir berhasil", 201);
     }
 
+    public function dailyReport(Request $request){
+      $requestData = $request->all();
+
+      $validator = Validator::make($requestData, [
+          'kasir_id' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+          return response()->json([
+              'errors' => $validator->errors()->all()
+          ], 400);
+      }
+
+      $id_kasir = $requestData['kasir_id'];
+
+      $data = DB::select("SELECT * FROM `transaksi_kasirs`
+                          WHERE tanggal_transaksi > (SELECT min(waktu_mulai) FROM sesi_kasirs
+                                                    WHERE kasir_id = $id_kasir AND waktu_selesai IS null)
+                          AND kasir_id = $id_kasir");
+
+      return response()->json($data, 200);
+    }
+
+    public function detail(Request $request){
+      $requestData = $request->all();
+
+      $validator = Validator::make($requestData, [
+          'transaksi_kasir_id' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+          return response()->json([
+              'errors' => $validator->errors()->all()
+          ], 400);
+      }
+
+      $id_transaksi = $requestData['transaksi_kasir_id'];
+
+      $transaksi = TransaksiKasir::where('transaksi_kasir_id', $id_transaksi)->first();
+      $produk = TransaksiKasirDetail::join('produks','transaksi_kasir_details.produk_id', '=', 'produks.produk_id')
+                                      ->where('transaksi_kasir_id', $id_transaksi)->get();
+
+      return response()->json($produk, 200);
+    }
+
     public function testQuery(){
-      $data = TransaksiKasir::where('transaksi_kasir_id', 20)->first();
+      // $data = TransaksiKasir::where('transaksi_kasir_id', 20)->first();
       // $data = Kasir::where('kasir_id', 1)->first()->cabang()->first();
       // $data = TransaksiKasirDetail::join('produks','transaksi_kasir_details.produk_id', '=', 'produks.produk_id')->where('transaksi_kasir_id', 20)->get();
+      $data = DB::select("SELECT * FROM `transaksi_kasirs`
+                          WHERE tanggal_transaksi > (SELECT min(waktu_mulai) FROM sesi_kasirs
+                                                    WHERE kasir_id = 1 AND waktu_selesai IS null)
+                          AND kasir_id = 1");
       print_r($data);
     }
 

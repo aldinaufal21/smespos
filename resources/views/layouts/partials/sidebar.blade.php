@@ -29,20 +29,25 @@
   </div> --}}
 
   <!-- Kasir start -->
-  <li class="nav-item nav-kasir {{ (Request::segment(1)=='kasir'&&Request::segment(2)=='')?'active':'' }}">
+  <li class="nav-item nav-kasir {{ (Request::segment(2)=='kasir'&&Request::segment(3)=='')?'active':'' }}">
     <a class="nav-link" href="{{ route('kasir') }}">
       <i class="fas fa-fw fa-cog"></i>
       <span>Dashboard</span></a>
   </li>
-  <li class="nav-item nav-kasir {{ (Request::segment(2)=='transaksi')?'active':'' }}">
+  <li class="nav-item nav-kasir {{ (Request::segment(3)=='transaksi')?'active':'' }}">
     <a class="nav-link" href="{{ route('kasir.transaksi') }}">
       <i class="fas fa-fw fa-credit-card"></i>
-      <span>Kelola Transaksi</span></a>
+      <span>Kasir</span></a>
   </li>
-  <li class="nav-item nav-kasir {{ (Request::segment(2)=='transaksi-pending')?'active':'' }}">
+  <li class="nav-item nav-kasir {{ (Request::segment(3)=='transaksi-pending')?'active':'' }}">
     <a class="nav-link" href="{{ route('kasir.pending') }}">
-      <i class="fas fa-fw fa-credit-card-alt"></i>
+      <i class="fas fa-fw fa-credit-card"></i>
       <span>Transaksi Pending</span></a>
+  </li>
+  <li class="nav-item nav-kasir {{ (Request::segment(3)=='transaksi-harian')?'active':'' }}">
+    <a class="nav-link" href="{{ route('kasir.daily') }}">
+      <i class="fas fa-fw fa-credit-card"></i>
+      <span>List Transaksi Harian</span></a>
   </li>
   <!-- Kasir end -->
 
