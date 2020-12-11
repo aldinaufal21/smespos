@@ -46,7 +46,7 @@ exports.detailUmkm = (id) => {
 }
 
 exports.updateUmkm = ({ data }) => {
-  return axios.post('/umkm/profile/edit/', data)
+  return axios.post('/umkm/profile/edit', data)
     .then((res) => {
       $swal({
         icon: 'success',
