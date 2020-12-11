@@ -18,7 +18,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Dashboard Kasir</h1>
       <br>
-      {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
+      <button type="button" class="d-none d-sm-inline-block btn btn-lg btn-info shadow-sm" id="tes"> <i class="fa fa-plus-circle"></i> Add to home screen</button>
     </div>
 
     <div class="row">
@@ -30,7 +30,7 @@
           <p>Hi <b v-text="userData.kasir.nama_kasir"></b>,</p>
           <div class="row">
             <div class="col-md-6">
-              <img width="100%" class="rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+              <img width="250px" class="rounded-circle" src="https://images.unsplash.com/photo-1602665742701-389671bc40c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
             </div>
             <div class="col-md-6">
               <p>Nama Toko: <b v-text="userData.cabang.nama_cabang"></b></p>
@@ -123,8 +123,12 @@
 
 <script>
   $auth.needRole(['kasir']);
-  console.log($baseURL);
+  // console.log($baseURL);
   var user = $auth.userCredentials();
+
+  document.addEventListener("DOMContentLoaded", function(event) {
+    registerSW();
+  });
 
   var vue_dashboard_kasir = new Vue({
     el: '#kasir-dashboard-content',
@@ -138,7 +142,7 @@
 
     mounted() {
       //do something after mounting vue instance
-      console.log(this.userData);
+      // console.log(this.userData);
       this.pendingTransaction = pendingTransaction.getAll();
       this.getDailyTransactions();
     },
@@ -177,7 +181,7 @@
 
       getDailyTransactions(){
         axios.get('kasir/daily-reports/?kasir_id=' + this.userData.kasir.kasir_id).then((res)=>{
-          console.log(res);
+          // console.log(res);
           this.dailyTransactions = res.data;
         }).catch((err)=>{
           console.log(err);
@@ -186,6 +190,44 @@
       },
     }
   });
+
+  function registerSW() {
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+               .register($baseURL + '/../sw.js')
+               .then(function() { console.log('Service Worker Registered'); });
+    }
+
+    let deferredPrompt;
+    const addBtn = document.querySelector('#tes');
+    addBtn.style.setProperty("display", "none", "important");
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+        addBtn.style.setProperty("display", "block", "important");
+
+        addBtn.addEventListener('click', (e) => {
+          // hide our user interface that shows our A2HS button
+
+          addBtn.style.setProperty("display", "none", "important");
+          // Show the prompt
+          deferredPrompt.prompt();
+          // Wait for the user to respond to the prompt
+          deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+        });
+      });
+  }
 
 </script>
 @endsection

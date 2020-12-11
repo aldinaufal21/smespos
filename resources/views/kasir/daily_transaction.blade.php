@@ -19,12 +19,16 @@
       <h6 class="m-0 font-weight-bold text-primary">Kasir</h6>
     </div>
     <div class="card-body">
-      <h4 id="js-resume-header" style="display:none;">
-        <mark>
-          Total transaksi mulai tanggal <span id="js-tanggal-mulai"></span> - sekarang
-           adalah Rp <span id="js-total-header"></span>
-        </mark>
-      </h4>
+		<div id="js-resume-header" style="display:none;">
+			<p>
+				<mark>
+				  *Total transaksi mulai tanggal <span id="js-tanggal-mulai"></span> - sekarang
+				   adalah :
+				</mark>
+			  </p>
+			<h2>Rp <span id="js-total-header"></span></h2>
+		</div>
+
       <br>
       <div class="table-responsive">
         <table class="table table-bordered" id="js-tabel-pending" width="100%" cellspacing="0">

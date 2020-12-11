@@ -1,0 +1,16 @@
+{
+  "background_color": "#4e73df",
+  "description": "Aplikasi SMEs POS.",
+  "display": "standalone",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "/img/logo1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "SMEs POS",
+  "short_name": "SMEs POS",
+  "start_url": "/admin/kasir"
+}
