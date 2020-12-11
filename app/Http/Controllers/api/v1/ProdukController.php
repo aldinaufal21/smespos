@@ -41,7 +41,7 @@ class ProdukController extends Controller
     }
 
     public function getProductByCabang(Request $request){
-        $cabangId = $request->id_cabang;
+        $cabangId = $request->cabang_id;
 
         $produk = Produk::getProductByQueryCabang(null, null, null, $cabangId);
         return response()->json($produk, 200);
