@@ -99,7 +99,7 @@ class CabangController extends Controller
                 'password' => 'confirmed',
                 'nama_cabang' => 'string|max:255',
                 'alamat_cabang' => 'string|max:255',
-                'kode_cabang' => 'string|max:255|unique:cabangs',
+                'kode_cabang' => 'string|max:255',
                 'jumlah_karyawan' => 'string|max:255',
             ]);
     

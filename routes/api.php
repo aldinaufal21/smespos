@@ -44,7 +44,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::get('/', 'api\v1\UmkmController@index');
 
             Route::group(['middleware' => ['role:umkm']], function () {
-                Route::post('profile/edit/', 'api\v1\UmkmController@update');
+                Route::post('profile/edit', 'api\v1\UmkmController@update');
             });
 
             Route::group(['middleware' => ['role:pengelola']], function () {
