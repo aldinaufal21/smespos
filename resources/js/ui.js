@@ -55,29 +55,29 @@ exports.errorModal = (err = null) => {
   $ui.toggleButtonLoading(null, false);
 }
 
-exports.toggleButtonLoading = (form = null, loadingStatus = true, defaultButtonText = null) => {
+exports.toggleButtonLoading = (form = null, loadingStatus = true) => {
+  let html = `<span 
+                class="spinner-border spinner-border-sm loading-spinner" 
+                role="status" 
+                aria-hidden="true" 
+                style="vertical-align: middle; margin-right: 5px;"
+              ></span>`;
+  
   if (form == null) {
     let formSubmitButton = $('form').find('button[type="submit"]');
     formSubmitButton.prop('disabled', false);
-    formSubmitButton.text($__buttonText);
+    $(".loading-spinner").remove();
     return;
   }
 
   let submitButton = form.find('button[type="submit"]');
-  let html = `
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Memproses...
-  `;
-
-  $__buttonText = submitButton.text();
-  let setButtonText = defaultButtonText ? defaultButtonText : $__buttonText;
 
   if (loadingStatus) {
     submitButton.prop('disabled', true);
-    submitButton.html(html);
+    submitButton.prepend(html);
   } else {
     submitButton.prop('disabled', false);
-    submitButton.text(setButtonText);
+    $(".loading-spinner").remove();
   }
   return;
 }

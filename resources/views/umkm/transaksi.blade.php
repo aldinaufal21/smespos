@@ -302,7 +302,7 @@
     reportStore.monthlyUmkm(umkmId, startMonth, endMonth)
       .then((res) => {
         showReports(res.data);
-        $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
+        $ui.toggleButtonLoading($('#js-filter-form'), false);
       });
   }
 

@@ -29,9 +29,9 @@
             </div>
             <hr>
             <div class="form-group">
-              <label class="control-label">Username Baru</label>
+              <label class="control-label">Username</label>
               <div>
-                <input type="text" class="form-control input-lg" name="username" id="js-username-user" placeholder="Username Baru">
+                <input type="text" class="form-control input-lg" name="username" id="js-username-user" placeholder="Username Baru" disabled>
               </div>
             </div>
             <div class="form-group">
@@ -67,6 +67,7 @@
 
   $(document).ready(() => {
     user = $auth.userCredentials(); // get user credentials
+    $('#js-username-user').val(user.user.username);
   });
 
   const userFormAction = (e) => {

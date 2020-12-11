@@ -162,7 +162,7 @@
         reportStore.monthlyUmkm($_user.umkm.umkm_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
-            $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
+            $ui.toggleButtonLoading($('#js-filter-form'), false);
           });
         break;
 
@@ -170,7 +170,7 @@
         reportStore.monthlyCabang($_user.cabang.cabang_id, startMonth, endMonth)
           .then((res) => {
             showReports(res.data);
-            $ui.toggleButtonLoading($('#js-filter-form'), false, 'Filter');
+            $ui.toggleButtonLoading($('#js-filter-form'), false);
           });
         break;
 
