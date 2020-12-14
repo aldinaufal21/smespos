@@ -37,14 +37,7 @@
         <div class="card-body">
           <form role="form" id="js-filter-form" onsubmit="filterReport(event)">
             <div class="input-group mb-3">
-              <input 
-                type="text"
-                name="periode" 
-                class="form-control js-month-datepicker" 
-                placeholder="Periode" 
-                aria-label="Periode" 
-                aria-describedby="calendar-addon" 
-                readonly>
+              <input type="text" name="periode" class="form-control js-month-datepicker" placeholder="Periode" aria-label="Periode" aria-describedby="calendar-addon" readonly>
               <div class="input-group-append">
                 <span class="input-group-text" id="calendar-addon"><i class="fas fa-calendar-alt"></i></span>
               </div>
@@ -81,6 +74,14 @@
           <div class="table-responsive">
             <table class="table" id="js-report-table" class="display" style="width:100%"></table>
           </div>
+        </div>
+      </div>
+      <div class="card shadow mb-4" id="js-total-pendapatan-card" style="display: none;">
+        <div class="card-body">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4 float-right">
+            <span id="js-pendapatan-bulan"></span>
+          </div>
+          Total Pendapatan Bulan <span id="js-teks-pendapatan-bulan"></span>
         </div>
       </div>
     </div>
@@ -141,13 +142,13 @@
         dom: "Bfrtip",
         data: rows,
         columns: columns,
-        scrollY: "300px",
+        scrollY: "500px",
         scrollX: true,
         scrollCollapse: true,
         paging: false,
-        fixedColumns: {
-          leftColumns: 1,
-          rightColumns: 1
+        fixedHeader: {
+          header: true,
+          footer: true
         },
         retrieve: true,
       });
@@ -182,38 +183,45 @@
   const showReports = (data) => {
     let columns = [];
     let body = [];
+    let totalPendapatan = 0;
 
     // initiate left header
     columns.push({
       'title': "Produk"
     });
 
-    data.bulan.forEach(item => {
-      columns.push({
-        'title': item
-      });
+    columns.push({
+      'title': "Terjual"
+    });
+
+    columns.push({
+      'title': "Pendapatan"
     });
 
     data.report_data.forEach(item => {
       let arr = [];
-      arr.push(item.produk.nama_produk);
 
       item.report.forEach(reportItem => {
         if (reportItem.data) {
+          arr.push(item.produk.nama_produk);
           arr.push(reportItem.data.jumlah);
-        } else {
-          arr.push(0);
+          arr.push(`Rp. ${$helper.rupiahFormat(reportItem.data.jumlah * item.produk.harga)}`);
+          body.push(arr);
+          totalPendapatan += reportItem.data.jumlah * item.produk.harga;
         }
       });
-      body.push(arr);
     });
-
 
     if (reportTable) {
       reportTable.clear().destroy();
       $('#js-report-table').empty();
     }
     initDataTable(columns, body);
+
+    // show total income
+    $('#js-pendapatan-bulan').text(`Rp. ${$helper.rupiahFormat(totalPendapatan)}`);
+    $('#js-teks-pendapatan-bulan').text(data.bulan[0]);
+    $('#js-total-pendapatan-card').show();
   }
 
   const filterReport = (e) => {
