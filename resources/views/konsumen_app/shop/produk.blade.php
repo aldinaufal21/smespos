@@ -203,7 +203,7 @@
                     </figure>
                     <div class="product-caption">
                       <p class="product-name">
-                        <a href="product-details.html" v-text="produk.nama_produk"></a>
+                        <a href="javascript:void(0)" @click="showProductDetail(produk.produk_id)" v-text="produk.nama_produk"></a>
                       </p>
                       <div class="price-box">
                         <span class="price-regular">Rp. @{{ rupiahFormat(produk.harga) }}</span>
@@ -221,7 +221,7 @@
                       </a>
                     </figure>
                     <div class="product-content-list">
-                      <h5 class="product-name"><a href="#" v-text="produk.nama_produk"></a></h5>
+                      <h5 class="product-name"><a href="javascript:void(0)" @click="showProductDetail(produk.produk_id)" v-text="produk.nama_produk"></a></h5>
                       <p v-text="produk.deskripsi_produk"></p>
                       <div class="button-group-list">
                         <a @click="addToCart(produk.produk_id)" class="btn-big" href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Add to Cart">
