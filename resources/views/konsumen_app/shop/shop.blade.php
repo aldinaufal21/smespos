@@ -116,7 +116,7 @@
                         <a href="#" data-target="list-view" data-toggle="tooltip" title="List View"><i class="fa fa-list"></i></a>
                       </div>
                       <div class="product-amount">
-                        <p>Showing 1–5 of 8 results</p>
+                        <p>Showing @{{ umkm.length }} results</p>
                       </div>
                     </div>
                   </div>
@@ -156,7 +156,7 @@
                     </figure>
                     <div class="product-caption">
                       <p class="product-name">
-                        <a href="product-details.html" v-text="elem.umkm.nama_umkm"></a>
+                        <a href="javascript:void(0)" @click="pilihCabang(index)" v-text="elem.umkm.nama_umkm"></a>
                       </p>
                     </div>
                   </div>
@@ -171,7 +171,7 @@
                       </a>
                     </figure>
                     <div class="product-content-list">
-                      <h5 class="product-name"><a href="product-details.html" v-text="elem.umkm.nama_umkm"></a></h5>
+                      <h5 class="product-name"><a href="javascript:void(0)" @click="pilihCabang(index)" v-text="elem.umkm.nama_umkm"></a></h5>
                       <p v-text="elem.umkm.deskripsi"></p>
                       <div class="button-group-list">
                         <a href="javascript:void(0)" @click="showUmkmDetail(elem.umkm.umkm_id)">

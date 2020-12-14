@@ -22,10 +22,11 @@
                 <!-- mobile menu navigation start -->
                 <nav>
                     <ul class="mobile-menu">
-                        <li class="menu-item-has-children"><a href="index.html">Home</a></li>
-                        <li class="menu-item-has-children "><a href="shop.html">Shop</a></li>
-                        <li class="menu-item-has-children "><a href="blog-left-sidebar.html">Blog</a></li>
-                        <li><a href="contact-us.html">Contact us</a></li>
+                        <ul>
+                            <li class="{{ (Request::segment(1)=='')?'active':'' }}"><a href="{{ route('konsumen.home') }}">Home</a></li>
+                            <li class="{{ (Request::segment(1)=='shop')?'active':'' }}"><a href="{{ route('konsumen.shop') }}">shop</a></li>
+                            <li class="{{ (Request::segment(1)=='contact-us')?'active':'' }}"><a href="{{ route('konsumen.contact') }}">Contact us</a></li>
+                        </ul>
                     </ul>
                 </nav>
                 <!-- mobile menu navigation end -->
@@ -36,14 +37,15 @@
                 <ul class="nav">
                     <li>
                         <div class="dropdown mobile-top-dropdown">
-                            <a href="#" class="dropdown-toggle" id="myaccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="javascript:void(0);" class="dropdown-toggle" id="myaccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 My Account
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="myaccount">
-                                <a class="dropdown-item" href="my-account.html">my account</a>
-                                <a class="dropdown-item" href="login.html"> login</a>
-                                <a class="dropdown-item" href="register.html">register</a>
+                                <a href="{{ route('konsumen.login') }}" class="dropdown-item js-non-authenticated-user" style="display: none;">Login</a>
+                                <a href="{{ route('konsumen.register') }}" class="dropdown-item js-non-authenticated-user" style="display: none;">Register</a>
+                                <a href="{{ route('konsumen.profile') }}" class="dropdown-item js-authenticated-user" style="display: none;">My Account</a>
+                                <a href="javascript:void(0)" onclick="logoutAction()" class="dropdown-item js-authenticated-user" style="display: none;">Logout</a>
                             </div>
                         </div>
                     </li>

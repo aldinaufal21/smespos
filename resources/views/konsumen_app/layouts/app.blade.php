@@ -51,9 +51,9 @@
 
       // header conditions
       if (_token) {
-        $('#js-authenticated-user').show();
+        $('.js-authenticated-user').show();
       }else {
-        $('#js-non-authenticated-user').show();
+        $('.js-non-authenticated-user').show();
       }
 
       function logoutAction() {

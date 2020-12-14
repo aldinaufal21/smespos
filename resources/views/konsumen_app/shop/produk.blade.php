@@ -156,7 +156,7 @@
                         <a href="#" data-target="list-view" data-toggle="tooltip" title="List View"><i class="fa fa-list"></i></a>
                       </div>
                       <div class="product-amount">
-                        <p>Showing 1–5 of 8 results</p>
+                        <p>Showing @{{ products.length }} results</p>
                       </div>
                     </div>
                   </div>

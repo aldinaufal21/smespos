@@ -52,11 +52,11 @@
                                         <a href="#">
                                             <i class="lnr lnr-user"></i>
                                         </a>
-                                        <ul class="dropdown-list" id="js-non-authenticated-user" style="display:none">
+                                        <ul class="dropdown-list js-non-authenticated-user" style="display:none">
                                             <li><a href="{{ route('konsumen.login') }}">Login</a></li>
                                             <li><a href="{{ route('konsumen.register') }}">Register</a></li>
                                         </ul>
-                                        <ul class="dropdown-list" id="js-authenticated-user" style="display:none">
+                                        <ul class="dropdown-list js-authenticated-user" style="display:none">
                                             <li><a href="{{ route('konsumen.profile') }}">My Account</a></li>
                                             <li><a href="javascript:void(0)" onclick="logoutAction()">Logout</a></li>
                                         </ul>
