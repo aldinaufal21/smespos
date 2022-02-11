@@ -92,6 +92,7 @@ class ReportController extends Controller
                 ->only(['produk_id', 'nama_produk', 'nama_kategori', 'harga'])
                 ->all();
         });
+
         $response = [];
 
         $months = $this->getMonthBetween($startMonth, $endMonth);

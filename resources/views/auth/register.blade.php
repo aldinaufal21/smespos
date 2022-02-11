@@ -65,7 +65,7 @@
                   <input type="password" class="form-control form-control-user" name="password_confirmation" placeholder="Ulangi Password">
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block">
+              <button type="submit" class="btn btn-user btn-block text-white" style="background-color: #FE914A;">
                 Daftarkan Akun
               </button>
             </form>

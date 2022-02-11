@@ -1,12 +1,12 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" style="background-color: #FE914A;" id="accordionSidebar">
 
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
     <div class="sidebar-brand-icon rotate-n-15">
-      <i class="fas fa-laugh-wink"></i>
+      <img src="{{ asset('img/logo1.png') }}" width="30" alt="">
     </div>
-    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+    <div class="sidebar-brand-text mx-3">SmesPos.id</div>
   </a>
 
   <!-- Divider -->
@@ -49,6 +49,11 @@
       <i class="fas fa-fw fa-credit-card"></i>
       <span>List Transaksi Harian</span></a>
   </li>
+  <li class="nav-item nav-kasir {{ (Request::segment(3)=='laporan')?'active':'' }}">
+    <a class="nav-link" href="{{ route('kasir.report') }}">
+      <i class="fas fa-fw fa-credit-card"></i>
+      <span>Laporan Penjualan</span></a>
+  </li>
   <!-- Kasir end -->
 
   <!-- Nav Item - Pages Collapse Menu -->
@@ -73,7 +78,12 @@
   <li class="nav-item nav-cabang nav-pemilik nav-umkm">
     <a class="nav-link" href="{{ route('report.sales') }}">
       <i class="fas fa-fw fa-list-alt"></i>
-      <span>Laporan Penjualan</span></a>
+      <span>Laporan Penjualan Online</span></a>
+  </li>
+  <li class="nav-item nav-cabang nav-pemilik nav-umkm">
+    <a class="nav-link link-cabang-id">
+      <i class="fas fa-fw fa-list-alt"></i>
+      <span>Laporan Penjualan Kasir</span></a>
   </li>
   <li class="nav-item nav-cabang nav-pemilik nav-umkm {{ (Request::segment(1)=='karyawan')?'active':'' }}">
     <a class="nav-link" href="{{ route('karyawan.index') }}">

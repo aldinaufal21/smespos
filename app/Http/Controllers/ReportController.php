@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Cabang;
+use App\Kasir;
 use App\Report;
+use App\TransaksiKasir;
 use App\Umkm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,6 +19,39 @@ class ReportController extends Controller
     public function sales()
     {
         return view('report.sales');
+    }
+
+    public function kasir($cabang_id)
+    {
+        $kasir = Kasir::where('cabang_id', $cabang_id)->get();
+        return view('report.kasir', compact('kasir'));
+    }
+
+    public function kasir_result(Request $request)
+    {
+        $id_kasir = $request->id_kasir; 
+        $data = null;
+        $periode = $request->periode;
+        $mulai_periode = $request->mulai_periode;
+        $selesai_periode = $request->selesai_periode;
+        $cabang_id = $request->id_cabang;
+
+        $kasir = Kasir::where('cabang_id', $cabang_id)->get();
+
+        if($periode) {
+            $month = date("m", strtotime($periode));
+            $year = date("Y", strtotime($periode));
+
+            $query = TransaksiKasir::whereMonth('tanggal_transaksi', '=', $month)->whereYear('tanggal_transaksi', '=', $year)->where('kasir_id', $id_kasir);
+        }
+        else {
+            $query = TransaksiKasir::where('tanggal_transaksi', '>=', $mulai_periode.' 00:00:00')->where('tanggal_transaksi', '<=', $selesai_periode.' 23:59:59')->where('kasir_id', $id_kasir);
+        }   
+
+        $data = $query->get();
+        $total = $query->sum('total_harga');
+
+        return view('report.kasir_result', compact('data', 'id_kasir', 'kasir', 'total', 'periode', 'mulai_periode', 'selesai_periode'));
     }
 
     public function downloadReport(Request $request)

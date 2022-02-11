@@ -26,13 +26,12 @@
               <div class="row">
                 <div class="col-lg-3 col-md-4">
                   <div class="myaccount-tab-menu nav" role="tablist">
-                    <a href="#account-info" class="active" data-toggle="tab"><i class="fa fa-user"></i> Account
-                      Details</a>
-                    <a href="#reset-password" data-toggle="tab"><i class="fa fa-key"></i> Password change</a>
+                    <a href="#account-info" class="active" data-toggle="tab"><i class="fa fa-user"></i> Detail Akun</a>
+                    <a href="#reset-password" data-toggle="tab"><i class="fa fa-key"></i> Ubah Password</a>
                     <a href="#orders" data-toggle="tab"><i class="fa fa-cart-arrow-down"></i>
-                      Orders</a>
+                      Pesanan Saya</a>
                     <a href="#address-edit" data-toggle="tab"><i class="fa fa-map-marker"></i>
-                      address</a>
+                      Alamat Saya</a>
                     <a href="javascript:void(0)" onclick="logoutAction()"><i class="fa fa-sign-out"></i> Logout</a>
                   </div>
                 </div>
@@ -45,16 +44,16 @@
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade" id="orders" role="tabpanel">
                       <div class="myaccount-content">
-                        <h3>Orders</h3>
+                        <h3>Pesanan Saya</h3>
                         <div class="myaccount-table table-responsive text-center">
                           <table class="table table-bordered">
                             <thead class="thead-light">
                               <tr>
-                                <th>Order</th>
-                                <th>Date</th>
+                                <th>Pesanan</th>
+                                <th>Tanggal</th>
                                 <th>Status</th>
                                 <th>Total</th>
-                                <th>Action</th>
+                                <th>Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -75,12 +74,12 @@
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade" id="address-edit" role="tabpanel">
                       <div class="myaccount-content">
-                        <h3>Billing Address</h3>
-                        <a href="#" class="btn btn__bg btn-success" v-if="!address.length" @click="addNewAddress"><i class="fa fa-edit"></i>Add New Address</a>
+                        <h3>Alamat Saya</h3>
+                        <a href="#" class="btn btn__bg btn-success" v-if="!address.length" @click="addNewAddress"><i class="fa fa-edit"></i>Tambah Alamat Baru</a>
                         <address v-for="item in address" :key="item.alamat_pengiriman_id">
                           {{-- <p v-text="item.alamat"></p> --}}
                           <textarea name="name" v-model="item.alamat" rows="4" cols="70"></textarea><br>
-                          <a href="#" class="btn btn__bg" @click="editAlamat(item)"><i class="fa fa-edit"></i>Edit Address</a>
+                          <a href="#" class="btn btn__bg" @click="editAlamat(item)"><i class="fa fa-edit"></i>Edit Alamat</a>
                           <hr>
                         </address>
                       </div>
@@ -90,7 +89,7 @@
                     <!-- Single Tab Content Start -->
                     <div class="tab-pane fade show active" id="account-info" role="tabpanel">
                       <div class="myaccount-content">
-                        <h3>Account Details</h3>
+                        <h3>Detail Akun</h3>
                         <div class="account-details-form">
                           <form @submit="changeProfileActionForm" enctype="multipart/form-data">
                             <div class="row">
@@ -134,7 +133,7 @@
                         <div class="account-details-form">
                           <form @submit="changePasswordActionForm">
                             <fieldset>
-                              <legend>Password change</legend>
+                              <legend>Ubah Password</legend>
                               <div class="single-input-item">
                                 <label for="current-pwd" class="required">Password lama</label>
                                 <input type="password" v-model="password_changes.existing_password" id="current-pwd" placeholder="Current Password" />

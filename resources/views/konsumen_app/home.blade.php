@@ -32,17 +32,17 @@
       <section class="slider-area">
           <div class="hero-slider-active slick-arrow-style slick-arrow-style_hero slick-dot-style">
               <!-- single slider item start -->
-              <div class="hero-single-slide " v-for="i in 5">
+              <div class="hero-single-slide " v-for="i in 3">
                   <div class="hero-slider-item_3 bg-img" :data-bg="`konsumen_assets/img/banner/banner${i}.jpg`">
                       <div class="slider-blur"></div>
                       <div class="container ">
                           <div class="row">
                               <div class="col-md-12">
                                   <div class="hero-slider-content slide-1">
-                                      <span>POS</span>
+                                      <span style="color: #FE914A">POS</span>
                                       <h1>Berbagai macam Produk</h1>
                                       <h2>dari berbagai macam UMKM</h2>
-                                      <a href="{{ route('konsumen.shop') }}" class="btn-hero">shop now</a>
+                                      <a href="{{ route('konsumen.shop') }}" class="btn-hero" style="background-color: #FE914A">Belanja Sekarang</a>
                                   </div>
                               </div>
                           </div>
@@ -84,8 +84,8 @@
                               <img src="konsumen_assets/img/icon/free_shipping.png" alt="">
                           </div>
                           <div class="policy-terms">
-                              <h5>free shipping</h5>
-                              <p>Free shipping all order</p>
+                              <h5>Gratis Ongkir</h5>
+                              <p>Gratis Ongkir untuk semua pembelian</p>
                           </div>
                       </div>
                       <!-- end policy single item -->
@@ -97,8 +97,8 @@
                               <img src="konsumen_assets/img/icon/support247.png" alt="">
                           </div>
                           <div class="policy-terms">
-                              <h5>SUPPORT 24/7</h5>
-                              <p>Support 24 hours a day</p>
+                              <h5>Support 24/7</h5>
+                              <p>Support 24 jam setiap hari</p>
                           </div>
                       </div>
                       <!-- end policy single item -->
@@ -110,8 +110,8 @@
                               <img src="konsumen_assets/img/icon/money_back.png" alt="">
                           </div>
                           <div class="policy-terms">
-                              <h5>Money Return</h5>
-                              <p>30 days for free return</p>
+                              <h5>Uang Kembali</h5>
+                              <p>30 hari untuk pengembalian gratis</p>
                           </div>
                       </div>
                       <!-- end policy single item -->
@@ -123,8 +123,8 @@
                               <img src="konsumen_assets/img/icon/promotions.png" alt="">
                           </div>
                           <div class="policy-terms">
-                              <h5>ORDER DISCOUNT</h5>
-                              <p>On every order over $15</p>
+                              <h5>Diskon</h5>
+                              <p>Pada setiap pesanan lebih dari Rp. 100.000</p>
                           </div>
                       </div>
                       <!-- end policy single item -->
@@ -140,7 +140,7 @@
               <div class="row">
                   <div class="col-12">
                       <div class="section-title text-center">
-                          <h2>New Products</h2>
+                          <h2>Produk Terbaru</h2>
                           <p>Produk - produk terbaru dari berbagai umkm</p>
                       </div>
                   </div>
@@ -176,7 +176,7 @@
 
                   <div class="col-12">
                       <div class="view-more-btn">
-                          <a class="btn-hero btn-load-more" href="{{ route('konsumen.produk') }}">view more products</a>
+                          <a class="btn-hero btn-load-more" style="background-color: #FE914A" href="{{ route('konsumen.produk') }}">view more products</a>
                       </div>
                   </div>
               </div>

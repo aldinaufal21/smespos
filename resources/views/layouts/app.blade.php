@@ -85,12 +85,14 @@
         break;
       case 'cabang':
         $('.nav-cabang').show();
+        $('.link-cabang-id').attr("href", "http://127.0.0.1:8000/admin/report/kasir/"+$_user.cabang.cabang_id);
         break;
       case 'pengelola':
         $('.nav-pengelola').show();
         break;
       case 'umkm':
         $('.nav-umkm').show();
+        $('.link-cabang-id').attr("href", "http://127.0.0.1:8000/admin/kasir_umkm/laporan/"+$_user.umkm.umkm_id);
         break;
     }
 

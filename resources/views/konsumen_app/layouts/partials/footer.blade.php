@@ -10,25 +10,25 @@
                     <div class="col-lg-5 col-md-6 col-sm-8">
                         <div class="footer-widget-item mb-30">
                             <div class="footer-widget-title">
-                                <h5>Contact Us</h5>
+                                <h5>Kontak Kami</h5>
                             </div>
                             <ul class="footer-widget-body accout-widget">
                                 <li class="address">
                                     <em><i class="lnr lnr-map-marker"></i></em>
-                                    184 Main Rd E, St Albans VIC 3021, Australia
+                                    Jl. Telekomunikasi No. 1, Terusan Buahbatu - Bojongsoang, Sukapura, Kec. Dayeuhkolot, Bandung, Jawa Barat 40257
                                 </li>
                                 <li class="email">
-                                    <em><i class="lnr lnr-envelope"></i>Mail us: </em>
-                                    <a href="mailto:test@yourdomain.com">yourmail@gmail.com</a>
+                                    <em><i class="lnr lnr-envelope"></i>Email Kami: </em>
+                                    <a href="mailto:test@yourdomain.com">admin@smespos.id</a>
                                 </li>
                                 <li class="phone">
-                                    <em><i class="lnr lnr-phone-handset"></i> Phones: </em>
+                                    <em><i class="lnr lnr-phone-handset"></i> Nomor Telepon: </em>
                                     <a href="tel:(012)800456789-987">(012) 800 456 789-987</a>
                                 </li>
                             </ul>
-                            <div class="payment-method">
+                            {{-- <div class="payment-method">
                                 <img src="{{ asset('konsumen_assets/img/payment-pic.png') }}" alt="payment method">
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <!-- footer widget item end -->
@@ -37,7 +37,7 @@
                     <div class="col-lg-2 col-md-6 col-sm-6">
                         <div class="footer-widget-item mb-30">
                             <div class="footer-widget-title">
-                                <h5>information</h5>
+                                <h5>Informasi Kami</h5>
                             </div>
                             <ul class="footer-widget-body">
                                 <li><a href="{{ route('konsumen.home') }}">Home</a></li>
@@ -52,13 +52,13 @@
                     <div class="col-lg-2 offset-lg-1 col-md-6 col-sm-6">
                         <div class="footer-widget-item mb-30">
                             <div class="footer-widget-title">
-                                <h5>Quick Links</h5>
+                                <h5>Tautan Langsung</h5>
                             </div>
                             <ul class="footer-widget-body">
                                 {{-- <li><a href="#">Store Location</a></li> --}}
-                                <li><a href="{{ route('konsumen.profile') }}">My Account</a></li>
+                                <li><a href="{{ route('konsumen.profile') }}">Akun Saya</a></li>
                                 <li><a href="{{ route('konsumen.wishlist') }}">Wishlist</a></li>
-                                <li><a href="{{ route('konsumen.cart') }}">Cart</a></li>
+                                <li><a href="{{ route('konsumen.cart') }}">Keranjang</a></li>
                                 <li><a href="{{ route('konsumen.login') }}">Login</a></li>
                                 <li><a href="{{ route('konsumen.register') }}">Register</a></li>
                             </ul>

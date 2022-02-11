@@ -42,7 +42,7 @@ a {
 
 a:hover,
 a:focus {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     outline: none;
     text-decoration: none;
 }
@@ -303,15 +303,15 @@ fieldset legend {
 .tooltip>.tooltip-inner {
     font-size: 13px;
     color: #fff;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .tooltip.bs-tooltip-top .arrow:before {
-    border-top-color: #CC2121;
+    border-top-color: rgb(254, 145, 74);
 }
 
 .tooltip.bs-tooltip-left .arrow:before {
-    border-left-color: #CC2121;
+    border-left-color: rgb(254, 145, 74);
 }
 
 /*------ custom tooltip end -------*/
@@ -353,7 +353,7 @@ fieldset legend {
 
 .slick-arrow-style button.slick-arrow:hover {
     color: #fff;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .slick-arrow-style:hover button.slick-arrow {
@@ -377,7 +377,7 @@ fieldset legend {
 }
 
 .slick-arrow-style_hero button.slick-arrow:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     background-color: transparent;
 }
 
@@ -399,7 +399,7 @@ fieldset legend {
 }
 
 .slick-append button:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*--------- slick slider dot style start -------*/
@@ -436,7 +436,7 @@ fieldset legend {
 }
 
 .slick-dot-style ul.slick-dots li.slick-active button {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .slick-row-3 .slick-list {
@@ -727,7 +727,7 @@ fieldset legend {
 }
 
 .theme-color {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .bg-gray {
@@ -747,7 +747,7 @@ fieldset legend {
 }
 
 .theme-color {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .bg-black {
@@ -788,7 +788,7 @@ fieldset legend {
     -o-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
@@ -861,7 +861,7 @@ fieldset legend {
 .custom-checkbox .custom-control-label a:hover,
 .custom-radio label a:hover,
 .custom-radio .custom-control-label a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .custom-checkbox input,
@@ -891,8 +891,8 @@ fieldset legend {
 .custom-radio input:checked label:before,
 .custom-radio .custom-control-input:checked~.custom-control-label:before,
 .custom-radio .custom-control-input:checked label:before {
-    background-color: #CC2121;
-    border-color: #CC2121;
+    background-color: rgb(254, 145, 74);
+    border-color: rgb(254, 145, 74);
 }
 
 /*-------- Custom Checkbox Style end --------*/
@@ -993,7 +993,7 @@ fieldset legend {
 }
 
 .header-top-settings ul li .dropdown-list li a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .header-top-settings ul li .dropdown-list li a img {
@@ -1050,11 +1050,11 @@ fieldset legend {
     font-size: 10px;
     color: #fff;
     border-radius: 50%;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .header-configure-area ul li a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .header-configure-area ul li:first-child {
@@ -1099,7 +1099,7 @@ fieldset legend {
 }
 
 .header-configure-area ul li.user-hover .dropdown-list li a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .header-configure-area ul li.user-hover:hover .dropdown-list {
@@ -1156,7 +1156,7 @@ fieldset legend {
 
 .main-menu ul li:hover>a,
 .main-menu ul li.active>a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .main-menu ul li ul.dropdown {
@@ -1202,7 +1202,7 @@ fieldset legend {
 }
 
 .main-menu ul li ul.dropdown li:hover>a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     background-color: #fff;
 }
 
@@ -1249,7 +1249,7 @@ fieldset legend {
 }
 
 .main-menu ul li ul.megamenu li:hover>a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .main-menu ul li ul.megamenu li.megamenu-banners {
@@ -1335,7 +1335,7 @@ fieldset legend {
 }
 
 .header-search-box .header-serch-btn:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*---------- main menu style end ---------*/
@@ -1422,7 +1422,7 @@ fieldset legend {
 }
 
 .mobile-main-header .mobile-menu-toggler .mini-cart-wrap a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .mobile-main-header .mobile-menu-toggler .mini-cart-wrap .notification {
@@ -1437,7 +1437,7 @@ fieldset legend {
     right: -8px;
     top: 0;
     position: absolute;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .mobile-main-header .mobile-menu-toggler .mobile-menu-btn {
@@ -1453,7 +1453,7 @@ fieldset legend {
 }
 
 .mobile-main-header .mobile-menu-toggler .mobile-menu-btn .off-canvas-btn:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .mobile-navigation {
@@ -1490,7 +1490,7 @@ fieldset legend {
 }
 
 .mobile-menu li>a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .mobile-menu li ul li {
@@ -1580,7 +1580,7 @@ fieldset legend {
 }
 
 .off-canvas-contact-widget li a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .off-canvas-social-widget {
@@ -1595,7 +1595,7 @@ fieldset legend {
 }
 
 .off-canvas-social-widget a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*------ offcanvas widget area end ------*/
@@ -1670,7 +1670,7 @@ fieldset legend {
     -webkit-transition: 0.4s;
     -o-transition: 0.4s;
     transition: 0.4s;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .off-canvas-wrapper .btn-close-off-canvas i {
@@ -1730,7 +1730,7 @@ fieldset legend {
 }
 
 .search-box-offcanvas form .search-btn:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*------- mobile top bar settings start -------*/
@@ -1759,7 +1759,7 @@ fieldset legend {
 }
 
 .mobile-settings .nav .mobile-top-dropdown .dropdown-toggle:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .mobile-settings .nav .mobile-top-dropdown .dropdown-toggle:after {
@@ -1844,7 +1844,7 @@ fieldset legend {
     padding: 18px 36px;
     border-radius: 3px;
     display: inline-block;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
     text-transform: capitalize;
     border-radius: 0;
 }
@@ -1878,7 +1878,7 @@ fieldset legend {
 }
 
 .btn-read:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     text-decoration: underline;
 }
 
@@ -1888,7 +1888,7 @@ fieldset legend {
     padding: 10px 20px;
     border-radius: 0;
     text-transform: capitalize;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .btn__bg:hover {
@@ -1908,8 +1908,8 @@ fieldset legend {
 
 .btn-outline:hover {
     color: #fff;
-    border-color: #CC2121;
-    background-color: #CC2121;
+    border-color: rgb(254, 145, 74);
+    background-color: rgb(254, 145, 74);
 }
 
 .btn-cart {
@@ -1923,14 +1923,14 @@ fieldset legend {
 }
 
 .btn-cart:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .btn-cart2 {
     color: #fff;
     font-size: 14px;
     padding: 9px 25px;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
     text-transform: capitalize;
 }
 
@@ -1959,11 +1959,11 @@ fieldset legend {
 }
 
 .store-link:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .store-link:hover:after {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .store-link:after {
@@ -2080,7 +2080,7 @@ only screen and (min-width: 992px) and (max-width: 1199.98px) {
 
 .hero-slider-content span {
     display: block;
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 30px;
     line-height: 1.2;
     padding-bottom: 15px;
@@ -2251,7 +2251,7 @@ only screen and (max-width: 767.98px) {
     height: 50px;
     text-align: center;
     background-color: #fff;
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 22px;
     cursor: pointer;
     top: 50px;
@@ -2300,7 +2300,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .offcanvas-search-box .bdr-bottom {
-    border-color: #CC2121;
+    border-color: rgb(254, 145, 74);
 }
 
 .offcanvas-search-box input {
@@ -2371,7 +2371,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .offcanvas-search-box .search-btn:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*-------- off canvas mini cart start --------*/
@@ -2415,7 +2415,7 @@ only screen and (max-width: 767.98px) {
     width: 50px;
     height: 50px;
     text-align: center;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
     color: #fff;
     font-size: 25px;
     cursor: pointer;
@@ -2515,7 +2515,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .minicart-content .product-name a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .minicart-content .cart-quantity {
@@ -2531,7 +2531,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .minicart-content .cart-price {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 14px;
     font-weight: 500;
     line-height: 1;
@@ -2549,7 +2549,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .minicart-remove:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .minicart-pricing-box {
@@ -2578,7 +2578,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .minicart-pricing-box li span strong {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-weight: 500;
 }
 
@@ -2610,7 +2610,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .minicart-button a:hover {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .minicart-button a:last-child {
@@ -2645,7 +2645,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .banner-content .text1 {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     padding-bottom: 5px;
     text-transform: capitalize;
     font-family: "Yesteryear", cursive;
@@ -3085,7 +3085,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-caption .product-name a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     text-decoration: underline;
 }
 
@@ -3136,7 +3136,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .button-group a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .box-cart {
@@ -3153,7 +3153,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-label {
-    background: #CC2121;
+    background: rgb(254, 145, 74);
     border-radius: 2px;
     color: #fff;
     font-size: 12px;
@@ -3274,7 +3274,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-content-list .product-name a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .product-content-list .price-box {
@@ -3507,7 +3507,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .breadcrumb-wrap .breadcrumb .breadcrumb-item a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .breadcrumb-wrap .breadcrumb .breadcrumb-item:before {
@@ -3522,7 +3522,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .breadcrumb-wrap .breadcrumb .breadcrumb-item.active {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 14px;
     font-weight: 400;
     text-transform: capitalize;
@@ -3580,7 +3580,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .price-range-wrap .price-range.ui-widget-content .ui-slider-range {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
     border-radius: 0;
 }
 
@@ -3603,7 +3603,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
     width: 6px;
     height: 6px;
     position: absolute;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
     border-radius: 50%;
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
@@ -3642,7 +3642,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 
 .price-range-wrap .range-slider button.filter-btn:hover {
     color: #fff;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 /*------ pricing filter slider end ------*/
@@ -3657,7 +3657,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .categories-list li:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*------ shop categories area start ------*/
@@ -3690,7 +3690,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .shop-categories li:hover a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*------ shop categories area end ------*/
@@ -3747,13 +3747,13 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 
 .paginatoin-area .pagination-box li a:hover {
     color: #fff;
-    border-color: #CC2121;
-    background-color: #CC2121;
+    border-color: rgb(254, 145, 74);
+    background-color: rgb(254, 145, 74);
 }
 
 .paginatoin-area .pagination-box li.active a {
     color: #fff;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 /*------ pagination area style end ------*/
@@ -3843,7 +3843,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .post-date .date {
@@ -3884,7 +3884,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .entry-title a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .post-author {
@@ -3892,7 +3892,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .post-author a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .post-author a:hover {
@@ -3904,7 +3904,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 blockquote {
-    border-left: 5px solid #CC2121;
+    border-left: 5px solid rgb(254, 145, 74);
     margin: 25px 32px 25px 30px;
     background-color: #f7f7f7;
     padding: 15px;
@@ -4002,8 +4002,8 @@ blockquote p {
 }
 
 .blog-sidebar .search-btn:hover {
-    background-color: #CC2121;
-    border-color: #CC2121;
+    background-color: rgb(254, 145, 74);
+    border-color: rgb(254, 145, 74);
 }
 
 .blog-sidebar .search-btn:hover i {
@@ -4023,7 +4023,7 @@ blockquote p {
 }
 
 .blog-sidebar .blog-archive li a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .blog-sidebar .blog-archive li:last-child a {
@@ -4062,8 +4062,8 @@ blockquote p {
 
 .blog-sidebar .blog-tags li a:hover {
     color: #fff;
-    background-color: #CC2121;
-    border-color: #CC2121;
+    background-color: rgb(254, 145, 74);
+    border-color: rgb(254, 145, 74);
 }
 
 /*----- blog sidebar end -------*/
@@ -4112,7 +4112,7 @@ blockquote p {
 }
 
 .recent-post-item .recent-post-description h4 a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .recent-post-item .recent-post-description p {
@@ -4145,7 +4145,7 @@ blockquote p {
 }
 
 .blog-post-item .tag-line a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .blog-share-link {
@@ -4316,8 +4316,8 @@ only screen and (max-width: 767.98px) {
 
 .comment-section ul li .comment-body .reply-btn a:hover {
     color: #fff !important;
-    border-color: #CC2121;
-    background-color: #CC2121;
+    border-color: rgb(254, 145, 74);
+    background-color: rgb(254, 145, 74);
 }
 
 /*--- blog comment section end ---*/
@@ -4416,11 +4416,11 @@ only screen and (max-width: 767.98px) {
 }
 
 .top-bar-left .product-view-mode a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .top-bar-left .product-view-mode a.active {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .top-bar-left .product-amount p {
@@ -4484,7 +4484,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .nice-select.open {
-    border-color: #CC2121;
+    border-color: rgb(254, 145, 74);
 }
 
 .nice-select .list {
@@ -4614,7 +4614,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-details-des .customer-rev a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .product-details-des .quantity-cart-box {
@@ -4752,7 +4752,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-details-des .useful-links a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .product-details-des .useful-links a i {
@@ -4858,7 +4858,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-details-des .share-icon a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .product-details-des .color-option {
@@ -4939,7 +4939,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-details-des .group-product-table td a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .product-details-des .group-product-table td .pro-qty {
@@ -5003,7 +5003,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-countdown .single-countdown__time {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 18px;
     font-weight: 400;
     display: block;
@@ -5020,7 +5020,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-countdown .single-countdown:first-child {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .product-countdown .single-countdown:first-child .single-countdown__time,
@@ -5207,7 +5207,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .product-review-info .tab-content .review-description .tab-des h3 {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 20px;
     font-weight: 22px;
     font-weight: 700;
@@ -5313,7 +5313,7 @@ only screen and (max-width: 767.98px) {
 
 .checkoutaccordion h3 {
     background-color: #f7f7f7;
-    border-top: 3px solid #CC2121;
+    border-top: 3px solid rgb(254, 145, 74);
     color: #111;
     font-size: 14px;
     font-weight: 500;
@@ -5323,7 +5323,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .checkoutaccordion h3 span {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     cursor: pointer;
     -webkit-transition: 0.4s;
     -o-transition: 0.4s;
@@ -5411,7 +5411,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .forget-pwd {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-size: 12px;
     margin-top: -6px;
 }
@@ -5594,7 +5594,7 @@ only screen and (max-width: 767.98px) {
 .single-input-item input:focus,
 .single-input-item textarea:active,
 .single-input-item textarea:focus {
-    border-color: #CC2121;
+    border-color: rgb(254, 145, 74);
     background-color: #fff;
 }
 
@@ -5624,11 +5624,11 @@ only screen and (max-width: 767.98px) {
 }
 
 .cart-table .table thead {
-    background-color: #CC2121;
+    background-color: rgb(254, 145, 74);
 }
 
 .cart-table .table thead tr th {
-    border-color: #CC2121;
+    border-color: rgb(254, 145, 74);
     border-bottom: 0 solid transparent;
     color: #fff;
     font-size: 14px;
@@ -5654,7 +5654,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .cart-table .table tbody tr td a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .cart-table .table tbody tr td a.btn {
@@ -5767,7 +5767,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 
 .cart-update-option .apply-coupon-wrapper form input:focus,
 .cart-update-option .apply-coupon-wrapper form input:active {
-    border-color: #CC2121;
+    border-color: rgb(254, 145, 74);
 }
 
 @media only screen and (max-width: 767.98px) {
@@ -5823,7 +5823,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .cart-calculator-wrapper .cart-calculate-items .table tr td.total-amount {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     font-weight: 700;
 }
 
@@ -5876,7 +5876,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 .compare-table .table tbody tr td.product-image-title .category {
     float: left;
     clear: both;
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     text-transform: capitalize;
     letter-spacing: 0.5px;
 }
@@ -5891,7 +5891,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .compare-table .table tbody tr td.product-image-title .title:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .compare-table .table tbody tr td.pro-desc p {
@@ -5925,7 +5925,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .compare-table .table tbody tr td.pro-ratting i {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*------ end Compare Page Wrapper -----*/
@@ -5958,7 +5958,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .login-reg-form-wrap .login-reg-form-meta a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991.98px) {
@@ -6000,8 +6000,8 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 
 .myaccount-tab-menu a:hover,
 .myaccount-tab-menu a.active {
-    background-color: #CC2121;
-    border-color: #CC2121;
+    background-color: rgb(254, 145, 74);
+    border-color: rgb(254, 145, 74);
     color: #fff;
 }
 
@@ -6045,12 +6045,12 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 }
 
 .myaccount-content .welcome a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .myaccount-content .welcome strong {
     font-weight: 500;
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .myaccount-content fieldset {
@@ -6089,7 +6089,7 @@ only screen and (min-width: 768px) and (max-width: 991.98px) {
 
 .saved-message {
     background-color: #f4f5f7;
-    border-top: 3px solid #CC2121;
+    border-top: 3px solid rgb(254, 145, 74);
     border-radius: 5px 5px 0 0;
     font-weight: 400;
     font-size: 15px;
@@ -6304,7 +6304,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .footer-widget-body li a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
     padding-left: 5px;
 }
 
@@ -6370,7 +6370,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .newsletter-inner .news-btn:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 /*-------- footer bottom area start --------*/
@@ -6391,7 +6391,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .copyright-text p a {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .copyright-text p a:hover {
@@ -6422,7 +6422,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .footer-social-link a:hover {
-    color: #CC2121;
+    color: rgb(254, 145, 74);
 }
 
 .footer-social-link a:first-child {

@@ -30,7 +30,7 @@
           <p>Hi <b v-text="userData.kasir.nama_kasir"></b>,</p>
           <div class="row">
             <div class="col-md-6">
-              <img width="250px" class="rounded-circle" src="https://images.unsplash.com/photo-1602665742701-389671bc40c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
+              <img width="150px" src="https://images.unsplash.com/photo-1602665742701-389671bc40c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
             </div>
             <div class="col-md-6">
               <p>Nama Toko: <b v-text="userData.cabang.nama_cabang"></b></p>

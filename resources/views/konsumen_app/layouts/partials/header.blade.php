@@ -12,7 +12,7 @@
                     <div class="col-lg-3">
                         <div class="logo">
                             <a href="{{ route('konsumen.home') }}">
-                                <img src="{{ asset('img/logo2.png') }}" alt="">
+                                <img src="{{ asset('img/logo3.png') }}" width="100" alt="">
                             </a>
                         </div>
                     </div>

@@ -100,10 +100,20 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/transaksi', 'TransaksiKasirController@transaksi')->name('kasir.transaksi');
         Route::get('/transaksi-pending', 'TransaksiKasirController@pendingTransaction')->name('kasir.pending');
         Route::get('/transaksi-harian', 'TransaksiKasirController@dailyTransaction')->name('kasir.daily');
+        Route::get('/laporan', 'TransaksiKasirController@report')->name('kasir.report');
+        Route::post('/laporan/result', 'TransaksiKasirController@reportResult')->name('kasir.report_result');
+    });
+
+    Route::group(['prefix' => 'kasir_umkm'], function()
+    {
+        Route::get('laporan/{id_umkm}', 'KasirUmkmController@index')->name('kasir_umkm.kasir');
+        Route::post('laporan/result', 'KasirUmkmController@result')->name('kasir_umkm.kasir_result');
     });
 
     Route::group(['prefix' => 'report'], function () {
         Route::get('/sales', 'ReportController@sales')->name('report.sales');
+        Route::get('/kasir/{id_cabang}', 'ReportController@kasir')->name('report.kasir');
+        Route::post('/kasir/result', 'ReportController@kasir_result')->name('report.kasir_result');
         Route::post('/download', 'ReportController@downloadReport')->name('report.download');
     });
 

@@ -24,7 +24,7 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient" style="background-color: #FE914A;">
 
   @yield('content')
 

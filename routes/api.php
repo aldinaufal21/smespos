@@ -57,16 +57,16 @@ Route::group(['prefix' => 'v1', 'middleware' => ['json.response']], function () 
             Route::post('/', 'api\v1\PendaftaranUmkmController@store');
         });
 
+        Route::group(['prefix' => 'kasir'], function () {
+            Route::get('daily-reports', 'api\v1\KasirTransactionController@dailyReport');
+            Route::get('daily-reports-detail', 'api\v1\KasirTransactionController@detail');
+        });
+
         Route::group(['middleware' => ['role:kasir']], function () {
             Route::post('createTransaksiKasir', 'api\v1\KasirTransactionController@store');
             Route::get('printReceipt/{id}/{mode?}', 'api\v1\KasirTransactionController@printReceipt');
             Route::post('bukaKasir', 'api\v1\KasirTransactionController@bukaKasir');
             Route::post('tutupKasir', 'api\v1\KasirTransactionController@tutupKasir');
-
-            Route::group(['prefix' => 'kasir'], function () {
-                Route::get('daily-reports', 'api\v1\KasirTransactionController@dailyReport');
-                Route::get('daily-reports-detail', 'api\v1\KasirTransactionController@detail');
-            });
         });
 
         Route::group(['middleware' => ['role:konsumen']], function () {

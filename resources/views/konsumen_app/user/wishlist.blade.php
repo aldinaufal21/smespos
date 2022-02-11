@@ -23,7 +23,7 @@
                       <div class="col-lg-12">
                           <!-- Wishlist Table Area -->
                           <div class="cart-table table-responsive">
-                              <table class="table table-bordered">
+                              <table class="table table-bordered" >
                                   <thead>
                                       <tr>
                                           <th class="pro-thumbnail">Thumbnail</th>
