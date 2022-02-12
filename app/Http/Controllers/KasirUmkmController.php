@@ -23,6 +23,8 @@ class KasirUmkmController extends Controller
         $selesai_periode = $request->selesai_periode;
         $umkm_id = $request->id_umkm;
 
+        $cabang_detail = Cabang::find($id_cabang);
+
         $cabang = Cabang::where('umkm_id', $umkm_id)->get();
 
         if($periode) {
@@ -46,6 +48,6 @@ class KasirUmkmController extends Controller
         $data = $query->get();
         $total = $query->sum('transaksi_kasirs.total_harga');
 
-        return view('kasir_umkm.kasir_result', compact('data', 'id_cabang', 'total', 'cabang', 'periode', 'mulai_periode', 'selesai_periode'));
+        return view('kasir_umkm.kasir_result', compact('data', 'cabang_detail', 'total', 'cabang', 'periode', 'mulai_periode', 'selesai_periode'));
     }
 }

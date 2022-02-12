@@ -29,12 +29,14 @@ class ReportController extends Controller
 
     public function kasir_result(Request $request)
     {
-        $id_kasir = $request->id_kasir; 
+        $id_kasir = $request->id_kasir;
         $data = null;
         $periode = $request->periode;
         $mulai_periode = $request->mulai_periode;
         $selesai_periode = $request->selesai_periode;
         $cabang_id = $request->id_cabang;
+
+        $kasir_detail = Kasir::find($id_kasir);
 
         $kasir = Kasir::where('cabang_id', $cabang_id)->get();
 
@@ -51,7 +53,7 @@ class ReportController extends Controller
         $data = $query->get();
         $total = $query->sum('total_harga');
 
-        return view('report.kasir_result', compact('data', 'id_kasir', 'kasir', 'total', 'periode', 'mulai_periode', 'selesai_periode'));
+        return view('report.kasir_result', compact('data', 'kasir_detail', 'kasir', 'total', 'periode', 'mulai_periode', 'selesai_periode'));
     }
 
     public function downloadReport(Request $request)
